@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Button from '../components/button'
 import FormField from '../components/formField'
-import styles from '../styles/Form.module.css'
+import styles from '../styles/form.module.css'
 
 function submitForm() {
 
