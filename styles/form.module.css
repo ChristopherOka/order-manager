@@ -1,0 +1,28 @@
+.title a:hover,
+.title a:focus,
+.title a:active {
+text-decoration: underline;
+}
+
+.title {
+    margin: 0;
+    color: #0070f3;
+    line-height: 1.15;
+    font-size: 4rem;
+}
+
+.subtitle a {
+    color: white;
+    text-decoration:none;
+}
+
+.subtitle {
+    margin: 0;
+    line-height: 1;
+    font-size: 3rem;
+}
+
+.input {
+    width: 100px;
+    height: 30px;
+}

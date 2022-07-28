@@ -108,6 +108,11 @@
   margin-left: 0.5rem;
 }
 
+.input {
+  width: 100px;
+  height: 30px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -49,6 +50,11 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
+          <h2 className={styles.title}>
+            <Link href="/form">
+              <a>Form</a>
+            </Link>
+          </h2>
         </div>
       </main>
 
