@@ -7,7 +7,7 @@ export default function FormField (props) {
     } else if (props.type === 'select') {
         formField = <select className={styles.select}>
             <option value="">- select an option -</option>
-            {props.options.map(option =>  <option>{option}</option>)}
+            {props.options.map(option =>  <option key={option}>{option}</option>)}
         </select>
     }
     return (
