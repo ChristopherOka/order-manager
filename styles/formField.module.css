@@ -1,0 +1,9 @@
+.input, .select {
+    width: 100px;
+    height: 30px;
+}
+
+.formField {
+    display: flex;
+    flex-direction: column;
+}
