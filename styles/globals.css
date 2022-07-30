@@ -15,6 +15,16 @@ a {
   box-sizing: border-box;
 }
 
+th {
+  white-space: nowrap;
+  padding: 0 1rem;
+}
+
+td {
+  text-align: center;
+  padding: 0 1rem;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

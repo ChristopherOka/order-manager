@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import Button from '../components/button'
 import FormField from '../components/formField'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import supabase from '../utils/supabase'
 import styles from '../styles/form.module.css'
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const { data: products, error } = await supabase.from('products').select('*').order('product_id', 'asc');
     const { data: orders, error: error2 } = await supabase.from('orders').select('*');
 
@@ -26,21 +26,19 @@ export async function getStaticProps() {
 }
 
 async function sendFormData(data) {
+    //todo: figure out a way to delete customers, orders and order_items if any of the queries fail
     let customerData = {}
     let orderData = {}
-    let orderDataProps = ['additional_information', 'order_date', 'order_cost', 'payment_type']
+    let orderDataProps = ['additional_information', 'delivery_date', 'order_cost', 'payment_type']
     let orderItems = {}
-
-    data['address'] = data['address'] + ', ' + data['city'];
-    delete data['city'];
 
     for (let key in data) {
         if (key.startsWith('product_')) {
            orderItems[key.replace('product_', '')] = data[key]
         }
         else if (orderDataProps.includes(key)){
-            if (key === 'order_date') {
-                data.order_date = new Date(data.order_date);
+            if (key === 'delivery_date') {
+                data.delivery_date = new Date(data.delivery_date);
             }
             orderData[key] = data[key]
         }
@@ -52,7 +50,7 @@ async function sendFormData(data) {
     console.log('Customer data: ', customerData)
     console.log('Order data: ', orderData)
     console.log('Order items: ', orderItems)
-
+    try{
     const customer_uid = uuidv4();
     customerData.customer_uid = customer_uid;
     await insertNewCustomer(customerData);
@@ -72,6 +70,10 @@ async function sendFormData(data) {
         });
     }
     insertNewOrderItems(orderItemsData);
+    } catch (error) {
+        //delete recent customer and order if any of the queries fail
+        console.log(error)
+    }
 }
 
 async function insertNewCustomer(data) {
@@ -105,7 +107,7 @@ async function insertNewOrderItems(data) {
 }
 
 
-export default function Form({products, orders}) {
+export default function Form({products}) {
     const [formData, updateFormData] = useState();
     const [totalCost, updateTotalCost] = useState(0);
 
@@ -149,13 +151,12 @@ export default function Form({products, orders}) {
                     <FormField onChange={handleChange} type="select" options={['Mississauga', 'Burlington']} text="City" placeholder="Enter your city" name="city" required={true}/>
                     <FormField onChange={handleChange} type="input" text="Address" placeholder="Enter your address" name="address" required={true}/>
                     <FormField onChange={handleChange} type="select" options={['Cash', 'E-Transfer']} text="Payment Type" placeholder="Enter your payment type" name="payment_type" required={true}/>
-                    <FormField onChange={handleChange} type="select" options={['December 9 2022', 'December 16 2022', 'December 23 2022']} text="Order Date" placeholder="Enter your order date" name="order_date" required={true}/>
+                    <FormField onChange={handleChange} type="select" options={['December 9 2022', 'December 16 2022', 'December 23 2022']} text="Order Date" placeholder="Enter your order date" name="delivery_date" required={true}/>
                     <FormField onChange={handleChange} type="input" text="Additional Information" placeholder="Enter any additional information" name="additional_information"/>
                     {products.map(product => <FormField onChange={handleProductChange} type="input" measured_per={product.measured_per} price={product.product_price} text={product.product_name} placeholder="How many?" name={"product_" + product.product_id} key={product.product_id}/>)}
                     <Button type="primary" clickHandler={handleSubmit}>Submit</Button>
                 </div>
             </form>
-            <p>{JSON.stringify(orders)}</p>
         </div>
     )
 }
