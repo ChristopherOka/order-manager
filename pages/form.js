@@ -145,15 +145,15 @@ export default function Form({products}) {
             </h2>
             <form>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
-                    <FormField onChange={handleChange} type="input" text="Name" placeholder="Enter your name" name="customer_name" required={true}/>
-                    <FormField onChange={handleChange} type="input"  text="Email" placeholder="Enter your email" name="email" required={true}/>
-                    <FormField onChange={handleChange} type="input" text="Phone" placeholder="Enter your phone" name="phone" required={true}/>
-                    <FormField onChange={handleChange} type="select" options={['Mississauga', 'Burlington']} text="City" placeholder="Enter your city" name="city" required={true}/>
-                    <FormField onChange={handleChange} type="input" text="Address" placeholder="Enter your address" name="address" required={true}/>
-                    <FormField onChange={handleChange} type="select" options={['Cash', 'E-Transfer']} text="Payment Type" placeholder="Enter your payment type" name="payment_type" required={true}/>
-                    <FormField onChange={handleChange} type="select" options={['December 9 2022', 'December 16 2022', 'December 23 2022']} text="Order Date" placeholder="Enter your order date" name="delivery_date" required={true}/>
-                    <FormField onChange={handleChange} type="input" text="Additional Information" placeholder="Enter any additional information" name="additional_information"/>
-                    {products.map(product => <FormField onChange={handleProductChange} type="input" measured_per={product.measured_per} price={product.product_price} text={product.product_name} placeholder="How many?" name={"product_" + product.product_id} key={product.product_id}/>)}
+                    <FormField onChange={handleChange} type='text' fieldStyle="input" text="Name" placeholder="Enter your name" name="customer_name" required={true}/>
+                    <FormField onChange={handleChange} type='text' fieldStyle="input"  text="Email" placeholder="Enter your email" name="email" required={true}/>
+                    <FormField onChange={handleChange} type='number' fieldStyle="input" text="Phone" placeholder="Enter your phone" name="phone" required={true}/>
+                    <FormField onChange={handleChange} fieldStyle="select" options={['Mississauga', 'Burlington']} text="City" placeholder="Enter your city" name="city" required={true}/>
+                    <FormField onChange={handleChange} type='text' fieldStyle="input" text="Address" placeholder="Enter your address" name="address" required={true}/>
+                    <FormField onChange={handleChange} fieldStyle="select" options={['Cash', 'E-Transfer']} text="Payment Type" placeholder="Enter your payment type" name="payment_type" required={true}/>
+                    <FormField onChange={handleChange} fieldStyle="select" options={['December 9 2022', 'December 16 2022', 'December 23 2022']} text="Order Date" placeholder="Enter your order date" name="delivery_date" required={true}/>
+                    <FormField onChange={handleChange} type='text' fieldStyle="input" text="Additional Information" placeholder="Enter any additional information" name="additional_information"/>
+                    {products.map(product => <FormField onChange={handleProductChange} type="number" fieldStyle="input" measured_per={product.measured_per} price={product.product_price} text={product.product_name} placeholder="How many?" name={"product_" + product.product_id} key={product.product_id}/>)}
                     <Button type="primary" clickHandler={handleSubmit}>Submit</Button>
                 </div>
             </form>
