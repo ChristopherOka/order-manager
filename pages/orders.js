@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import supabase from '../utils/supabase';
-import styles from '../styles/orders.module.css';
 
 export async function getServerSideProps() {
     const { data: orderData, error } = await supabase
