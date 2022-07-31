@@ -20,7 +20,8 @@ export async function getServerSideProps() {
                 customer_name, 
                 email, 
                 phone, 
-                address
+                address,
+                city
              )
             `)
         .order('creation_timestamp', 'asc');
@@ -46,6 +47,10 @@ export async function getServerSideProps() {
         .select('product_name, product_id')
         .order('product_id', 'asc');
 
+    if (error3) {
+        console.log(error3);
+    }
+
     return {
         props: {
             orderData,
@@ -59,7 +64,7 @@ export default function Orders ({orderData, orderItemsData, productNames}) {
     //todo: figure this out
     const [orders, setOrders] = useState({});
     useEffect(() => {
-        const subscription = supabase.from('customers').on('INSERT', (payload) => {
+        const subscription = supabase.from('*').on('*', (payload) => {
             console.log('New order: ', payload);
             setOrders({...orders, ...payload});
         }).subscribe();
@@ -74,9 +79,6 @@ export default function Orders ({orderData, orderItemsData, productNames}) {
                     <a>Home</a>
                 </Link>
             </h2>
-            {/* <p>{JSON.stringify(orderData)}</p>
-            <p>{JSON.stringify(orderItemsData)}</p>
-            <p>{JSON.stringify(productNames)}</p> */}
             <table>
                 <thead>
                     <tr>
@@ -126,8 +128,6 @@ export default function Orders ({orderData, orderItemsData, productNames}) {
                     })}
                 </tbody>
             </table>
-            
         </>
     )
-
 }
