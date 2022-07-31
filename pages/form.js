@@ -4,14 +4,11 @@ import FormField from '../components/formField'
 import ProductCard from '../components/productCard'
 import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import supabase from '../utils/supabase'
+import * as db from './api/database';
+
 
 export async function getServerSideProps() {
-    const { data: products, error } = await supabase.from('products').select('*').order('product_id', 'asc');
-
-    if (error) {
-        console.log(error);
-    }
+    const products = await db.getAllProductsData();
 
     return {
         props: {
@@ -48,12 +45,12 @@ async function sendFormData(data) {
     
     const customer_uid = uuidv4();
     customerData.customer_uid = customer_uid;
-    await insertNewCustomer(customerData);
+    await db.insertNewCustomer(customerData);
 
     const order_uid = uuidv4();
     orderData.order_uid = order_uid;
     orderData.customer_uid = customer_uid;
-    await insertNewOrder(orderData);
+    await db.insertNewOrder(orderData);
 
     let orderItemsData = []
     for (let key in orderItems) {
@@ -64,40 +61,9 @@ async function sendFormData(data) {
             order_item_uid: uuidv4(),
         });
     }
-    insertNewOrderItems(orderItemsData);
+    db.insertNewOrderItems(orderItemsData);
     //delete recent customer and order if any of the queries fail
 }
-
-async function insertNewCustomer(data) {
-    const { data: response, error } = await supabase.from('customers').insert(data);
-
-    if (error) {
-        console.log(error);
-    }
-
-    return response;
-}
-
-async function insertNewOrder(data) {
-    const { data: response, error } = await supabase.from('orders').insert(data);
-
-    if (error) {
-        console.log(error);
-    }
-
-    return response;
-}
-
-async function insertNewOrderItems(data) {
-    const { data: response, error } = await supabase.from('order_items').insert(data);
-
-    if (error) {
-        console.log(error);
-    }
-
-    return response;
-}
-
 
 export default function Form({products}) {
     const [formData, updateFormData] = useState({});
@@ -160,7 +126,7 @@ export default function Form({products}) {
         <div className="font-source-sans-pro">
             <h2 className="font-bold text-5xl text-center pt-10">PRODUCTS</h2>
             <form>
-                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr'}}>
+                <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     {products.map(product => <ProductCard onChange={handleProductChange} type="number" fieldStyle="productInput" measured_per_text={product.measured_per_text} price={product.product_price} imgPath={product.product_img_path} text={product.product_name} placeholder="How many?" name={"product_" + product.product_id} key={product.product_id}/>)}
                     <Button type="primary" clickHandler={handleSubmit}>Place Order</Button>
                     <FormField handleFocus={handleFocus} onChange={handleChange} error={emptyFields['customer_name']} type='text' fieldStyle="input" text="Name" placeholder="Enter your name" name="customer_name" required={true}/>

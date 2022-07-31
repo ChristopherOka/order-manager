@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import BlurImage from '../components/blurImage';
 import { useState } from 'react';
 
 export default function ProductCard (props) {
@@ -13,18 +14,19 @@ export default function ProductCard (props) {
     }
 
     return (
-        <div className="my-6 mx-auto">
-            <div className="bg-default-900 rounded-t-lg py-3 w-72 flex flex-col text-default-100 text-center">
-                <h3 className="text-xl font-bold">{props.text}</h3>    
-                <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
-            </div>
-            <div className="relative h-72 w-72 shadow-2xl rounded-b-lg ">
-                {props.imgPath ? <Image className="rounded-b-lg w-20 h-20" src={props.imgPath} objectFit="cover" layout="fill"/> : null}
+        <div className="my-6 mx-auto cursor-pointer">
+            <div className="group">
+                <div className="bg-default-900 rounded-t-lg py-3 w-72 flex flex-col text-default-100 text-center">
+                    <h3 className="text-xl font-bold">{props.text}</h3>    
+                    <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
+                </div>
+                {props.imgPath ? <BlurImage 
+                    alt={props.text}
+                    imgPath={props.imgPath}
+                    /> : null}
             </div>
             <div className="flex gap-4 pt-4 justify-center w-72 relative">
-                <div 
-                // className={`after:content-['${props.measured_per_text}s'] after:absolute after:left-14 after:top-14 after:drop-shadow-xl after:text-default-900 after:rounded-b-lg`}
-                >
+                <div>
                     <input 
                         onChange={props.onChange} 
                         onFocus={handleFocus}
@@ -45,7 +47,7 @@ export default function ProductCard (props) {
                 </div>
                 <button className="bg-default-900 rounded-lg px-5 p-1 flex">
                     <span className="text-default-100 text-xl font-bold">+</span>
-                    <Image className="" src="/images/shopping_cart.png" width="28" height="28" />
+                    <Image className="" src="/images/icons/shopping_cart.png" width="28" height="28" />
                 </button>
             </div>
         </div>
