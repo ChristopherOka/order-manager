@@ -31,7 +31,7 @@ export default function ProductCard (props) {
                         onBlur={handleFocusOut}
                         className={
                             `bg-default-900 rounded-lg border-none text-default-100 text-xl py-1 text-center placeholder:italic w-32
-                            focus:rounded-b-none transition-border duration-500 focus:border-none
+                            focus:rounded-b-none transition-border duration-500 focus-visible:outline-none
                             ` + ' ' + (props.error ? 'border-red' : '')} 
                         type='number'
                         min='0'
