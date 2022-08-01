@@ -6,6 +6,7 @@ export default function CartModal (props) {
         <div className={`
             bg-default-100 absolute right-0 top-0 rounded-md shadow-3xl 
             mx-16 my-10 z-20 flex flex-col items-center justify-between w-96 h-[30rem]
+            ${props.cartModalState ? 'animate-popIn' : 'hidden'}
         `}>
             <div className="w-full">
                 <div className="text-2xl font-bold flex gap-0.5 pt-4 relative h-14 w-full justify-center translate-x-5">

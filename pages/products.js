@@ -92,11 +92,12 @@ export default function Products({products}) {
                             ) : null}
                         </div>
                     </div>
-                    {cartModalState ? (<CartModal 
+                    <CartModal 
+                        cartModalState={cartModalState}
                         closeCartModal={closeCartModal}
                         cart={cart}
                         products={products}
-                    />) : null}
+                    />
                 </div>
                 
                 <form>
