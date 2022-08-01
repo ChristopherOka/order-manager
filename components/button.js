@@ -4,9 +4,13 @@ export default function Button(props) {
     let buttonStyle;
     switch(props.type) {
         case 'primary': 
-            buttonStyle = '';
+            buttonStyle = 'bg-default-900 text-default-100 text-xl px-7 h-14 gap-4';
             break;
         case 'secondary':
+            buttonStyle = 'bg-default-100 text-default-900 shadow-3xl text-xl px-7 h-14 gap-4';
+            break;
+        case 'primary-md':
+            buttonStyle = 'bg-default-900 text-default-100 text-md px-6 h-10 gap-3 my-2 mx-5 float-right';
             break;
         case 'tertiary':
             break;
@@ -16,10 +20,15 @@ export default function Button(props) {
     return (
         <>
             <button 
-            className={'bg-default-900 text-default-100 text-xl tracking-wider rounded-md px-7 flex items-center h-14 gap-4' + ' ' + buttonStyle}
+            className={'tracking-widest rounded-md flex items-center font-bold' + ' ' + buttonStyle}
             onClick={props.clickHandler}
             >
-                <Image src={props.img} width="28" height="28"/>
+                <Image 
+                    className={props.type == 'secondary' ? 'invert': null} 
+                    src={props.img} 
+                    width={`${props.type == 'primary-md' ? '24' : '28'}`} 
+                    height={`${props.type == 'primary-md' ? '24' : '28'}`}
+                />
                 {props.children}
             </button>
         </>
