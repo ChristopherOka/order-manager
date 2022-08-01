@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function ProductCard (props) {
     const [inputFocus, setInputFocus] = useState(false);
+    const [flipped, setFlipped] = useState(false);
     
     const handleFocus = (e) => {
         setInputFocus(true);
@@ -13,9 +14,20 @@ export default function ProductCard (props) {
         setInputFocus(false);
     }
 
+    const flipCard = (e) => {
+        if (flipped == 'flipped') {
+            setFlipped('unflipped');
+        }
+        else {
+            setFlipped('flipped');
+        }
+    }
+
     return (
-        <div className="my-6 mx-auto cursor-pointer">
-            <div className="group">
+        <div id="productCard" className="my-6 mx-auto cursor-pointer">
+            <div 
+                className={`group ${flipped == 'flipped' ? 'animate-frontTileFlip' : flipped == 'unflipped' ? 'animate-backTileFlip' : null}`}
+                onClick={flipCard}>
                 <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
                     <h3 className="text-xl font-bold">{props.text}</h3>    
                     <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
@@ -25,6 +37,18 @@ export default function ProductCard (props) {
                     imgPath={props.imgPath}
                     /> : null}
             </div>
+            {/* <div 
+                className={`group ${flipped == 'flipped' ? null : flipped == 'unflipped' ? 'animate-backTileFlip' : 'animate-frontTileFlip'}`}
+                onClick={flipCard}>
+                <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
+                    <h3 className="text-xl font-bold">{props.text}</h3>    
+                    <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
+                </div>
+                {props.imgPath ? <BlurImage 
+                    alt={props.text}
+                    imgPath={props.imgPath}
+                    /> : null}
+            </div> */}
             <div className="flex gap-4 pt-4 justify-center w-72 relative">
                 <div>
                     <input 
@@ -35,9 +59,8 @@ export default function ProductCard (props) {
                             `bg-default-900 rounded-md border-none text-default-100 text-xl py-1 text-center placeholder:italic w-32
                             focus:rounded-b-none transition-border duration-500 focus-visible:outline-none
                             ` + ' ' + (props.error ? 'border-red' : '')} 
-                        type='number'
-                        min='0'
-                        max="999"
+                        inputMode="numeric"
+                        maxLength="3"
                         placeholder='How many?'
                         name={props.name} 
                         autoComplete="off"
