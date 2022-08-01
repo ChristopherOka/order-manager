@@ -23,7 +23,10 @@ module.exports = {
       },
       animation: {
         slideOut: 'slideOut 0.3s ease',
-      }
+      },
+      boxShadow: {
+        '3xl': '0 0 60px -15px rgba(0, 0, 0, 0.3)',
+      },
     },
   },
   plugins: [],

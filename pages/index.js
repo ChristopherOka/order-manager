@@ -13,8 +13,8 @@ export default function Home() {
 
       <main>
           <h2>
-            <Link href="/form">
-              <a>Form</a>
+            <Link href="/products">
+              <a>Products</a>
             </Link>
           </h2>
           <h2>

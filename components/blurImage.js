@@ -6,7 +6,7 @@ export default function BlurImage (props) {
 
     return (
         <a href="#">
-            <div className="rounded-b-lg overflow-hidden bg-gray-200 relative w-72 h-72 shadow-2xl rounded-b-lg group-hover:opacity-75 duration-300 ease-in-out">
+            <div className="rounded-b-md overflow-hidden bg-gray-200 relative w-72 h-72 shadow-2xl group-hover:opacity-75 duration-300 ease-in-out">
                 <Image
                     className={`${isLoading ? 'grayscale blur-2xl scale-110' : 'grayscale-0 blur-0 scale-100'}`}
                     alt={props.alt}
@@ -14,7 +14,6 @@ export default function BlurImage (props) {
                     objectFit="cover" 
                     layout="fill"
                     onLoadingComplete={() => setIsLoading(false)}
-                    priority={true}
                 />
             </div>
         </a>
