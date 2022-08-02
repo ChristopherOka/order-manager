@@ -1,5 +1,6 @@
 import Button from '../components/button';
 import Image from 'next/image';
+import CartModalProduct from '../components/cartModalProduct';
 
 export default function CartModal (props) {
     return (
@@ -29,29 +30,16 @@ export default function CartModal (props) {
             <div className="pt-8 overflow-auto w-full h-[21.5rem]" key={props.cartKey}>
                 {Object.keys(props.cart).length ? Object.keys(props.cart).map((productId) => {
                     return (
-                    <div key={productId} className="flex px-4 py-2 justify-between gap-4">
-                        <p className="text-lg font-bold">{(props.products.find(product => product.product_id == productId.replace("product_", ""))).product_name}</p>
-                        <div className="flex">
-                            <button 
-                                className="bg-default-900 text-xl text-default-100 font-bold rounded-l-md px-3 h-7" 
-                                name={productId}
-                                onClick={() => {props.changeCartItemQty(productId, -1)}}
-                            >-</button>
-                            <input 
-                                className="bg-default-900 text-default-100 text-md text-center w-8  h-7 border-x" 
-                                name={productId}
-                                inputMode="numeric"
-                                maxLength="3"
-                                defaultValue={props.cart[productId]}
-                                onChange={props.editCartItem}
-                                autoComplete="off"
+                        <div key={productId}>
+                            <CartModalProduct
+                                products={props.products}
+                                productId={productId}
+                                changeCartItemQty={props.changeCartItemQty}
+                                removeItemFromCart={props.removeItemFromCart}
+                                cart={props.cart}
+                                editCartItem={props.editCartItem}
                             />
-                            <button 
-                                className="bg-default-900 text-xl text-default-100 font-bold rounded-r-md px-3 h-7" 
-                                onClick={() => {props.changeCartItemQty(productId, 1)}}
-                            >+</button>
                         </div>
-                    </div>
                     )
                 }) : <div className="text-xl px-4 py-4 text-center">Your cart is empty</div>}
             </div>

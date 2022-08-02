@@ -24,6 +24,7 @@ export default function Products({products}) {
     const [editCart, updateEditCart] = useState({});
     const [itemCosts, updateItemCosts] = useState({});
     const [cartModalState, updateCartModalState] = useState(false);
+
     const router = useRouter();
 
     const handleInputChange = (e) => {
@@ -125,7 +126,11 @@ export default function Products({products}) {
         const currentQty = parseInt(targetInput.value);
         const newQty = currentQty + qtyChange;
         if (newQty < 1) {
-            removeItemFromCart(productId);
+            document.querySelector(`#cartModal [data-product_id="${productId}"]`).classList.remove('hidden');
+            if (document.querySelector(`#cartModal [data-product_id="${productId}"]`).classList.contains('animate-closeX')) {
+                document.querySelector(`#cartModal [data-product_id="${productId}"]`).classList.remove('animate-closeX');
+            }
+            document.querySelector(`#cartModal [data-product_id="${productId}"]`).classList.add('animate-openX');
             return;
         }
         targetInput.value = newQty;
@@ -153,8 +158,8 @@ export default function Products({products}) {
 
         updateCart(updatedCart);
         updateEditCart(updatedEditCart);
+        updateItemCosts({ ...itemCosts, [productId]: 0 });
     }
-
 
     return (
         <div className="font-source-sans-pro h-screen flex flex-col">
@@ -186,6 +191,7 @@ export default function Products({products}) {
                         editCartItem={editCartItem}
                         updateCartFormEdit={updateCartFormEdit}
                         changeCartItemQty={changeCartItemQty}
+                        removeItemFromCart={removeItemFromCart}
                         itemCosts={itemCosts}
                         cartKey={cartKey}
                         cart={cart}
@@ -205,6 +211,7 @@ export default function Products({products}) {
                                 price={product.product_price} 
                                 imgPath={product.product_img_path} 
                                 text={product.product_name} 
+                                product_description={product.product_description}
                                 placeholder="How many?" 
                                 name={"product_" + product.product_id} 
                                 key={product.product_id}

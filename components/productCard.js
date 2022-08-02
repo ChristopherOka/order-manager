@@ -25,30 +25,35 @@ export default function ProductCard (props) {
 
     return (
         <div id="productCard" className="my-6 mx-auto cursor-pointer">
-            <div 
-                className={`group ${flipped == 'flipped' ? 'animate-frontTileFlip' : flipped == 'unflipped' ? 'animate-backTileFlip' : null}`}
-                onClick={flipCard}>
-                <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
-                    <h3 className="text-xl font-bold">{props.text}</h3>    
-                    <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
+            <div className="relative">
+                <div 
+                    className={`group ${flipped == 'flipped' ? 'animate-frontTileFlip' : flipped == 'unflipped' ? 'animate-backTileFlip animation-delay-300' : null}`}
+                    onClick={flipCard}>
+                    <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
+                        <h3 className="text-xl font-bold">{props.text}</h3>    
+                        <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
+                    </div>
+                    {props.imgPath ? <BlurImage 
+                        alt={props.text}
+                        imgPath={props.imgPath}
+                        /> : null}
                 </div>
-                {props.imgPath ? <BlurImage 
-                    alt={props.text}
-                    imgPath={props.imgPath}
-                    /> : null}
+                <div 
+                    className={`group absolute top-0 ${flipped == 'flipped' ? 'animate-backTileFlip animation-delay-300' : flipped == 'unflipped' ? 'animate-frontTileFlip' : 'hidden'}`}
+                    onClick={flipCard}>
+                    <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
+                        <h3 className="text-xl font-bold">{props.text}</h3>    
+                        <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
+                    </div>
+                    <div className="rounded-b-md bg-default-100 relative w-72 h-72 shadow-2xl group-hover:opacity-75 duration-300 ease-in-out">
+                        <div 
+                            className="px-6 py-3"
+                            dangerouslySetInnerHTML={{__html: props.product_description}}>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {/* <div 
-                className={`group ${flipped == 'flipped' ? null : flipped == 'unflipped' ? 'animate-backTileFlip' : 'animate-frontTileFlip'}`}
-                onClick={flipCard}>
-                <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
-                    <h3 className="text-xl font-bold">{props.text}</h3>    
-                    <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
-                </div>
-                {props.imgPath ? <BlurImage 
-                    alt={props.text}
-                    imgPath={props.imgPath}
-                    /> : null}
-            </div> */}
+            
             <div className="flex gap-4 pt-4 justify-center w-72 relative">
                 <div>
                     <input 

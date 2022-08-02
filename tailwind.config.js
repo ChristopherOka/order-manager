@@ -46,12 +46,20 @@ module.exports = {
           '100%': {visibility: 'hidden'},
         },
         frontTileFlip: {
-          '0%': { transform: 'rotateY(0deg)' },
+          '0%': { transform: 'rotateY(0deg)', visibility: 'visible' },
           '100%': { transform: 'rotateY(90deg)', visibility: 'hidden'},
         },
         backTileFlip: {
-          '0%': { transform: 'rotateY(90deg)', visibility: 'hidden'},
-          '100%': { transform: 'rotateY(0deg)', visibility: 'visible'},
+          '0%': {transform: 'rotateY(270deg)', visibility: 'hidden' },
+          '100%': { transform: 'rotateY(360deg)', visibility: 'visible'},
+        },
+        openX: {
+          '0%': { transform: 'scaleX(0)' },
+          '100%': { transform: 'scaleX(1)' },
+        },
+        closeX: {
+          '0%': { transform: 'scaleX(1)' },
+          '100%': { transform: 'scaleX(0)' },
         }
       },
       animation: {
@@ -62,8 +70,10 @@ module.exports = {
         modalAppear: 'modalAppear 0.3s ease forwards',
         modalDisappear: 'modalDisappear 0.3s ease forwards',
         modalBackgroundDisappear: 'modalBackgroundDisappear 0.3s ease forwards',
-        frontTileFlip: 'frontTileFlip 0.3s ease forwards',
-        backTileFlip: 'backTileFlip 0.3s ease forwards',
+        frontTileFlip: 'frontTileFlip 0.3s ease-in forwards',
+        backTileFlip: 'backTileFlip 0.3s ease-out both',
+        openX: 'openX 0.3s ease forwards',
+        closeX: 'closeX 0.3s ease forwards',
       },
       boxShadow: {
         '3xl': '0 0 28px 4px rgba(0, 0, 0, 0.3)',
@@ -71,5 +81,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 }
