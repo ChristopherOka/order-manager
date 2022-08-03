@@ -23,7 +23,8 @@ export default function Products({products}) {
     const [cartKey, updateCartKey] = useState('');
     const [editCart, updateEditCart] = useState({});
     const [itemCosts, updateItemCosts] = useState({});
-    const [cartModalState, updateCartModalState] = useState(false);
+    const [cartModalState, updateCartModalState] = useState(false);   
+    const [cartIsUpdated, updateCartIsUpdated] = useState(true);
 
     const router = useRouter();
 
@@ -119,6 +120,7 @@ export default function Products({products}) {
         }
 
         updateItemCosts({ ...itemCosts, ...updatedCosts });
+        updateCartIsUpdated(true);
     }
 
     const changeCartItemQty = (productId, qtyChange) => {
@@ -136,6 +138,7 @@ export default function Products({products}) {
         targetInput.value = newQty;
 
         editCartItem(null, productId, newQty);
+        updateCartIsUpdated(false);
     }
 
     const validateCartItemQty = (qty) => {
@@ -192,6 +195,7 @@ export default function Products({products}) {
                         updateCartFormEdit={updateCartFormEdit}
                         changeCartItemQty={changeCartItemQty}
                         removeItemFromCart={removeItemFromCart}
+                        cartIsUpdated={cartIsUpdated}
                         itemCosts={itemCosts}
                         cartKey={cartKey}
                         cart={cart}
@@ -200,7 +204,7 @@ export default function Products({products}) {
                 </div>
                 
                 <form>
-                    <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                    <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5">
                         {products.map(product => 
                             <ProductCard 
                                 addToCart={addToCart} 

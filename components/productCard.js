@@ -5,6 +5,7 @@ import { useState } from 'react';
 export default function ProductCard (props) {
     const [inputFocus, setInputFocus] = useState(false);
     const [flipped, setFlipped] = useState(false);
+    const [toggleAddedToCart, setToggleAddedToCart] = useState(false);
     
     const handleFocus = (e) => {
         setInputFocus(true);
@@ -14,7 +15,11 @@ export default function ProductCard (props) {
         setInputFocus(false);
     }
 
-    const flipCard = (e) => {
+    const flipCard = (flip) => {
+        if (flip) {
+            setFlipped('flipped');
+            return;
+        }
         if (flipped == 'flipped') {
             setFlipped('unflipped');
         }
@@ -23,12 +28,17 @@ export default function ProductCard (props) {
         }
     }
 
+    const addingToCart = (e) => {
+        e.preventDefault();
+        setToggleAddedToCart(false);
+        setToggleAddedToCart(true);
+        props.addToCart(e);
+    }
+
     return (
         <div id="productCard" className="my-6 mx-auto cursor-pointer">
-            <div className="relative">
-                <div 
-                    className={`group ${flipped == 'flipped' ? 'animate-frontTileFlip' : flipped == 'unflipped' ? 'animate-backTileFlip animation-delay-300' : null}`}
-                    onClick={flipCard}>
+            <div className="relative" onMouseEnter={() => flipCard(true)} onMouseLeave={() => flipCard()} onClick={() => flipCard()}>
+                <div className={`group ${flipped == 'flipped' ? 'animate-frontTileFlip' : flipped == 'unflipped' ? 'animate-backTileFlip animation-delay-400' : null}`}>
                     <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
                         <h3 className="text-xl font-bold">{props.text}</h3>    
                         <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
@@ -38,9 +48,7 @@ export default function ProductCard (props) {
                         imgPath={props.imgPath}
                         /> : null}
                 </div>
-                <div 
-                    className={`group absolute top-0 ${flipped == 'flipped' ? 'animate-backTileFlip animation-delay-300' : flipped == 'unflipped' ? 'animate-frontTileFlip' : 'hidden'}`}
-                    onClick={flipCard}>
+                <div className={`group absolute top-0 ${flipped == 'flipped' ? 'animate-backTileFlip animation-delay-400' : flipped == 'unflipped' ? 'animate-frontTileFlip' : 'hidden'}`}>
                     <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
                         <h3 className="text-xl font-bold">{props.text}</h3>    
                         <p className="italic">${props.price} per {(props.measured_per_text).toLowerCase()} </p>
@@ -74,13 +82,16 @@ export default function ProductCard (props) {
                 </div>
                 <button 
                     className="bg-default-900 rounded-md px-5 p-1 flex hover:bg-zinc-700 active:bg-zinc-600" 
-                    onClick={props.addToCart}
+                    onClick={addingToCart}
                     name={props.name}
                     data-price={props.price}
                 >
                     <span className="text-default-100 text-xl font-bold">+</span>
                     <Image className="" src="/images/icons/shopping_cart.png" width="28" height="28" />
                 </button>
+            </div>
+            <div className="text-lg font-bold text-center text-green-500 pt-2 h-2">
+                {toggleAddedToCart ? <div className="animate-fadeInOut">Added to cart!</div> : null}
             </div>
         </div>
     )

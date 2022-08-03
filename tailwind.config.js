@@ -60,7 +60,21 @@ module.exports = {
         closeX: {
           '0%': { transform: 'scaleX(1)' },
           '100%': { transform: 'scaleX(0)' },
-        }
+        },
+        fadeInOut: {
+          '0%': { opacity: '0', transform: 'scale(1)'},
+          '20%': { opacity: '1', transform: 'scale(1.1)'},
+          '60%': { opacity: '1', transform: 'scale(1)' },
+          '100%': { opacity: '0', transform: 'scale(1)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0'},
+          '100%': { opacity: '1'},
+        },
+        fadeOut: {
+          '0%': { opacity: '1'},
+          '100%': { opacity: '0'},
+        },
       },
       animation: {
         slideOut: 'slideOut 0.3s ease',
@@ -70,10 +84,13 @@ module.exports = {
         modalAppear: 'modalAppear 0.3s ease forwards',
         modalDisappear: 'modalDisappear 0.3s ease forwards',
         modalBackgroundDisappear: 'modalBackgroundDisappear 0.3s ease forwards',
-        frontTileFlip: 'frontTileFlip 0.3s ease-in forwards',
-        backTileFlip: 'backTileFlip 0.3s ease-out both',
+        frontTileFlip: 'frontTileFlip 0.4s ease-in forwards',
+        backTileFlip: 'backTileFlip 0.4s ease-out both',
         openX: 'openX 0.3s ease forwards',
         closeX: 'closeX 0.3s ease forwards',
+        fadeInOut: 'fadeInOut 1.5s ease-in-out forwards',
+        fadeIn: 'fadeIn 0.3s ease-in-out forwards',
+        fadeOut: 'fadeOut 0.3s ease-in-out forwards',
       },
       boxShadow: {
         '3xl': '0 0 28px 4px rgba(0, 0, 0, 0.3)',

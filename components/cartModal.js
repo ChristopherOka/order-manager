@@ -1,6 +1,7 @@
 import Button from '../components/button';
 import Image from 'next/image';
 import CartModalProduct from '../components/cartModalProduct';
+import Popover from '../components/popover';
 
 export default function CartModal (props) {
     return (
@@ -43,7 +44,14 @@ export default function CartModal (props) {
                     )
                 }) : <div className="text-xl px-4 py-4 text-center">Your cart is empty</div>}
             </div>
-            <div className="shadow-top w-full h-14">
+            <div className="shadow-top w-full h-14 flex justify-end items-center">
+                {props.cartIsUpdated ? null : 
+                <Popover content="Unsaved changes to your cart">
+                    <div className="px-1 flex -m-2 animate-fadeIn">
+                        <Image src="/images/icons/orange_exclamation.png" width="25" height="25"/>
+                    </div>
+                </Popover>
+                }
                 <Button
                     type="primary-md"
                     img="/images/icons/refresh.png"
