@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function ProductCard (props) {
     const [inputFocus, setInputFocus] = useState(false);
     const [flipped, setFlipped] = useState(false);
-    const [toggleAddedToCart, setToggleAddedToCart] = useState(false);
+    const [toggleAddedToCart, setToggleAddedToCart] = useState('hidden');
     
     const handleFocus = (e) => {
         setInputFocus(true);
@@ -30,9 +30,7 @@ export default function ProductCard (props) {
 
     const addingToCart = (e) => {
         e.preventDefault();
-        setToggleAddedToCart(false);
-        setToggleAddedToCart(true);
-        props.addToCart(e);
+         if (props.addToCart(e)) setToggleAddedToCart(!toggleAddedToCart);
     }
 
     return (
@@ -91,7 +89,7 @@ export default function ProductCard (props) {
                 </button>
             </div>
             <div className="text-lg font-bold text-center text-green-500 pt-2 h-2">
-                {toggleAddedToCart ? <div className="animate-fadeInOut">Added to cart!</div> : null}
+                {toggleAddedToCart !== 'hidden' ? <div key={toggleAddedToCart} className="animate-fadeInOut -">Added to cart!</div> : null}
             </div>
         </div>
     )

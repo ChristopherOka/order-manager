@@ -33,11 +33,12 @@ export default function Products({products}) {
     }
 
     const addToCart = (e) => {
+        debugger
         e.preventDefault();
 
         const productId = e.currentTarget.name;
         const itemQuantity = formData[productId];
-        if (!validateCartItemQty(itemQuantity)) return;
+        if (!validateCartItemQty(itemQuantity)) return false;
         const itemCost = e.currentTarget.dataset.price;
         
         clearInput(productId);
@@ -59,7 +60,7 @@ export default function Products({products}) {
         updateCartKey(Math.random());
         
         updateItemCosts({ ...itemCosts, [productId]: itemCost * itemQuantity });
-
+        return true;
     }
 
     const clearInput = (productId) => {
