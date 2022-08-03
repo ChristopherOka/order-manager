@@ -1,13 +1,12 @@
-import { useRouter } from 'next/router';
 import Button from '../components/button';
 import ProductCard from '../components/productCard';
 import CartModal from '../components/cartModal';
 import { useState } from 'react';
-import Image from 'next/image';
+import Link from 'next/link';
 import * as db from './api/database';
 
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const products = await db.getAllProductsData();
 
     return {
@@ -25,8 +24,6 @@ export default function Products({products}) {
     const [itemCosts, updateItemCosts] = useState({});
     const [cartModalState, updateCartModalState] = useState(false);   
     const [cartIsUpdated, updateCartIsUpdated] = useState(true);
-
-    const router = useRouter();
 
     const handleInputChange = (e) => {
         updateFormData({
@@ -229,13 +226,15 @@ export default function Products({products}) {
                     Total Cost: ${(Object.values(itemCosts).length ? Object.values(itemCosts).reduce((a, b) => a + b) : 0).toFixed(2)}
                 </p>
                 <div className="px-12">
-                    <Button 
-                        type="primary" 
-                        clickHandler={goToCheckout}
-                        img="/images/icons/shopping_cart.png"
-                        >
-                        CHECKOUT
-                    </Button>
+                        <Button 
+                            type="primary" 
+                            img="/images/icons/shopping_cart.png"
+                            link="true"
+                            path="/checkout"
+                            query={cart}
+                            >
+                            CHECKOUT
+                        </Button>
                 </div>
             </footer>
         </div>

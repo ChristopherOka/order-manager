@@ -1,9 +1,21 @@
 import FormField from '../components/formField'
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import * as db from './api/database';
+
+export async function getStaticProps() {
+    const products = await db.getAllProductsData();
+
+    return {
+        props: {
+            products,
+        }
+    }
+}
 
 async function sendFormData(data) {
     //todo: figure out a way to delete customers, orders and order_items if any of the queries fail
+    //likely I can do this in a supabase function, so I send all my data at once and parse it on supabase
     let customerData = {}
     let orderData = {}
     let orderDataProps = ['additional_information', 'delivery_date', 'order_cost', 'payment_type']
@@ -50,7 +62,7 @@ async function sendFormData(data) {
     //delete recent customer and order if any of the queries fail
 }
 
-export default function Checkout (props) {
+export default function Checkout ({products}) {
     const [formData, updateFormData] = useState({});
     const [emptyFields, updateEmptyFields] = useState({});
     const router = useRouter();
@@ -176,6 +188,7 @@ export default function Checkout (props) {
                 )
             })}
             <p>{JSON.stringify(data)}</p>
+            <p>{JSON.stringify(products)}</p>
         </form>
     )
 }

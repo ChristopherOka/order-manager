@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Button(props) {
     let buttonStyle;
@@ -19,18 +20,35 @@ export default function Button(props) {
     }
     return (
         <>
-            <button 
-            className={'tracking-widest rounded-md flex items-center font-bold' + ' ' + buttonStyle}
-            onClick={props.clickHandler}
-            >
-                <Image 
-                    className={props.type == 'secondary' ? 'invert': null} 
-                    src={props.img} 
-                    width={`${props.type == 'primary-md' ? '24' : '28'}`} 
-                    height={`${props.type == 'primary-md' ? '24' : '28'}`}
-                />
-                {props.children}
-            </button>
+            {props.link ? (
+                <Link href={{
+                    pathname: props.path,
+                    query: props.query,
+                    }}>
+                    <a className={`tracking-widest rounded-md flex items-center font-bold ${buttonStyle}`}>
+                        <Image 
+                            className={props.type == 'secondary' ? 'invert': null} 
+                            src={props.img} 
+                            width={`${props.type == 'primary-md' ? '24' : '28'}`} 
+                            height={`${props.type == 'primary-md' ? '24' : '28'}`}
+                        />
+                        {props.children}
+                    </a>
+                </Link>
+            ) : (
+                <button 
+                className={'tracking-widest rounded-md flex items-center font-bold' + ' ' + buttonStyle}
+                onClick={props.clickHandler}
+                >
+                    <Image 
+                        className={props.type == 'secondary' ? 'invert': null} 
+                        src={props.img} 
+                        width={`${props.type == 'primary-md' ? '24' : '28'}`} 
+                        height={`${props.type == 'primary-md' ? '24' : '28'}`}
+                    />
+                    {props.children}
+                </button>
+            )}
         </>
     )
 }
