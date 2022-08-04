@@ -229,7 +229,7 @@ export default function Checkout({ products }) {
                             Total Cost: ${orderCost}
                         </h3>
                     </div>
-                    <div className="flex flex-row flex-wrap gap-6 max-h-[37rem] px-10 overflow-y-auto overflow-x-hidden justify-center">
+                    <div className="flex flex-row flex-wrap gap-6 max-h-[37rem] px-10 pb-5 overflow-y-auto overflow-x-hidden justify-center">
                         {Object.keys(orderData).map((item) => {
                             const product = products.find(
                                 (product) =>
