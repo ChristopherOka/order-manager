@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import supabase from '../utils/supabase';
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import supabase from "../utils/supabase";
 
 export async function getServerSideProps() {
     const { data: orderData, error } = await supabase
-        .from('orders')
-        .select(`
+        .from("orders")
+        .select(
+            `
             order_uid,
             has_paid,
             is_validated,
@@ -22,15 +23,15 @@ export async function getServerSideProps() {
                 address,
                 city
              )
-            `)
-        .order('creation_timestamp', 'asc');
+            `
+        )
+        .order("creation_timestamp", "asc");
 
     if (error) {
         console.log(error);
     }
 
-    const { data: orderItemsData, error2 } = await supabase
-        .from('order_items')
+    const { data: orderItemsData, error2 } = await supabase.from("order_items")
         .select(`
             product_id,
             order_uid,
@@ -42,9 +43,9 @@ export async function getServerSideProps() {
     }
 
     const { data: productNames, error3 } = await supabase
-        .from('products')
-        .select('product_name, product_id')
-        .order('product_id', 'asc');
+        .from("products")
+        .select("product_name, product_id")
+        .order("product_id", "asc");
 
     if (error3) {
         console.log(error3);
@@ -55,24 +56,27 @@ export async function getServerSideProps() {
             orderData,
             orderItemsData,
             productNames,
-        }
-    }
+        },
+    };
 }
 
-export default function Orders ({orderData, orderItemsData, productNames}) {
+export default function Orders({ orderData, orderItemsData, productNames }) {
     //todo: figure this out
     const [orders, setOrders] = useState({});
     useEffect(() => {
-        const subscription = supabase.from('*').on('*', (payload) => {
-            console.log('New order: ', payload);
-            setOrders({...orders, ...payload});
-        }).subscribe();
+        const subscription = supabase
+            .from("*")
+            .on("*", (payload) => {
+                console.log("New order: ", payload);
+                setOrders({ ...orders, ...payload });
+            })
+            .subscribe();
 
         return () => supabase.removeSubscription(subscription);
     }, []);
 
-    return (       
-        <>     
+    return (
+        <>
             <h2 className={styles.subtitle}>
                 <Link href="/">
                     <a>Home</a>
@@ -94,13 +98,17 @@ export default function Orders ({orderData, orderItemsData, productNames}) {
                         <th>Order Cost</th>
                         <th>Misc. Fees</th>
                         <th>Time of Order</th>
-                        {productNames.map(product => {
-                            return <th key={product.product_id}>{product.product_name}</th>
+                        {productNames.map((product) => {
+                            return (
+                                <th key={product.product_id}>
+                                    {product.product_name}
+                                </th>
+                            );
                         })}
                     </tr>
                 </thead>
                 <tbody>
-                    {orderData.map(order => {
+                    {orderData.map((order) => {
                         return (
                             <tr key={order.order_uid}>
                                 <td>{order.delivery_date}</td>
@@ -109,24 +117,35 @@ export default function Orders ({orderData, orderItemsData, productNames}) {
                                 <td>{order.customers.phone}</td>
                                 <td>{order.customers.address}</td>
                                 <td>{order.customers.city}</td>
-                                <td>{order.has_paid ? 'Yes' : 'No'}</td>
-                                <td>{order.is_validated ? 'Yes' : 'No'}</td>
+                                <td>{order.has_paid ? "Yes" : "No"}</td>
+                                <td>{order.is_validated ? "Yes" : "No"}</td>
                                 <td>{order.payment_type}</td>
-                                <td>{order.additional_information ?? 'None'}</td>
+                                <td>
+                                    {order.additional_information ?? "None"}
+                                </td>
                                 <td>{order.order_cost ?? 0}</td>
                                 <td>{order.misc_fees ?? 0}</td>
                                 <td>{order.creation_timestamp}</td>
-                                {productNames.map(product => {
-                                    const productItem = orderItemsData.find(item => item.product_id === product.product_id && item.order_uid === order.order_uid);
+                                {productNames.map((product) => {
+                                    const productItem = orderItemsData.find(
+                                        (item) =>
+                                            item.product_id ===
+                                                product.product_id &&
+                                            item.order_uid === order.order_uid
+                                    );
                                     return (
-                                        <td key={product.product_id}>{productItem ? productItem.quantity : '-'}</td>
-                                    )
+                                        <td key={product.product_id}>
+                                            {productItem
+                                                ? productItem.quantity
+                                                : "-"}
+                                        </td>
+                                    );
                                 })}
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
             </table>
         </>
-    )
+    );
 }

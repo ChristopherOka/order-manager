@@ -1,16 +1,24 @@
-import Button from '../components/button';
-import Image from 'next/image';
-import CartModalProduct from '../components/cartModalProduct';
-import Popover from '../components/popover';
+import Button from "../components/button";
+import Image from "next/image";
+import CartModalProduct from "../components/cartModalProduct";
+import Popover from "../components/popover";
 
-export default function CartModal (props) {
+export default function CartModal(props) {
     return (
-        <div id="cartModal" className={`
+        <div
+            id="cartModal"
+            className={`
             bg-default-100 absolute right-0 top-0 rounded-md shadow-3xl 
             mx-16 my-10 w-96 h-[30rem] origin-top-right z-20
-            ${props.cartModalState == 'open' ? 'animate-modalAppear' : props.cartModalState == 'closed' ? 'animate-modalDisappear': 'hidden'}
+            ${
+                props.cartModalState == "open"
+                    ? "animate-modalAppear"
+                    : props.cartModalState == "closed"
+                    ? "animate-modalDisappear"
+                    : "hidden"
+            }
             `}
-            >
+        >
             <div className="text-3xl font-bold flex flex-col pt-4 relative h-20 w-full align-start items-center">
                 <div className="flex">
                     <div>CART</div>
@@ -22,36 +30,60 @@ export default function CartModal (props) {
                         />
                     </div>
                 </div>
-                <p className="text-lg text-slate-600 font-normal -m-1">Total Cost: ${(Object.values(props.itemCosts).length ? Object.values(props.itemCosts).reduce((a, b) => a + b) : 0).toFixed(2)}</p>
-                <button className="absolute right-10 top-4 h-6 w-6" onClick={props.closeCartModal}>
+                <p className="text-lg text-slate-600 font-normal -m-1">
+                    Total Cost: $
+                    {(Object.values(props.itemCosts).length
+                        ? Object.values(props.itemCosts).reduce((a, b) => a + b)
+                        : 0
+                    ).toFixed(2)}
+                </p>
+                <button
+                    className="absolute right-10 top-4 h-6 w-6"
+                    onClick={props.closeCartModal}
+                >
                     <div className="absolute bg-slate-600 rotate-45 w-6 h-0.5"></div>
                     <div className="absolute bg-slate-600 -rotate-45 w-6 h-0.5"></div>
                 </button>
             </div>
-            <div className="pt-8 overflow-auto w-full h-[21.5rem]" key={props.cartKey}>
-                {Object.keys(props.cart).length ? Object.keys(props.cart).map((productId) => {
-                    return (
-                        <div key={productId}>
-                            <CartModalProduct
-                                products={props.products}
-                                productId={productId}
-                                changeCartItemQty={props.changeCartItemQty}
-                                removeItemFromCart={props.removeItemFromCart}
-                                cart={props.cart}
-                                editCartItem={props.editCartItem}
-                            />
-                        </div>
-                    )
-                }) : <div className="text-xl px-4 py-4 text-center">Your cart is empty</div>}
+            <div
+                className="pt-8 overflow-auto w-full h-[21.5rem]"
+                key={props.cartKey}
+            >
+                {Object.keys(props.cart).length ? (
+                    Object.keys(props.cart).map((productId) => {
+                        return (
+                            <div key={productId}>
+                                <CartModalProduct
+                                    products={props.products}
+                                    productId={productId}
+                                    changeCartItemQty={props.changeCartItemQty}
+                                    removeItemFromCart={
+                                        props.removeItemFromCart
+                                    }
+                                    cart={props.cart}
+                                    editCartItem={props.editCartItem}
+                                />
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div className="text-xl px-4 py-4 text-center">
+                        Your cart is empty
+                    </div>
+                )}
             </div>
             <div className="shadow-top w-full h-14 flex justify-end items-center">
-                {props.cartIsUpdated ? null : 
-                <Popover content="Unsaved changes to your cart">
-                    <div className="px-1 flex -m-2 animate-fadeIn">
-                        <Image src="/images/icons/orange_exclamation.png" width="25" height="25"/>
-                    </div>
-                </Popover>
-                }
+                {props.cartIsUpdated ? null : (
+                    <Popover content="Unsaved changes to your cart">
+                        <div className="px-1 flex -m-2 animate-fadeIn">
+                            <Image
+                                src="/images/icons/orange_exclamation.png"
+                                width="25"
+                                height="25"
+                            />
+                        </div>
+                    </Popover>
+                )}
                 <Button
                     type="primary-md"
                     img="/images/icons/refresh.png"
@@ -61,5 +93,5 @@ export default function CartModal (props) {
                 </Button>
             </div>
         </div>
-    )
+    );
 }

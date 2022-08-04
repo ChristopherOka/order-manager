@@ -1,36 +1,65 @@
-import Image from 'next/image';
-
-export default function FormField (props) {
-
+export default function FormField(props) {
     let formField = <></>;
     switch (props.fieldStyle) {
-        case 'input':
-            formField = <input 
-                onChange={props.onChange} 
-                onFocus={props.handleFocus}
-                className={"rounded bg-default-100 border-none" + ' ' + (props.error ? 'border-red-200' : '')} 
-                type={props.type}
-                min={props.type === 'number' ? 0 : null}
-                placeholder={props.placeholder} 
-                name={props.name} 
-                data-price={props.price}
+        case "input":
+            formField = (
+                <input
+                    onChange={props.onChange}
+                    onFocus={props.handleFocus}
+                    className={`
+                        rounded bg-zinc-200 px-2 text-xl text-slate-700 w-full h-10
+                        ${props.error ? "border-red-400 border-2" : ""}`}
+                    type={props.type}
+                    min={props.type === "number" ? 0 : null}
+                    placeholder={props.placeholder}
+                    name={props.name}
+                    data-price={props.price}
                 />
+            );
             break;
-        case 'select':
-            formField = <select onFocus={props.handleFocus} onChange={props.onChange} name={props.name} className={(props.error ? 'border-red' : '')}>
-                <option value="">- select an option -</option>
-                {props.options.map(option =>  <option key={option}>{option}</option>)}
-            </select>
+        case "select":
+            formField = (
+                <select
+                    onFocus={props.handleFocus}
+                    onChange={props.onChange}
+                    name={props.name}
+                    className={`bg-zinc-200 rounded text-xl px-2 w-full h-10 appearance-none bg-dropdown-arrow bg-no-repeat bg-right bg-origin-content ${
+                        props.error ? "border-red-400 border-2" : ""
+                    }`}
+                >
+                    <option value=""></option>
+                    {props.options.map((option) => (
+                        <option key={option}>{option}</option>
+                    ))}
+                </select>
+            );
+            break;
+        case "textarea":
+            formField = (
+                <textarea
+                    onChange={props.onChange}
+                    onFocus={props.handleFocus}
+                    className={`bg-zinc-200 rounded px-2 text-xl w-full h-full resize-none ${
+                        props.error ? "border-red-200" : ""
+                    }`}
+                    name={props.name}
+                />
+            );
+            break;
+        default:
             break;
     }
 
     return (
-        <div>
-            <h4>{props.text} {props.required ? <span style={{color: "red"}}>*</span> : null}</h4>
-            <label>{props.measured_per_text ? `Price Per ${props.measured_per_text}: $${props.price}`: null}</label>
+        <div className="mt-3">
+            <h4 className="text-xl">
+                {props.text}{" "}
+                {props.required ? (
+                    <span style={{ color: "red" }}>*</span>
+                ) : null}
+            </h4>
             {props.imgPath ? <img src={props.imgPath}></img> : null}
             {formField}
         </div>
-    )
-
+    );
 }
