@@ -2,7 +2,6 @@ import Button from "../components/button";
 import ProductCard from "../components/productCard";
 import CartModal from "../components/cartModal";
 import { useState } from "react";
-import Link from "next/link";
 import * as db from "./api/database";
 
 export async function getStaticProps() {

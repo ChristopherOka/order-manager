@@ -1,9 +1,11 @@
 import FormField from "../components/formField";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { v4 as uuidv4 } from 'uuid'
 import * as db from "./api/database";
 import Button from "../components/button";
 import CheckoutProductCard from "../components/checkoutProductCard";
+import { stringify } from "postcss";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
@@ -18,52 +20,33 @@ export async function getStaticProps() {
 async function sendFormData(data) {
     //todo: figure out a way to delete customers, orders and order_items if any of the queries fail
     //likely I can do this in a supabase function, so I send all my data at once and parse it on supabase
-    let customerData = {};
-    let orderData = {};
-    let orderDataProps = [
-        "additional_information",
-        "delivery_date",
-        "order_cost",
-        "payment_type",
-    ];
-    let orderItems = {};
-
-    for (let key in data) {
-        if (key.startsWith("product_")) {
-            orderItems[key.replace("product_", "")] = data[key];
-        } else if (orderDataProps.includes(key)) {
-            if (key === "delivery_date") {
-                data.delivery_date = new Date(data.delivery_date);
-            }
-            orderData[key] = data[key];
-        } else {
-            customerData[key] = data[key];
-        }
-    }
-    console.log("Data", data);
-    console.log("Customer data: ", customerData);
-    console.log("Order data: ", orderData);
-    console.log("Order items: ", orderItems);
 
     const customer_uid = uuidv4();
-    customerData.customer_uid = customer_uid;
-    await db.insertNewCustomer(customerData);
-
     const order_uid = uuidv4();
-    orderData.order_uid = order_uid;
-    orderData.customer_uid = customer_uid;
-    await db.insertNewOrder(orderData);
+    data.customer_uid = customer_uid;
+    data.order_uid = order_uid;
 
-    let orderItemsData = [];
-    for (let key in orderItems) {
-        orderItemsData.push({
+    data.delivery_date = new Date(data.delivery_date).toISOString();
+    data.orderItems = [];
+    for (const item in data.orderData) {
+        data.orderItems.push({
             order_uid,
-            product_id: key,
-            quantity: orderItems[key],
+            product_id: item.replace('product_', ''),
+            quantity: data.orderData[item],
             order_item_uid: uuidv4(),
-        });
+        })
     }
-    db.insertNewOrderItems(orderItemsData);
+    
+    delete data.orderData;
+
+    console.log(data);
+    // const { data, error } = await db.insertCustomerAndOrder(allOrderData);
+
+    debugger
+    // await db.insertNewCustomer(customerData);
+    // orderData.customer_uid = customer_uid;
+    // await db.insertNewOrder(orderData);
+    // db.insertNewOrderItems(orderItemsData);
     //delete recent customer and order if any of the queries fail
 }
 
@@ -73,7 +56,7 @@ export default function Checkout({ products }) {
     const router = useRouter();
 
     const data = router.query;
-    const {orderCost, ...orderData} = data;
+    const { orderCost, ...orderData } = data;
 
     const handleFocus = (e) => {
         updateEmptyFields({
@@ -89,17 +72,15 @@ export default function Checkout({ products }) {
         });
     };
 
-    const handlePlaceOrder = (e) => {
+    const handlePlaceOrder = async (e) => {
         e.preventDefault();
+        if (!validateForm(formData)) {
+            alert("Please fill in all required fields");
+            return;
+        }
 
-        router.push('/thank_you');
-        // if (!validateForm(formData)) {
-        //     alert("Please fill in all required fields");
-        //     return;
-        // }
-
-        // formData.order_cost = orderCost;
-        // sendFormData(formData);
+        await sendFormData({...formData, orderCost, orderData});
+        router.push("/thank_you");
     };
 
     const validateForm = () => {
@@ -243,9 +224,7 @@ export default function Checkout({ products }) {
                 </div>
                 <div className="bg-default-100 rounded-md shadow-3xl h-full col-span-2 md:ml-10">
                     <div className="flex flex-wrap justify-between items-end px-10 py-5">
-                        <h2 className="text-3xl font-bold">
-                            Your Order
-                        </h2>
+                        <h2 className="text-3xl font-bold">Your Order</h2>
                         <h3 className="text-default-900 text-xl">
                             Total Cost: ${orderCost}
                         </h3>

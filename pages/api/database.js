@@ -1,39 +1,13 @@
 import supabase from "../../utils/supabase";
 
-export async function insertNewCustomer(data) {
-    const { data: response, error } = await supabase
-        .from("customers")
-        .insert(data);
+export async function insertCustomerAndOrder(data) {
+    const { res, error } = await supabase.rpc('insertCustomerAndOrder', data);
 
     if (error) {
         console.log(error);
     }
 
-    return response;
-}
-
-export async function insertNewOrder(data) {
-    const { data: response, error } = await supabase
-        .from("orders")
-        .insert(data);
-
-    if (error) {
-        console.log(error);
-    }
-
-    return response;
-}
-
-export async function insertNewOrderItems(data) {
-    const { data: response, error } = await supabase
-        .from("order_items")
-        .insert(data);
-
-    if (error) {
-        console.log(error);
-    }
-
-    return response;
+    return res;
 }
 
 export async function getAllProductsData() {
