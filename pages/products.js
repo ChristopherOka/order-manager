@@ -65,15 +65,6 @@ export default function Products({ products }) {
         ).value = "";
     };
 
-    const goToCheckout = () => {
-        router.push({
-            pathname: "/checkout",
-            query: {
-                ...cart,
-            },
-        });
-    };
-
     const openCartModal = () => {
         updateCartModalState("open");
     };

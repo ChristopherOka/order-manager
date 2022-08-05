@@ -1,11 +1,10 @@
 import FormField from "../components/formField";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from "uuid";
 import * as db from "./api/database";
 import Button from "../components/button";
 import CheckoutProductCard from "../components/checkoutProductCard";
-import { stringify } from "postcss";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
@@ -18,36 +17,28 @@ export async function getStaticProps() {
 }
 
 async function sendFormData(data) {
-    //todo: figure out a way to delete customers, orders and order_items if any of the queries fail
-    //likely I can do this in a supabase function, so I send all my data at once and parse it on supabase
-
     const customer_uid = uuidv4();
     const order_uid = uuidv4();
     data.customer_uid = customer_uid;
     data.order_uid = order_uid;
 
-    data.delivery_date = new Date(data.delivery_date).toISOString();
-    data.orderItems = [];
-    for (const item in data.orderData) {
-        data.orderItems.push({
+    data.delivery_date = new Date(data.delivery_date).toISOString().slice(0, -1);
+    data.order_items = [];
+    for (const item in data.order_data) {
+        data.order_items.push({
             order_uid,
-            product_id: item.replace('product_', ''),
-            quantity: data.orderData[item],
+            product_id: item.replace("product_", ""),
+            quantity: data.order_data[item],
             order_item_uid: uuidv4(),
-        })
+        });
     }
-    
-    delete data.orderData;
 
-    console.log(data);
-    // const { data, error } = await db.insertCustomerAndOrder(allOrderData);
-
-    debugger
-    // await db.insertNewCustomer(customerData);
-    // orderData.customer_uid = customer_uid;
-    // await db.insertNewOrder(orderData);
-    // db.insertNewOrderItems(orderItemsData);
-    //delete recent customer and order if any of the queries fail
+    delete data.order_data;
+    if (!(await db.insertCustomerAndOrder(data))) {
+        alert('Order not processed. Please try again.');
+        return false;
+    };
+    return true;
 }
 
 export default function Checkout({ products }) {
@@ -74,12 +65,18 @@ export default function Checkout({ products }) {
 
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
+        if (orderCost == "0.00" || !orderCost) {
+            alert('No items are in your order!');
+            return;
+        }
         if (!validateForm(formData)) {
             alert("Please fill in all required fields");
             return;
         }
 
-        await sendFormData({...formData, orderCost, orderData});
+        if (!(await sendFormData({ ...formData, order_cost: orderCost, order_data: orderData }) )) {
+            return;
+        }
         router.push("/thank_you");
     };
 

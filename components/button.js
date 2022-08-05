@@ -1,7 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Button(props) {
+    const [disabled, updateDisabled] = useState(false);
+
+    const handleClick = async (e) => {
+        e.preventDefault();
+        updateDisabled(true);
+        if (props.clickHandler) {
+            await props.clickHandler(e);
+        }
+        updateDisabled(false);
+    };
+
     let buttonStyle;
     switch (props.type) {
         case "primary":
@@ -32,7 +44,9 @@ export default function Button(props) {
                     as={props.as}
                 >
                     <a
-                        className={`tracking-widest rounded-md flex items-center font-bold ${buttonStyle}`}
+                        className={`tracking-widest rounded-md flex items-center font-bold ${buttonStyle} ${
+                            disabled ? "opacity-50 cursor-default" : ""
+                        }`}
                     >
                         <Image
                             className={
@@ -51,12 +65,10 @@ export default function Button(props) {
                 </Link>
             ) : (
                 <button
-                    className={
-                        "tracking-widest rounded-md flex items-center font-bold" +
-                        " " +
-                        buttonStyle
-                    }
-                    onClick={props.clickHandler}
+                    className={`tracking-widest rounded-md flex items-center font-bold ${buttonStyle} ${
+                        disabled ? "opacity-50 cursor-default" : ""
+                    }`}
+                    onClick={disabled ? null : handleClick}
                 >
                     <Image
                         className={props.type == "secondary" ? "invert" : null}
