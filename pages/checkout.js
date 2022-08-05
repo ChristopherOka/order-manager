@@ -22,7 +22,9 @@ async function sendFormData(data) {
     data.customer_uid = customer_uid;
     data.order_uid = order_uid;
 
-    data.delivery_date = new Date(data.delivery_date).toISOString().slice(0, -1);
+    data.delivery_date = new Date(data.delivery_date)
+        .toISOString()
+        .slice(0, -1);
     data.order_items = [];
     for (const item in data.order_data) {
         data.order_items.push({
@@ -35,9 +37,9 @@ async function sendFormData(data) {
 
     delete data.order_data;
     if (!(await db.insertCustomerAndOrder(data))) {
-        alert('Order not processed. Please try again.');
+        alert("Order not processed. Please try again.");
         return false;
-    };
+    }
     return true;
 }
 
@@ -66,7 +68,7 @@ export default function Checkout({ products }) {
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
         if (orderCost == "0.00" || !orderCost) {
-            alert('No items are in your order!');
+            alert("No items are in your order!");
             return;
         }
         if (!validateForm(formData)) {
@@ -74,7 +76,13 @@ export default function Checkout({ products }) {
             return;
         }
 
-        if (!(await sendFormData({ ...formData, order_cost: orderCost, order_data: orderData }) )) {
+        if (
+            !(await sendFormData({
+                ...formData,
+                order_cost: orderCost,
+                order_data: orderData,
+            }))
+        ) {
             return;
         }
         router.push("/thank_you");

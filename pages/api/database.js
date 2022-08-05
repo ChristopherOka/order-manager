@@ -8,8 +8,7 @@ export async function insertCustomerAndOrder(orderData) {
 
     if (error) {
         return false;
-    }
-    else {
+    } else {
         return true;
     }
 }
