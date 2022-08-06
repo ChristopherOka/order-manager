@@ -15,9 +15,9 @@ export default function ProductCard(props) {
         setInputFocus(false);
     };
 
-    const flipCard = (flip) => {
-        if (flip) {
-            setFlipped("flipped");
+    const flipCard = (flipState) => {
+        if (flipState) {
+            setFlipped(flipState);
             return;
         }
         if (flipped == "flipped") {
@@ -36,8 +36,7 @@ export default function ProductCard(props) {
         <div id="productCard" className="my-6 mx-auto cursor-pointer">
             <div
                 className="relative"
-                onMouseEnter={() => flipCard(true)}
-                onMouseLeave={() => flipCard()}
+                onMouseLeave={() => flipCard('unflipped')}
                 onClick={() => flipCard()}
             >
                 <div

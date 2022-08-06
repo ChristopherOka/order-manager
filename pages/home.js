@@ -5,8 +5,15 @@ import Image from "next/image";
 import * as db from "./api/database.js";
 
 export async function getServerSideProps () {
-    const products = await db.getAllProductsData();
-
+    const smallestPossibleDate = new Date(0);
+    const oneYearFromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+    const dates = {
+        start_date: smallestPossibleDate,
+        end_date: oneYearFromNow
+    };
+    console.log(dates);
+    const products = await db.getTotalProductQtyByDate(dates);
+    console.log(products);
     return {
         props: {
             products,

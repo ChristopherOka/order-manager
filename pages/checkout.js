@@ -21,10 +21,10 @@ async function sendFormData(data) {
     const order_uid = uuidv4();
     data.customer_uid = customer_uid;
     data.order_uid = order_uid;
-
     data.delivery_date = new Date(data.delivery_date)
         .toISOString()
         .slice(0, -1);
+
     data.order_items = [];
     for (const item in data.order_data) {
         data.order_items.push({
@@ -174,7 +174,16 @@ export default function Checkout({ products }) {
             name: "city",
             text: "City",
             fieldStyle: "select",
-            options: ["Mississauga", "Burlington"],
+            options: [
+                {
+                    value: "Mississauga",
+                    text: "Mississauga",
+                },
+                {
+                    value: "Burlington",
+                    text: "Burlington",
+                },
+            ],
             required: true,
         },
         {
@@ -191,7 +200,16 @@ export default function Checkout({ products }) {
             name: "payment_type",
             text: "Payment Type",
             fieldStyle: "select",
-            options: ["E-Transfer", "Cash"],
+            options: [
+                {
+                    value: "E-Transfer",
+                    text: "E-Transfer",
+                },
+                {
+                    value: "Cash",
+                    text: "Cash",
+                },
+            ],
             required: true,
         },
         {
@@ -199,12 +217,30 @@ export default function Checkout({ products }) {
             text: "Delivery Date",
             fieldStyle: "select",
             options: [
-                "December 1",
-                "December 8",
-                "December 15",
-                "December 22",
-                "December 29",
-                "Other",
+                {
+                    value: "2022-12-01",
+                    text: "December 1st",
+                },
+                {
+                    value: "2022-12-08",
+                    text: "December 8th",
+                },
+                {
+                    value: "2022-12-15",
+                    text: "December 15th",
+                },
+                {
+                    value: "2022-12-22",
+                    text: "December 22nd",
+                },
+                {
+                    value: "2022-12-29",
+                    text: "December 29th",
+                },
+                {
+                    value: "Other",
+                    text: "Other",
+                },
             ],
             required: true,
             customChangeHandler: handleDeliveryDateChange,

@@ -32,7 +32,7 @@ export default function Products({ products }) {
 
     const addToCart = (e) => {
         e.preventDefault();
-
+        
         const productId = e.currentTarget.name;
         const itemQuantity = formData[productId];
         if (!validateCartItemQty(itemQuantity)) return false;
@@ -44,7 +44,8 @@ export default function Products({ products }) {
         if (currentCartItem) {
             updateCart({
                 ...cart,
-                [productId]: parseInt(currentCartItem) + parseInt(itemQuantity),
+                [productId]:
+                    parseFloat(currentCartItem) + parseFloat(itemQuantity),
             });
         } else {
             updateCart({
@@ -54,8 +55,22 @@ export default function Products({ products }) {
         }
 
         updateCartKey(Math.random());
+        updateEditCart({
+            ...editCart,
+            [productId]: (editCart[productId] ?? 0) + parseFloat(itemQuantity),
+        });
 
-        updateItemCosts({ ...itemCosts, [productId]: itemCost * itemQuantity });
+        updateItemCosts({
+            ...itemCosts,
+            [productId]:
+                (itemCosts[productId] ?? 0) +
+                parseFloat(itemCost) * parseFloat(itemQuantity),
+        });
+
+        const updatedFormData = formData;
+        delete updatedFormData[productId];
+
+        updateFormData(updatedFormData);
         return true;
     };
 
@@ -83,7 +98,7 @@ export default function Products({ products }) {
 
         updateEditCart({
             ...editCart,
-            [productId]: itemQuantity,
+            [productId]: parseFloat(itemQuantity),
         });
     };
 
@@ -150,7 +165,7 @@ export default function Products({ products }) {
     };
 
     const validateCartItemQty = (qty) => {
-        if (!Number.isInteger(Number(qty))) {
+        if (!(parseFloat(qty) == qty)) {
             alert("Please enter a valid quantity");
             return false;
         }

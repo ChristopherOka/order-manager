@@ -11,7 +11,7 @@ export default function OrderSummaryTable(props) {
                 </tr>
             </thead>
             <tbody>
-                {props.products.map((product) => {
+                {/* {props.products.map((product) => {
                     return (
                         <tr>
                             <td>
@@ -19,7 +19,7 @@ export default function OrderSummaryTable(props) {
                             </td>
                         </tr>
                     )
-                })}
+                })} */}
 
             </tbody>
         </table>
