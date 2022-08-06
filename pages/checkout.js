@@ -77,6 +77,14 @@ export default function Checkout({ products }) {
         }
 
         if (
+            formData["delivery_date"] == "Other" &&
+            formData["alternative_delivery_date"]
+        ) {
+            formData["delivery_date"] = formData["alternative_delivery_date"];
+            delete formData["alternative_delivery_date"];
+        }
+
+        if (
             !(await sendFormData({
                 ...formData,
                 order_cost: orderCost,
@@ -106,10 +114,38 @@ export default function Checkout({ products }) {
                 newEmptyFields = { ...newEmptyFields, [field]: true };
                 isValid = false;
             }
+            if (
+                field === "delivery_date" &&
+                formData["delivery_date"] === "Other" &&
+                formData["alternative_delivery_date"] === ""
+            ) {
+                newEmptyFields = {
+                    ...newEmptyFields,
+                    alternative_delivery_date: true,
+                };
+                isValid = false;
+            }
         }
         updateEmptyFields({ ...emptyFields, ...newEmptyFields });
 
         return isValid;
+    };
+
+    const handleDeliveryDateChange = (e) => {
+        const value = e.target.value;
+        if (value == "Other") {
+            document
+                .getElementById("alternative_delivery_date")
+                .classList.remove("hidden");
+        } else {
+            document
+                .getElementById("alternative_delivery_date")
+                .classList.add("hidden");
+        }
+        updateFormData({
+            ...formData,
+            [e.target.name]: e.target.value.trim(),
+        });
     };
 
     const personalFields = [
@@ -168,8 +204,22 @@ export default function Checkout({ products }) {
                 "December 15",
                 "December 22",
                 "December 29",
+                "Other",
             ],
             required: true,
+            customChangeHandler: handleDeliveryDateChange,
+        },
+        {
+            name: "alternative_delivery_date",
+            text: "Alternative Delivery Date",
+            fieldStyle: "input",
+            type: "date",
+            min: "2022-11-01",
+            max: "2023-01-31",
+            hidden: true,
+            required: true,
+            description:
+                "Please provide a reason in additional information for the alternative delivery date!",
         },
         {
             type: "text",
@@ -200,6 +250,7 @@ export default function Checkout({ products }) {
                                 fieldStyle={field.fieldStyle}
                                 options={field.options}
                                 required={field.required}
+                                description={field.description}
                                 key={index}
                             />
                         );
@@ -215,6 +266,8 @@ export default function Checkout({ products }) {
                             <FormField
                                 handleFocus={handleFocus}
                                 onChange={handleChange}
+                                customChangeHandler={field.customChangeHandler}
+                                hidden={field.hidden}
                                 error={emptyFields[field.name]}
                                 type={field.type}
                                 name={field.name}
@@ -222,6 +275,9 @@ export default function Checkout({ products }) {
                                 fieldStyle={field.fieldStyle}
                                 options={field.options}
                                 required={field.required}
+                                description={field.description}
+                                min={field.min}
+                                max={field.max}
                                 key={index}
                             />
                         );

@@ -4,13 +4,18 @@ export default function FormField(props) {
         case "input":
             formField = (
                 <input
-                    onChange={props.onChange}
+                    onChange={
+                        props.customChangeHandler
+                            ? props.customChangeHandler
+                            : props.onChange
+                    }
                     onFocus={props.handleFocus}
                     className={`
                         rounded bg-zinc-200 px-2 text-xl text-slate-700 w-full h-10
                         ${props.error ? "border-red-400 border-2" : ""}`}
                     type={props.type}
-                    min={props.type === "number" ? 0 : null}
+                    min={props.min}
+                    max={props.max}
                     placeholder={props.placeholder}
                     name={props.name}
                     data-price={props.price}
@@ -21,7 +26,11 @@ export default function FormField(props) {
             formField = (
                 <select
                     onFocus={props.handleFocus}
-                    onChange={props.onChange}
+                    onChange={
+                        props.customChangeHandler
+                            ? props.customChangeHandler
+                            : props.onChange
+                    }
                     name={props.name}
                     className={`bg-zinc-200 rounded text-xl px-2 w-full h-10 appearance-none bg-dropdown-arrow bg-no-repeat bg-right bg-origin-content ${
                         props.error ? "border-red-400 border-2" : ""
@@ -51,7 +60,7 @@ export default function FormField(props) {
     }
 
     return (
-        <div className="mt-3">
+        <div id={props.name} className={`mt-3 ${props.hidden ? 'hidden' : ''}`}>
             <h4 className="text-xl">
                 {props.text}{" "}
                 {props.required ? (
@@ -60,6 +69,7 @@ export default function FormField(props) {
             </h4>
             {props.imgPath ? <img src={props.imgPath}></img> : null}
             {formField}
+            <p className="text-red-500 text-sm">{props.description}</p>
         </div>
     );
 }
