@@ -1,5 +1,3 @@
-
-
 export default function OrderSummaryTable(props) {
     return (
         <table>
@@ -20,8 +18,7 @@ export default function OrderSummaryTable(props) {
                         </tr>
                     )
                 })} */}
-
             </tbody>
         </table>
-    )
+    );
 }

@@ -36,7 +36,7 @@ export default function ProductCard(props) {
         <div id="productCard" className="my-6 mx-auto cursor-pointer">
             <div
                 className="relative"
-                onMouseLeave={() => flipCard('unflipped')}
+                onMouseLeave={() => flipCard("unflipped")}
                 onClick={() => flipCard()}
             >
                 <div

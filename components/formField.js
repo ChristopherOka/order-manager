@@ -38,7 +38,9 @@ export default function FormField(props) {
                 >
                     <option value=""></option>
                     {props.options.map((option) => (
-                        <option key={option.value} value={option.value}>{option.text}</option>
+                        <option key={option.value} value={option.value}>
+                            {option.text}
+                        </option>
                     ))}
                 </select>
             );
@@ -60,7 +62,7 @@ export default function FormField(props) {
     }
 
     return (
-        <div id={props.name} className={`mt-3 ${props.hidden ? 'hidden' : ''}`}>
+        <div id={props.name} className={`mt-3 ${props.hidden ? "hidden" : ""}`}>
             <h4 className="text-xl">
                 {props.text}{" "}
                 {props.required ? (

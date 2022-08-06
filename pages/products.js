@@ -32,7 +32,7 @@ export default function Products({ products }) {
 
     const addToCart = (e) => {
         e.preventDefault();
-        
+
         const productId = e.currentTarget.name;
         const itemQuantity = formData[productId];
         if (!validateCartItemQty(itemQuantity)) return false;
