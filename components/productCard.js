@@ -16,15 +16,14 @@ export default function ProductCard(props) {
     };
 
     const flipCard = (flipState) => {
-        if (flipState) {
+        if (flipState === "toggle") {
+            flipped === "flipped" ? setFlipped("unflipped") : setFlipped("flipped");
+        }
+        else if (flipState && flipped) {
             setFlipped(flipState);
             return;
         }
-        if (flipped == "flipped") {
-            setFlipped("unflipped");
-        } else {
-            setFlipped("flipped");
-        }
+
     };
 
     const addingToCart = (e) => {
@@ -37,7 +36,7 @@ export default function ProductCard(props) {
             <div
                 className="relative"
                 onMouseLeave={() => flipCard("unflipped")}
-                onClick={() => flipCard()}
+                onClick={() => flipCard("toggle")}
             >
                 <div
                     className={`group ${
