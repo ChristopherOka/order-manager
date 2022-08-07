@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import DateSidebar from "../components/dateSidebar";
 import OrderSummaryTable from "../components/orderSummaryTable";
 import Button from "../components/button";
