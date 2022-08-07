@@ -77,7 +77,7 @@ export default function Orders({ orderData, orderItemsData, productNames }) {
 
     return (
         <>
-            <h2 className={styles.subtitle}>
+            <h2>
                 <Link href="/">
                     <a>Home</a>
                 </Link>
