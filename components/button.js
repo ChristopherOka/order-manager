@@ -9,9 +9,16 @@ export default function Button(props) {
         e.preventDefault();
         updateDisabled(true);
         if (props.clickHandler) {
-            await props.clickHandler(e);
+            if (await props.clickHandler(e)) {
+                updateDisabled(false);
+            }
+            else {
+                alert("There was an error with your order, please try again.");
+            }
         }
-        updateDisabled(false);
+        else {
+            updateDisabled(false);
+        }
     };
 
     let buttonStyle;

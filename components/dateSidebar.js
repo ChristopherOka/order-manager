@@ -6,10 +6,19 @@ export default function DateSidebar(props) {
             <div className="flex flex-col items-center justify-around w-full h-full my-36 rounded-tr-md rounded-br-md  bg-default-100 shadow-3xl">
                 {dates.map((date) => {
                     return (
-                        <a key={date} className="cursor-pointer py-6 w-full">
+                        <a
+                            key={date}
+                            className="cursor-pointer py-6 w-full flex flex-col items-center relative"
+                            onClick={() => {props.changeDate(date)}}
+                        >
                             <h3 className="text-default-900 font-bold text-xl sm:text-2xl md:text-3xl text-center pb-1">
                                 {date}
                             </h3>
+                            {props.activeDate == date ? (
+                                <div className="bg-pink-200 w-20 h-1 absolute bottom-3 rounded-lg"></div>
+                            ) : (
+                                <div className="bg-slate-300 w-20 h-px absolute bottom-3"></div>
+                            )}
                         </a>
                     );
                 })}

@@ -6,22 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import * as db from "./api/database.js";
 
-export async function getServerSideProps() {
-    const smallestPossibleDate = new Date(0);
-    const oneYearFromNow = new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-    const dates = {
-        start_date: smallestPossibleDate,
-        end_date: oneYearFromNow,
-    };
-    const products = await db.getTotalProductQtyByDate(dates);
-
-    // process products
-    // take all products, multiply them by their measured_per to get total qty
-    // if measured_per is not 12, dont' put them in the dozens column
-    // if there's associated products, add the key * quantity of assortment to the total qty of each product
-
+const processProducts = (products) => {
     let productsWithQty = [];
 
     products.forEach((product) => {
@@ -38,7 +23,6 @@ export async function getServerSideProps() {
                 parseFloat(product.quantity) * parseInt(product.measured_per),
             measured_per: product.measured_per,
         });
-        console.log(productsWithQty);
         // if there are associated products, loop through the associated products
         // attempt to find the product in the productsWithQty array with matching product_id
         // if it exists, increment previous dozens by quantity of assiated product
@@ -62,6 +46,20 @@ export async function getServerSideProps() {
         }
     });
 
+    return productsWithQty;
+}
+
+export async function getServerSideProps() {
+    const smallestPossibleDate = new Date(0);
+    const oneYearFromNow = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+    );
+    const dates = {
+        start_date: smallestPossibleDate,
+        end_date: oneYearFromNow,
+    };
+    const products = await db.getTotalProductQtyByDate(dates);
+    const productsWithQty = processProducts(products);
     return {
         props: {
             productsWithQty,
@@ -72,10 +70,51 @@ export async function getServerSideProps() {
 export default function Home({ productsWithQty }) {
     const [startDate, setStartDate] = useState('Beginning of Time');
     const [endDate, setEndDate] = useState('End of Time');
+    const [activeDate, setActiveDate] = useState('All');
+    const [products, setProducts] = useState(productsWithQty);
 
     const openPrintLayout = () => {
         window.print();
+        return true;
     };
+
+    const dateRanges = {
+        '1st': {
+            start_date: new Date('2022-11-24'),
+            end_date: new Date('2022-12-01'),
+        },
+        '8th': {
+            start_date: new Date('2022-12-01'),
+            end_date: new Date('2022-12-08'),
+        },
+        '15th': {
+            start_date: new Date('2022-12-08'),
+            end_date: new Date('2022-12-15'),
+        },
+        '22nd': {
+            start_date: new Date('2022-12-15'),
+            end_date: new Date('2022-12-22'),
+        },
+        '29th': {
+            start_date: new Date('2022-12-22'),
+            end_date: new Date('2022-12-29'),
+        }
+    };
+
+    const changeDate = async (date) => {
+        setActiveDate(date);
+        if (date == 'All') {
+            setStartDate('Beginning of Time');
+            setEndDate('End of Time');
+            setProducts(productsWithQty);
+        }
+        else {
+            const products = await db.getTotalProductQtyByDate(dateRanges[date]);
+            setProducts(processProducts(products));
+            setStartDate(dateRanges[date].start_date.toDateString());
+            setEndDate(dateRanges[date].end_date.toDateString());
+        }
+    }
 
     return (
         <div className="w-screen h-screen relative">
@@ -83,7 +122,7 @@ export default function Home({ productsWithQty }) {
                 <Image src="/images/misc/logo.png" width="100" height="100" />
             </div>
             <div className="print:hidden">
-                <DateSidebar />
+                <DateSidebar activeDate={activeDate} changeDate={changeDate}/>
             </div>
             
             <div className="absolute mx-24 top-0 left-0 flex flex-col h-full justify-center pt-8 pb-24 overflow-auto sm:mx-28 md:mx-44 print:mx-0 print:pt-0">
@@ -105,7 +144,7 @@ export default function Home({ productsWithQty }) {
                         ></Button>
                     </div>
                 </div>
-                <OrderSummaryTable productsWithQty={productsWithQty} />
+                <OrderSummaryTable products={products} />
             </div>
             <div className="print:hidden">
                 <Navbar homeActive={true} />

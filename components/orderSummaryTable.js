@@ -10,7 +10,7 @@ export default function OrderSummaryTable(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.productsWithQty.map((product, index) => {
+                    {props.products.map((product, index) => {
                         return (
                             <tr key={product.product_id} className={`text-default-900 text-md print:border-t border-b ${index % 2 == 0 ? 'bg-pink-100 print:bg-none' : ''}`}>
                                 <td className="py-2 pr-10 md:pr-12 pl-6 font-medium print:pl-0">

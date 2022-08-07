@@ -91,9 +91,13 @@ export default function Checkout({ products }) {
                 order_data: orderData,
             }))
         ) {
-            return;
+            return false;
         }
-        router.push("/thank_you");
+        else {
+            await router.push("/thank_you");
+            return true;
+        }
+        
     };
 
     const validateForm = () => {

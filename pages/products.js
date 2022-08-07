@@ -82,6 +82,7 @@ export default function Products({ products }) {
 
     const openCartModal = () => {
         updateCartModalState("open");
+        return true;
     };
 
     const closeCartModal = () => {
