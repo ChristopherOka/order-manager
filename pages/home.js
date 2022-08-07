@@ -102,7 +102,6 @@ export default function Home({ productsWithQty }) {
     };
 
     const changeDate = async (date) => {
-        setActiveDate(date);
         if (date == 'All') {
             setStartDate('Beginning of Time');
             setEndDate('End of Time');
@@ -114,12 +113,16 @@ export default function Home({ productsWithQty }) {
             setStartDate(dateRanges[date].start_date.toDateString());
             setEndDate(dateRanges[date].end_date.toDateString());
         }
+        setActiveDate(date);
     }
 
     return (
         <div className="w-screen h-screen relative">
-            <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 mx-3 print:hidden">
-                <Image src="/images/misc/logo.png" width="100" height="100" />
+            <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:justify-end md:pr-5 print:hidden">
+                <div className="w-[70px] md:w-[100px]">
+                    <Image src="/images/misc/logo.png" width="100" height="100" />
+                </div>
+                
             </div>
             <div className="print:hidden">
                 <DateSidebar activeDate={activeDate} changeDate={changeDate}/>

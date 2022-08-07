@@ -9,13 +9,21 @@ export default function DateSidebar(props) {
                         <a
                             key={date}
                             className="cursor-pointer py-6 w-full flex flex-col items-center relative"
-                            onClick={() => {props.changeDate(date)}}
+                            onClick={() => {
+                                props.changeDate(date);
+                            }}
                         >
-                            <h3 className="text-default-900 font-bold text-xl sm:text-2xl md:text-3xl text-center pb-1">
+                            <h3
+                                className={`${
+                                    props.activeDate == date
+                                        ? "text-default-100"
+                                        : "text-default-900"
+                                } font-bold text-xl sm:text-2xl md:text-3xl text-center pb-1 z-10`}
+                            >
                                 {date}
                             </h3>
                             {props.activeDate == date ? (
-                                <div className="bg-pink-200 w-20 h-1 absolute bottom-3 rounded-lg"></div>
+                                <div className="bg-default-900 w-full h-12 absolute bottom-5 left-0 rounded-r-md"></div>
                             ) : (
                                 <div className="bg-slate-300 w-20 h-px absolute bottom-3"></div>
                             )}
