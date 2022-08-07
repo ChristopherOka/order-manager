@@ -42,3 +42,77 @@ export async function getAllProductsData() {
 
     return products;
 }
+
+export async function getOrderCounts(dates) {
+    const { data, error } = await supabase.rpc("get_order_counts", {
+        start_date: dates.start_date,
+        end_date: dates.end_date,
+    });
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return data;
+}
+
+export async function getAllData(dates) {
+    const { data: orderData, error } = await supabase
+        .from("orders")
+        .select(
+            `
+        order_uid,
+        has_paid,
+        is_verified,
+        payment_type,
+        additional_information,
+        order_cost,
+        delivery_date,
+        misc_fees,
+        creation_timestamp,
+        customers ( 
+            customer_name, 
+            email, 
+            phone, 
+            address,
+            city
+         )
+        `
+        )
+        .gt("delivery_date", dates.start_date.toISOString())
+        .lte("delivery_date", dates.end_date.toISOString())
+        .order("creation_timestamp", "asc");
+
+    if (error) {
+        console.log(error);
+    }
+
+    console.log(dates);
+
+    const { data: orderItemsData, error2 } = await supabase.rpc(
+        "get_order_items",
+        {
+            start_date: dates.start_date,
+            end_date: dates.end_date,
+        }
+    );
+    console.log(orderItemsData);
+
+    if (error2) {
+        console.log(error2);
+    }
+
+    const { data: productNames, error3 } = await supabase
+        .from("products")
+        .select("product_name, product_id")
+        .order("product_id", "asc");
+
+    if (error3) {
+        console.log(error3);
+    }
+
+    return {
+        orderData,
+        orderItemsData,
+        productNames,
+    };
+}
