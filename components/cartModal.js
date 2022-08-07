@@ -9,7 +9,7 @@ export default function CartModal(props) {
             id="cartModal"
             className={`
             bg-default-100 absolute right-0 top-0 rounded-md shadow-3xl 
-            mx-16 my-10 w-96 h-[30rem] origin-top-right z-20
+             mx-5 my-10 w-52 sm:w-96 h-[30rem] origin-top-right z-20 sm:mx-16
             ${
                 props.cartModalState == "open"
                     ? "animate-modalAppear"
@@ -19,10 +19,10 @@ export default function CartModal(props) {
             }
             `}
         >
-            <div className="text-3xl font-bold flex flex-col pt-4 relative h-20 w-full align-start items-center">
+            <div className="text-xl font-bold flex flex-col pb-2 pt-4 relative w-full align-start items-center sm:pb-0 sm:text-3xl sm:h-20">
                 <div className="flex">
                     <div>CART</div>
-                    <div className="pt-px px-1">
+                    <div className="pt-px px-1 w-[24px] h-[22px] sm:w-[34px] sm:h-[28px]">
                         <Image
                             src="/images/icons/shopping_cart_dark.png"
                             width="24"
@@ -30,7 +30,7 @@ export default function CartModal(props) {
                         />
                     </div>
                 </div>
-                <p className="text-lg text-slate-600 font-normal -m-1">
+                <p className="text-base text-slate-600 font-normal -m-1 sm:text-lg">
                     Total Cost: $
                     {(Object.values(props.itemCosts).length
                         ? Object.values(props.itemCosts).reduce((a, b) => a + b)
@@ -38,7 +38,7 @@ export default function CartModal(props) {
                     ).toFixed(2)}
                 </p>
                 <button
-                    className="absolute right-10 top-4 h-6 w-6"
+                    className="absolute right-5 sm:right-10 top-4 h-6 w-6"
                     onClick={props.closeCartModal}
                 >
                     <div className="absolute bg-slate-600 rotate-45 w-6 h-0.5"></div>
@@ -46,7 +46,7 @@ export default function CartModal(props) {
                 </button>
             </div>
             <div
-                className="pt-8 overflow-auto w-full h-[21.5rem]"
+                className=" overflow-auto w-full h-[21.5rem] sm:pt-4"
                 key={props.cartKey}
             >
                 {Object.keys(props.cart).length ? (
@@ -67,7 +67,7 @@ export default function CartModal(props) {
                         );
                     })
                 ) : (
-                    <div className="text-xl px-4 py-4 text-center">
+                    <div className="text-base px-4 py-4 text-center sm:text-xl">
                         Your cart is empty
                     </div>
                 )}

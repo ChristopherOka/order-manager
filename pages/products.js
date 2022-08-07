@@ -191,10 +191,10 @@ export default function Products({ products }) {
         <div className="font-source-sans-pro h-screen flex flex-col">
             <div className="flex flex-1 flex-col overflow-auto">
                 <div>
-                    <h1 className="font-bold text-5xl text-center pt-10 pb-5">
+                    <h1 className="font-bold text-5xl text-center pb-20 pt-10 md:pb-5">
                         PRODUCTS
                     </h1>
-                    <div className="absolute right-0 top-0 px-16 py-10 z-10">
+                    <div className="absolute w-full right-0 top-0 flex justify-center py-28 md:justify-end md:px-16 md:py-10 z-10">
                         <div className="relative">
                             <Button
                                 type="secondary"
@@ -260,7 +260,7 @@ export default function Products({ products }) {
                 </form>
             </div>
             <footer className="bg-default-100 flex flex-row justify-between items-center h-24 shadow-3xl">
-                <p className="font-bold text-3xl px-12">
+                <p className="font-bold text-xl sm:text-2xl md:text-3xl px-4 sm:px-8 md:px-12">
                     Total Cost: $
                     {(Object.values(itemCosts).length
                         ? Object.values(itemCosts).reduce((a, b) => a + b)

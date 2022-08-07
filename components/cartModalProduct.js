@@ -11,7 +11,7 @@ export default function CartModalProduct(props) {
     };
 
     return (
-        <div className="flex px-4 py-2 justify-between gap-4 relative">
+        <div className="flex flex-wrap px-4 py-2 justify-between relative sm:gap-4 sm:flex-nowrap">
             <p className="text-lg font-bold">
                 {
                     props.products.find(
