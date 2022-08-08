@@ -86,8 +86,6 @@ export async function getAllData(dates) {
         console.log(error);
     }
 
-    console.log(dates);
-
     const { data: orderItemsData, error2 } = await supabase.rpc(
         "get_order_items",
         {
@@ -95,7 +93,6 @@ export async function getAllData(dates) {
             end_date: dates.end_date,
         }
     );
-    console.log(orderItemsData);
 
     if (error2) {
         console.log(error2);

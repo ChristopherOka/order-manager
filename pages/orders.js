@@ -216,7 +216,7 @@ export default function Orders({ initialOrderData, initialOrderItemsData, initia
                     </table>
                 </div>
             </div>
-            <Navbar />
+            <Navbar activeTab="orders"/>
         </div>
     );
 }

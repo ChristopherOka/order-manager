@@ -217,7 +217,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                 </div>
             </div>
             <div className="print:hidden">
-                <Navbar homeActive={true} />
+                <Navbar activeTab="home" />
             </div>
         </div>
     );
