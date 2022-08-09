@@ -11,7 +11,7 @@ My goal for this project was to make her job as easy as humanly possible, stream
 
 My overall aim was to have a platform to accomplish the following tasks: take orders from clients, present the orders to my aunt as cleanly as possible, sorting the orders by week so she knows exactly what she needs to bake and when, send automated emails to customers, calculate total costs and revenue, and finally, present everything to her in a simple, easy-to-use UI, optimizing the UX for a not-so-technically-savvy user.
 
-I believe I have accomplished what I sought out to solve, here are the actually implemented features:
+I believe I have accomplished what I sought out to solve, here are the features of the final product:
 
 ## Features
 Customer-facing:
