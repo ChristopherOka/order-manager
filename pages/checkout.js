@@ -92,12 +92,10 @@ export default function Checkout({ products }) {
             }))
         ) {
             return false;
-        }
-        else {
+        } else {
             await router.push("/thank_you");
             return true;
         }
-        
     };
 
     const validateForm = () => {

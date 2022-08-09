@@ -101,7 +101,7 @@ export default function Orders({
         const text = document.getElementById(`${uid}-${col_name}-text`);
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const editBtn = document.getElementById(`${uid}-${col_name}-edit`);
-        text.innerText = parseInt('col_name') ? value || 0 : value || '-';
+        text.innerText = parseInt("col_name") ? value || 0 : value || "-";
         text.classList.remove("hidden");
         input.classList.add("hidden");
         editBtn.classList.remove("hidden");

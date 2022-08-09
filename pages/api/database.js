@@ -115,34 +115,49 @@ export async function getAllData(dates) {
     };
 }
 
-export async function updateTableData(table_data, uid, col_name, ordersColNames) {
-    const { customers: customers_columns, ...orders_columns} = ordersColNames;
-    let table_name = 'order_items';
-    let match_columns = {'order_uid': uid, 'product_id': col_name};
-    let column_name = 'quantity'
+export async function updateTableData(
+    table_data,
+    uid,
+    col_name,
+    ordersColNames
+) {
+    const { customers: customers_columns, ...orders_columns } = ordersColNames;
+    let table_name = "order_items";
+    let match_columns = { order_uid: uid, product_id: col_name };
+    let column_name = "quantity";
     let updateTable = true;
     let inserted_data = table_data || 0;
 
     if (col_name in customers_columns) {
-        table_name = 'customers';
-        match_columns = {'customer_uid': uid};
+        table_name = "customers";
+        match_columns = { customer_uid: uid };
         column_name = col_name;
-        inserted_data = table_data || '-';
-    }
-    else if (col_name in orders_columns) {
-        table_name = 'orders';
-        match_columns = {'order_uid': uid};
+        inserted_data = table_data || "-";
+    } else if (col_name in orders_columns) {
+        table_name = "orders";
+        match_columns = { order_uid: uid };
         column_name = col_name;
-        inserted_data = table_data || '-';
+        inserted_data = table_data || "-";
     }
-    if (table_name === 'order_items') {
-        const {data, error} = await supabase.from('order_items').select('*').match(match_columns);
+    if (table_name === "order_items") {
+        const { data, error } = await supabase
+            .from("order_items")
+            .select("*")
+            .match(match_columns);
         if (error) {
             console.log(error);
             return false;
         }
         if (data.length === 0) {
-            const { error2} = await supabase.from('order_items').insert([{'order_uid': uid, 'product_id': col_name, 'quantity': inserted_data || 0}]);
+            const { error2 } = await supabase
+                .from("order_items")
+                .insert([
+                    {
+                        order_uid: uid,
+                        product_id: col_name,
+                        quantity: inserted_data || 0,
+                    },
+                ]);
             updateTable = false;
             if (error2) {
                 console.log(error2);
@@ -151,14 +166,17 @@ export async function updateTableData(table_data, uid, col_name, ordersColNames)
         }
     }
     if (updateTable) {
-        const { data, error } = await supabase.from(table_name).update({
-            [column_name]: inserted_data
-        }).match(match_columns)
+        const { data, error } = await supabase
+            .from(table_name)
+            .update({
+                [column_name]: inserted_data,
+            })
+            .match(match_columns);
         if (error) {
             console.log(error);
             return false;
         }
     }
-    
+
     return true;
 }

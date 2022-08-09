@@ -11,12 +11,10 @@ export default function Button(props) {
         if (props.clickHandler) {
             if (await props.clickHandler(e)) {
                 updateDisabled(false);
-            }
-            else {
+            } else {
                 alert("There was an error with your order, please try again.");
             }
-        }
-        else {
+        } else {
             updateDisabled(false);
         }
     };
@@ -61,14 +59,26 @@ export default function Button(props) {
                     >
                         <Image
                             className={
-                                ["secondary","secondary-md"].includes(props.type) ? "invert" : null
+                                ["secondary", "secondary-md"].includes(
+                                    props.type
+                                )
+                                    ? "invert"
+                                    : null
                             }
                             src={props.img}
                             width={`${
-                                ["primary-md", "secondary-md"].includes(props.type) ? "24" : "28"
+                                ["primary-md", "secondary-md"].includes(
+                                    props.type
+                                )
+                                    ? "24"
+                                    : "28"
                             }`}
                             height={`${
-                                ["primary-md", "secondary-md"].includes(props.type) ? "24" : "28"
+                                ["primary-md", "secondary-md"].includes(
+                                    props.type
+                                )
+                                    ? "24"
+                                    : "28"
                             }`}
                         />
                         {props.children}
@@ -90,14 +100,26 @@ export default function Button(props) {
                     >
                         <Image
                             className={
-                                ["secondary","secondary-md"].includes(props.type) ? "invert" : null
+                                ["secondary", "secondary-md"].includes(
+                                    props.type
+                                )
+                                    ? "invert"
+                                    : null
                             }
                             src={props.img}
                             width={`${
-                                ["primary-md", "secondary-md"].includes(props.type) ? "24" : "28"
+                                ["primary-md", "secondary-md"].includes(
+                                    props.type
+                                )
+                                    ? "24"
+                                    : "28"
                             }`}
                             height={`${
-                                ["primary-md", "secondary-md"].includes(props.type) ? "24" : "28"
+                                ["primary-md", "secondary-md"].includes(
+                                    props.type
+                                )
+                                    ? "24"
+                                    : "28"
                             }`}
                         />
                     </div>
