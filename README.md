@@ -1,36 +1,28 @@
-## Created for MarthaRaveCookies business
+## Inventory Manager V2
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is the second iteration of an order processing and management system for a small bakery business (MarthaRaveCookies).
 
-## Getting Started
+## The Story
+My aunt runs a small bakery business, and currently does all her operations manually and on paper. She receives orders by email, confirms orders, prices, etc., through multiple correspondences with each customer, taking time away from her actual job: baking.
 
-First, run the development server:
+She also does everything on paper. Compiling a huge spreadsheet of orders (manually inputted of course), she prints the spreadsheet out and checks everything off with pencil. As orders roll in, she needs to print out more and more pages, while doing her best to keep track of delivery dates, weekly inventory and batches. TL;DR: It's a nightmare.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+My goal for this project was to make her job as easy as humanly possible, streamlining every single aspect of her business.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+My overall aim was to have a platform to accomplish the following tasks: take orders from clients, present the orders to my aunt as cleanly as possible, sorting the orders by week so she knows exactly what she needs to bake and when, send automated emails to customers, calculate total costs and revenue, and finally, present everything to her in a simple, easy-to-use UI, optimizing the UX for a not-so-technically-savvy user.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+I believe I have accomplished what I sought out to solve, here are the actually implemented features:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Features
+Customer-facing:
+- Products page where items can be added to a cart and quantities can be modified
+- Checkout page where personal and order details are inputted
+- Thank you page, providing helpful info and allowing a new order creation
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Business-owner-facing:
+- Dashboard displaying a list of products broken down into total dozens and individual items. This list can be sorted by week, so the business owner knows exactly what needs to be baked for that timeframe
+- Orders dashboard showing a summary of each order, with relevant information such as: customer name, items in the order, if the order has been verified, if the customer has paid, and if the order has been delivered
+- All-orders page where the business owner can look at granular order details and make any edits they see fit to any of the columns
+- Finances page where the business owner can record their expenditures, track their predicted spend, actual spend, as well as their profits calculated from each order
+- Customers dashboard where the business owner can view all their customers, with the ability to modify their data or reach out to customers through email
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
