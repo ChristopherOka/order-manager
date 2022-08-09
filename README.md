@@ -2,6 +2,11 @@
 
 This is the second iteration of an order processing and management system for a small bakery business (MarthaRaveCookies).
 
+Built using: 
+- Next.js
+- tailwindcss
+- Supabase
+
 ## The Story
 My aunt runs a small bakery business, and currently does all her operations manually and on paper. She receives orders by email, confirms orders, prices, etc., through multiple correspondences with each customer, taking time away from her actual job: baking.
 
