@@ -1,15 +1,58 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-export default function OrderTableData (props) {
+export default function OrderTableData(props) {
     return (
-        <div className="flex justify-between items-center px-4 py-2 whitespace-nowrap gap-3 min-w-max">
-            <div>
+        <div className="flex group justify-between items-center px-4 py-2 whitespace-nowrap gap-3 min-w-max">
+            <div id={`${props.uid}-${props.col_name}-text`}>
                 {props.children}
             </div>
-            <div className="flex">
-                <Image src="/images/icons/square_edit.png" height="24" width="24"/>
+            <input
+                id={`${props.uid}-${props.col_name}-input`}
+                className="hidden w-full bg-slate-200 rounded-md px-1"
+            ></input>
+            <button
+                id={`${props.uid}-${props.col_name}-edit`}
+                className="transition-opacity flex opacity-0 group-hover:opacity-100"
+                onClick={props.editTableData}
+                data-uid={props.uid}
+                data-customer_uid={props.customer_uid}
+                data-col_name={props.col_name}
+            >
+                <Image
+                    src="/images/icons/square_edit.png"
+                    height="24"
+                    width="24"
+                />
+            </button>
+            <div
+                id={`${props.uid}-${props.col_name}-btns`}
+                className="hidden flex gap-1 min-w-fit"
+            >
+                <button
+                    onClick={props.saveTableEdit}
+                    data-uid={props.uid}
+                    data-customer_uid={props.customer_uid}
+                    data-col_name={props.col_name}
+                >
+                    <Image
+                        src="/images/icons/black_checkmark.png"
+                        height="24"
+                        width="24"
+                    />
+                </button>
+                <button
+                    onClick={props.cancelTableEdit}
+                    data-uid={props.uid}
+                    data-customer_uid={props.customer_uid}
+                    data-col_name={props.col_name}
+                >
+                    <Image
+                        src="/images/icons/black_x.png"
+                        height="24"
+                        width="24"
+                    />
+                </button>
             </div>
         </div>
-    )
-
+    );
 }

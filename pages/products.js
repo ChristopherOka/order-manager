@@ -129,6 +129,7 @@ export default function Products({ products }) {
 
         updateItemCosts({ ...itemCosts, ...updatedCosts });
         updateCartIsUpdated(true);
+        return true;
     };
 
     const changeCartItemQty = (productId, qtyChange) => {
