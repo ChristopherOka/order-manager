@@ -4,7 +4,8 @@ import OrderSummaryTable from "../components/orderSummaryTable";
 import Button from "../components/button";
 import AtAGlanceRow from "../components/atAGlanceRow";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import debounce from "../utils/globals";
 import * as db from "./api/database.js";
 
 const processProducts = (products) => {
@@ -76,6 +77,15 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     const [activeDate, setActiveDate] = useState("All");
     const [products, setProducts] = useState(productsWithQty);
     const [orderCounts, setOrderCounts] = useState(initialOrderCounts);
+    const [innerHeight, updateInnerHeight] = useState(0);
+
+    useEffect(() => {
+        function detectInnerHeight() {
+            updateInnerHeight(window.innerHeight);
+        }
+        detectInnerHeight();
+        window.addEventListener("resize", debounce(detectInnerHeight, 1000));
+    }, []);
 
     const openPrintLayout = () => {
         window.print();
@@ -125,7 +135,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     };
 
     return (
-        <div className="w-screen h-screen relative">
+        <div className="w-screen relative" style={{'height': `${innerHeight + 'px' || '100vh'}`}}>
             <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:justify-end md:pr-5 print:hidden">
                 <div className="w-[70px] md:w-[100px]">
                     <Image

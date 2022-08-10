@@ -2,6 +2,8 @@ import Button from "../components/button";
 import ProductCard from "../components/productCard";
 import CartModal from "../components/cartModal";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import debounce from "../utils/globals.js";
 import * as db from "./api/database";
 
 export async function getStaticProps() {
@@ -15,8 +17,11 @@ export async function getStaticProps() {
 }
 
 export default function Products({ products }) {
+    const router = useRouter();
+    const data = router.query;
+
     const [formData, updateFormData] = useState({});
-    const [cart, updateCart] = useState({});
+    const [cart, updateCart] = useState(data);
     const [cartKey, updateCartKey] = useState("");
     const [editCart, updateEditCart] = useState({});
     const [itemCosts, updateItemCosts] = useState({});
@@ -29,7 +34,7 @@ export default function Products({ products }) {
             updateInnerHeight(window.innerHeight);
         }
         detectInnerHeight();
-        window.addEventListener("resize", detectInnerHeight);
+        window.addEventListener("resize", debounce(detectInnerHeight, 1000));
     }, []);
 
     const handleInputChange = (e) => {
@@ -199,7 +204,7 @@ export default function Products({ products }) {
     };
 
     return (
-        <div className={`font-source-sans-pro flex flex-col`} style={{'height': `${innerHeight}px`}}>
+        <div className={`font-source-sans-pro flex h-full flex-col`} style={{'height': `${innerHeight + 'px' || '100vh'}`}}>
             <div className="flex flex-1 flex-col overflow-auto">
                 <div>
                     <h1 className="font-bold text-5xl text-center pb-20 pt-10 md:pb-5">
@@ -282,17 +287,12 @@ export default function Products({ products }) {
                     <Button
                         type="primary"
                         img="/images/icons/shopping_cart.png"
-                        link="true"
+                        link={true}
                         path="/checkout"
                         as="/checkout"
                         query={{
                             ...cart,
-                            orderCost: (Object.values(itemCosts).length
-                                ? Object.values(itemCosts).reduce(
-                                      (a, b) => a + b
-                                  )
-                                : 0
-                            ).toFixed(2),
+                            itemCosts
                         }}
                     >
                         CHECKOUT

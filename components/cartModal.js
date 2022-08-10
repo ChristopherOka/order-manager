@@ -73,24 +73,45 @@ export default function CartModal(props) {
                 )}
             </div>
             <div className="shadow-top w-full h-14 flex justify-end items-center">
-                {props.cartIsUpdated ? null : (
-                    <Popover content="Unsaved changes to your cart">
-                        <div className="px-1 flex -m-2 animate-fadeIn">
-                            <Image
-                                src="/images/icons/orange_exclamation.png"
-                                width="25"
-                                height="25"
-                            />
-                        </div>
-                    </Popover>
+                {props.cartIsUpdated ? Object.keys(props.cart).length ? (
+                    <Button
+                        type="primary-md"
+                        img="/images/icons/shopping_cart.png"
+                        link="true"
+                        path="/checkout"
+                        as="/checkout"
+                        query={{
+                            ...props.cart,
+                            orderCost: (Object.values(props.itemCosts).length
+                                ? Object.values(props.itemCosts).reduce(
+                                      (a, b) => a + b
+                                  )
+                                : 0
+                            ).toFixed(2),
+                        }}
+                    >
+                        CHECKOUT
+                    </Button>
+                ) : null : (
+                    <>
+                        <Popover content="Unsaved changes to your cart">
+                            <div className="px-1 flex -m-2 animate-fadeIn">
+                                <Image
+                                    src="/images/icons/orange_exclamation.png"
+                                    width="25"
+                                    height="25"
+                                />
+                            </div>
+                        </Popover>
+                        <Button
+                            type="primary-md"
+                            img="/images/icons/refresh.png"
+                            clickHandler={props.updateCartFormEdit}
+                        >
+                            UPDATE CART
+                        </Button>
+                    </>
                 )}
-                <Button
-                    type="primary-md"
-                    img="/images/icons/refresh.png"
-                    clickHandler={props.updateCartFormEdit}
-                >
-                    UPDATE CART
-                </Button>
             </div>
         </div>
     );

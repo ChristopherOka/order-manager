@@ -49,7 +49,13 @@ export default function Checkout({ products }) {
     const router = useRouter();
 
     const data = router.query;
-    const { orderCost, ...orderData } = data;
+    console.log(data);
+    const { itemCosts, ...orderData } = data;
+    let orderCost = 0;
+    if (Object.keys(orderData).length) {
+        orderCost = Object.values(itemCosts).reduce((a, b) => a + b, 0);
+    }
+    
 
     const handleFocus = (e) => {
         updateEmptyFields({
@@ -270,9 +276,27 @@ export default function Checkout({ products }) {
 
     return (
         <>
-            <h1 className="text-5xl text-default-900 font-bold text-center w-full pt-10 pb-16">
-                CHECKOUT
-            </h1>
+            <div className="w-full pt-10 pb-16 flex relative">
+                <div className="z-10 pl-10">
+                    <Button
+                        type="secondary"
+                        img="/images/icons/back_arrow.svg"
+                        link="true"
+                        path="/products"
+                        as="/products"
+                        query={{
+                            ...orderData,
+                        }}
+                    >
+                        GO BACK
+                    </Button>
+                </div>
+            
+                <h1 className="text-5xl text-default-900 font-bold text-center w-full absolute">
+                    CHECKOUT
+                </h1>
+            </div>
+
             <form className="flex flex-col gap-8 mx-8 md:grid md:grid-cols-4 md:gap-4 lg:mx-12 xl:mx-20">
                 <div className="md:mr-10">
                     <h2 className="text-3xl font-bold">Personal Details</h2>
