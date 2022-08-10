@@ -1,7 +1,7 @@
 import Button from "../components/button";
 import ProductCard from "../components/productCard";
 import CartModal from "../components/cartModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as db from "./api/database";
 
 export async function getStaticProps() {
@@ -22,6 +22,15 @@ export default function Products({ products }) {
     const [itemCosts, updateItemCosts] = useState({});
     const [cartModalState, updateCartModalState] = useState(false);
     const [cartIsUpdated, updateCartIsUpdated] = useState(true);
+    const [innerHeight, updateInnerHeight] = useState(0);
+
+    useEffect(() => {
+        function detectInnerHeight() {
+            updateInnerHeight(window.innerHeight);
+        }
+        detectInnerHeight();
+        window.addEventListener("resize", detectInnerHeight);
+    }, []);
 
     const handleInputChange = (e) => {
         updateFormData({
@@ -190,7 +199,7 @@ export default function Products({ products }) {
     };
 
     return (
-        <div className="font-source-sans-pro h-screen flex flex-col">
+        <div className={`font-source-sans-pro flex flex-col`} style={{'height': `${innerHeight}px`}}>
             <div className="flex flex-1 flex-col overflow-auto">
                 <div>
                     <h1 className="font-bold text-5xl text-center pb-20 pt-10 md:pb-5">
