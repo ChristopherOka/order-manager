@@ -284,9 +284,6 @@ export default function Checkout({ products }) {
                         link="true"
                         path="/products"
                         as="/products"
-                        query={{
-                            ...orderData,
-                        }}
                     >
                         GO BACK
                     </Button>

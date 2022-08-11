@@ -17,11 +17,8 @@ export async function getStaticProps() {
 }
 
 export default function Products({ products }) {
-    const router = useRouter();
-    const data = router.query;
-
     const [formData, updateFormData] = useState({});
-    const [cart, updateCart] = useState(data);
+    const [cart, updateCart] = useState({});
     const [cartKey, updateCartKey] = useState("");
     const [editCart, updateEditCart] = useState({});
     const [itemCosts, updateItemCosts] = useState({});
@@ -35,7 +32,25 @@ export default function Products({ products }) {
         }
         detectInnerHeight();
         window.addEventListener("resize", debounce(detectInnerHeight, 1000));
+       
+        const storedCart = localStorage.getItem("cart");
+        const storedItemCosts = localStorage.getItem("itemCosts");
+        if (storedCart) {
+            updateCart(JSON.parse(storedCart));
+        }
+        if (storedItemCosts) {
+            updateItemCosts(JSON.parse(storedItemCosts));
+        }
     }, []);
+
+    useEffect(() => {
+        if (Object.entries(cart).length) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+        if (Object.entries(itemCosts).length) {
+            localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
+        }
+    }, [cart, itemCosts]);
 
     const handleInputChange = (e) => {
         updateFormData({
