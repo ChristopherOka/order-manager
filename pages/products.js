@@ -32,7 +32,7 @@ export default function Products({ products }) {
         }
         detectInnerHeight();
         window.addEventListener("resize", debounce(detectInnerHeight, 1000));
-       
+
         const storedCart = localStorage.getItem("cart");
         const storedItemCosts = localStorage.getItem("itemCosts");
         if (storedCart) {
@@ -45,10 +45,10 @@ export default function Products({ products }) {
 
     useEffect(() => {
         if (Object.entries(cart).length) {
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem("cart", JSON.stringify(cart));
         }
         if (Object.entries(itemCosts).length) {
-            localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
+            localStorage.setItem("itemCosts", JSON.stringify(itemCosts));
         }
     }, [cart, itemCosts]);
 
@@ -219,7 +219,10 @@ export default function Products({ products }) {
     };
 
     return (
-        <div className={`font-source-sans-pro flex h-full flex-col`} style={{'height': `${innerHeight + 'px' || '100vh'}`}}>
+        <div
+            className={`font-source-sans-pro flex h-full flex-col`}
+            style={{ height: `${innerHeight + "px" || "100vh"}` }}
+        >
             <div className="flex flex-1 flex-col overflow-auto">
                 <div>
                     <h1 className="font-bold text-5xl text-center pb-20 pt-10 md:pb-5">
@@ -307,7 +310,7 @@ export default function Products({ products }) {
                         as="/checkout"
                         query={{
                             ...cart,
-                            itemCosts
+                            itemCosts,
                         }}
                     >
                         CHECKOUT

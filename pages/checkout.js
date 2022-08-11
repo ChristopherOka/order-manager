@@ -55,7 +55,6 @@ export default function Checkout({ products }) {
     if (Object.keys(orderData).length) {
         orderCost = Object.values(itemCosts).reduce((a, b) => a + b, 0);
     }
-    
 
     const handleFocus = (e) => {
         updateEmptyFields({
@@ -288,7 +287,7 @@ export default function Checkout({ products }) {
                         GO BACK
                     </Button>
                 </div>
-            
+
                 <h1 className="text-5xl text-default-900 font-bold text-center w-full absolute">
                     CHECKOUT
                 </h1>

@@ -149,15 +149,13 @@ export async function updateTableData(
             return false;
         }
         if (data.length === 0) {
-            const { error2 } = await supabase
-                .from("order_items")
-                .insert([
-                    {
-                        order_uid: uid,
-                        product_id: col_name,
-                        quantity: inserted_data || 0,
-                    },
-                ]);
+            const { error2 } = await supabase.from("order_items").insert([
+                {
+                    order_uid: uid,
+                    product_id: col_name,
+                    quantity: inserted_data || 0,
+                },
+            ]);
             updateTable = false;
             if (error2) {
                 console.log(error2);

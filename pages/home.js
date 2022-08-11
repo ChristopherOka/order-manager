@@ -135,7 +135,10 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     };
 
     return (
-        <div className="w-screen relative" style={{'height': `${innerHeight + 'px' || '100vh'}`}}>
+        <div
+            className="w-screen relative"
+            style={{ height: `${innerHeight + "px" || "100vh"}` }}
+        >
             <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:justify-end md:pr-5 print:hidden">
                 <div className="w-[70px] md:w-[100px]">
                     <Image
