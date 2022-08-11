@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import * as db from "./api/database";
 import OrderTableData from "../components/orderTableData";
 import Navbar from "../components/navbar";
 import DateSidebar from "../components/dateSidebar";
+import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
+import Image from "next/image";
 
 export async function getServerSideProps() {
     const smallestPossibleDate = new Date(0);
@@ -36,6 +37,8 @@ export default function Orders({
     const [orderData, setOrderData] = useState(initialOrderData);
     const [orderItemsData, setOrderItemsData] = useState(initialOrderItemsData);
     const [productNames, setProductNames] = useState(initialProductNames);
+    const [deletedOrderUid, setDeletedUid] = useState(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const dateRanges = {
         "1st": {
@@ -122,8 +125,28 @@ export default function Orders({
         btns.classList.add("hidden");
     };
 
+    const deleteOrder = async (order_uid) => {
+        closeDeleteModal();
+        // confirm deletion modal
+        // await db.deleteOrder(order_uid);
+        // delete row from UI
+    }
+
+    const openDeleteModal = (order_uid) => {
+        setModalIsOpen(true);
+        setDeletedUid(order_uid);
+    }
+
+    const closeDeleteModal = () => {
+        setModalIsOpen(false);
+        setDeletedUid(null);
+    }
+
     return (
-        <div className="overflow-hidden h-screen relative ">
+        <div className="overflow-hidden h-screen relative">
+            <div className={`${modalIsOpen ? '' : 'hidden'}`}>
+                <ConfirmDeletionModal deleteCallback={() => {deleteOrder(deletedOrderUid)}} closeCallback={() => {closeDeleteModal()}}/>
+            </div>
             <h1 className="text-center text-4xl font-bold py-6">ALL ORDERS</h1>
             <div>
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
@@ -133,21 +156,46 @@ export default function Orders({
                     <table className="bg-default-100 rounded-md w-screen">
                         <thead>
                             <tr className="border-b-2 whitespace-nowrap">
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Delivery Date</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Customer Name</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Email</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Phone</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Street Address</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">City</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Payment Received</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Verified</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Payment Type</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left z-10"></th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Delivery Date
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Customer Name
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Email
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Phone
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Street Address
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    City
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Payment Received
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Verified
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Payment Type
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
                                     Additional Information
                                 </th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Order Cost</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Misc. Fees</th>
-                                <th className="bg-default-100 py-3 px-2 sticky top-0">Time of Order</th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Order Cost
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Misc. Fees
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Time of Order
+                                </th>
                                 {productNames.map((product) => {
                                     return (
                                         <th
@@ -169,6 +217,22 @@ export default function Orders({
                                             index % 2 == 0 ? "bg-pink-100" : ""
                                         }`}
                                     >
+                                        <td>
+                                            <button
+                                                className="flex pl-3 w-10"
+                                                onClick={() => {
+                                                    openDeleteModal(
+                                                        order.order_uid
+                                                    );
+                                                }}
+                                            >
+                                                <Image
+                                                    src="/images/icons/trash.svg"
+                                                    height="24"
+                                                    width="24"
+                                                />
+                                            </button>
+                                        </td>
                                         <td>
                                             <OrderTableData
                                                 editTableData={editTableData}
