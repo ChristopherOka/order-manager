@@ -37,8 +37,9 @@ export default function Orders({
     const [orderData, setOrderData] = useState(initialOrderData);
     const [orderItemsData, setOrderItemsData] = useState(initialOrderItemsData);
     const [productNames, setProductNames] = useState(initialProductNames);
-    const [deletedOrderUid, setDeletedUid] = useState(null);
+    const [deletedOrderUid, setDeletedOrderUid] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalBody, setModalBody] = useState("");
 
     const dateRanges = {
         "1st": {
@@ -130,22 +131,35 @@ export default function Orders({
         // confirm deletion modal
         // await db.deleteOrder(order_uid);
         // delete row from UI
-    }
+    };
 
-    const openDeleteModal = (order_uid) => {
+    const openDeleteModal = (order_uid, customer_uid) => {
+        const customerName = document.getElementById(`${customer_uid}-customer_name-text`).innerText;
+        const deliveryDate = document.getElementById(`${order_uid}-delivery_date-text`).innerText;
+        setModalBody(`<b>Name:</b> ${customerName}<br><b>Delivery Date:</b> ${deliveryDate}`);
         setModalIsOpen(true);
-        setDeletedUid(order_uid);
-    }
+        setDeletedOrderUid(order_uid);
+    };
 
     const closeDeleteModal = () => {
+        setModalBody("");
         setModalIsOpen(false);
-        setDeletedUid(null);
-    }
+        setDeletedOrderUid(null);
+    };
 
     return (
         <div className="overflow-hidden h-screen relative">
-            <div className={`${modalIsOpen ? '' : 'hidden'}`}>
-                <ConfirmDeletionModal deleteCallback={() => {deleteOrder(deletedOrderUid)}} closeCallback={() => {closeDeleteModal()}}/>
+            <div className={`${modalIsOpen ? "" : "hidden"}`}>
+                <ConfirmDeletionModal
+                    header={"DELETE ORDER?"}
+                    body={modalBody}
+                    deleteCallback={() => {
+                        deleteOrder(deletedOrderUid);
+                    }}
+                    closeCallback={() => {
+                        closeDeleteModal();
+                    }}
+                />
             </div>
             <h1 className="text-center text-4xl font-bold py-6">ALL ORDERS</h1>
             <div>
@@ -222,7 +236,8 @@ export default function Orders({
                                                 className="flex pl-3 w-10"
                                                 onClick={() => {
                                                     openDeleteModal(
-                                                        order.order_uid
+                                                        order.order_uid,
+                                                        order.customers.customer_uid
                                                     );
                                                 }}
                                             >
