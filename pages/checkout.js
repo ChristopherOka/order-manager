@@ -46,7 +46,7 @@ async function sendFormData(data) {
 export default function Checkout({ products }) {
     const [formData, updateFormData] = useState({});
     const [emptyFields, updateEmptyFields] = useState({});
-    
+
     const router = useRouter();
     const {orderCost, ...orderData} = router.query;
 
@@ -92,6 +92,8 @@ export default function Checkout({ products }) {
         ) {
             return false;
         } else {
+            localStorage.setItem('cart', '');
+            localStorage.setItem('itemCosts', '');
             await router.push("/thank_you");
             return true;
         }

@@ -133,25 +133,25 @@ export default function Orders({
                     <table className="bg-default-100 rounded-md w-screen">
                         <thead>
                             <tr className="border-b-2 whitespace-nowrap">
-                                <th className="py-3 px-2">Delivery Date</th>
-                                <th className="py-3 px-2">Customer Name</th>
-                                <th className="py-3 px-2">Email</th>
-                                <th className="py-3 px-2">Phone</th>
-                                <th className="py-3 px-2">Street Address</th>
-                                <th className="py-3 px-2">City</th>
-                                <th className="py-3 px-2">Payment Received</th>
-                                <th className="py-3 px-2">Verified</th>
-                                <th className="py-3 px-2">Payment Type</th>
-                                <th className="py-3 px-2">
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Delivery Date</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Customer Name</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Email</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Phone</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Street Address</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">City</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Payment Received</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Verified</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Payment Type</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">
                                     Additional Information
                                 </th>
-                                <th className="py-3 px-2">Order Cost</th>
-                                <th className="py-3 px-2">Misc. Fees</th>
-                                <th className="py-3 px-2">Time of Order</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Order Cost</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Misc. Fees</th>
+                                <th className="bg-default-100 py-3 px-2 sticky top-0">Time of Order</th>
                                 {productNames.map((product) => {
                                     return (
                                         <th
-                                            className="py-3 px-2 whitespace-normal"
+                                            className="bg-default-100 py-3 px-2 whitespace-normal sticky top-0"
                                             key={product.product_id}
                                         >
                                             {product.product_name}
