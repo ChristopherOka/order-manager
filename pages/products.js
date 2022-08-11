@@ -2,7 +2,6 @@ import Button from "../components/button";
 import ProductCard from "../components/productCard";
 import CartModal from "../components/cartModal";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import debounce from "../utils/globals.js";
 import * as db from "./api/database";
 
@@ -225,10 +224,11 @@ export default function Products({ products }) {
         >
             <div className="flex flex-1 flex-col overflow-auto">
                 <div>
-                    <h1 className="font-bold text-5xl text-center pb-20 pt-10 md:pb-5">
+                    <h1 className="font-bold text-5xl text-center pb-5 pt-10 md:pb-5">
                         PRODUCTS
                     </h1>
-                    <div className="absolute w-full right-0 top-0 flex justify-center py-28 md:justify-end md:px-16 md:py-10 z-10">
+                </div>
+                <div className="sticky w-full right-0 top-8 flex justify-center md:absolute md:justify-end md:px-16 md:py-2 z-10">
                         <div className="relative">
                             <Button
                                 type="secondary"
@@ -268,8 +268,6 @@ export default function Products({ products }) {
                         cart={cart}
                         products={products}
                     />
-                </div>
-
                 <form>
                     <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5">
                         {products.map((product) => (
@@ -310,7 +308,12 @@ export default function Products({ products }) {
                         as="/checkout"
                         query={{
                             ...cart,
-                            itemCosts,
+                            orderCost: (Object.values(itemCosts).length
+                                ? Object.values(itemCosts).reduce(
+                                      (a, b) => a + b
+                                  )
+                                : 0
+                            ).toFixed(2),
                         }}
                     >
                         CHECKOUT

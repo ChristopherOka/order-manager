@@ -9,7 +9,7 @@ export default function CartModal(props) {
             id="cartModal"
             className={`
             bg-default-100 absolute right-0 top-0 rounded-md shadow-3xl 
-             mx-5 my-10 w-52 sm:w-96 h-[30rem] origin-top-right z-20 sm:mx-16
+             mx-5 my-10 w-70 sm:w-96 h-[30rem] origin-top-right z-20 sm:mx-16
             ${
                 props.cartModalState == "open"
                     ? "animate-modalAppear"

@@ -6,7 +6,7 @@ export default function CheckoutProductCard(props) {
             <h3 className="text-default-900 text-lg text-center pb-1">
                 {props.productName}
             </h3>
-            <div className="bg-default-100 rounded-md w-56 h-56 relative shadow-2xl overflow-hidden">
+            <div className="bg-default-100 rounded-md w-56 h-56 relative shadow-lg overflow-hidden">
                 <div className="rounded-md">
                     <Image
                         src={`/images/product_images/${props.imgPath}`}

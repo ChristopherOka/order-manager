@@ -46,15 +46,9 @@ async function sendFormData(data) {
 export default function Checkout({ products }) {
     const [formData, updateFormData] = useState({});
     const [emptyFields, updateEmptyFields] = useState({});
+    
     const router = useRouter();
-
-    const data = router.query;
-    console.log(data);
-    const { itemCosts, ...orderData } = data;
-    let orderCost = 0;
-    if (Object.keys(orderData).length) {
-        orderCost = Object.values(itemCosts).reduce((a, b) => a + b, 0);
-    }
+    const {orderCost, ...orderData} = router.query;
 
     const handleFocus = (e) => {
         updateEmptyFields({

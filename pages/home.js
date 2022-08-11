@@ -148,7 +148,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     />
                 </div>
             </div>
-            <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-8 w-screen items-center justify-center print:hidden lg:flex">
+            <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-8 w-screen items-center justify-center print:hidden xl:flex">
                 HOME
             </h1>
             <div className="print:hidden">
@@ -178,7 +178,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     </div>
                     <OrderSummaryTable products={products} />
                 </div>
-                <div className="hidden items-center mr-10 xl:mr-52 2xl:mr-80 md:flex print:hidden">
+                <div className="hidden items-center mr-10 xl:mr-52 2xl:mr-62 md:flex print:hidden">
                     <div className="bg-default-100 shadow-box flex flex-col rounded-md">
                         <h2 className="text-default-900 font-bold text-3xl py-8 px-12">
                             AT A GLANCE
