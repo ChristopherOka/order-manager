@@ -15,7 +15,10 @@ export async function getServerSideProps() {
         start_date: smallestPossibleDate,
         end_date: oneYearFromNow,
     };
-    const [ orderData, products ] = await Promise.all([db.getAllData(dates), db.getProductNames()]);
+    const [orderData, products] = await Promise.all([
+        db.getAllData(dates),
+        db.getProductNames(),
+    ]);
 
     return {
         props: {
@@ -25,10 +28,7 @@ export async function getServerSideProps() {
     };
 }
 
-export default function Orders({
-    initialOrderData,
-    initialProductNames,
-}) {
+export default function Orders({ initialOrderData, initialProductNames }) {
     const [activeDate, setActiveDate] = useState("All");
     const [orderData, setOrderData] = useState(initialOrderData);
     const [productNames, setProductNames] = useState(initialProductNames);
@@ -63,7 +63,10 @@ export default function Orders({
         if (date == "All") {
             setOrderData(initialOrderData);
         } else {
-            const [newOrderData, newProductNames] = await Promise.all([db.getAllData(dateRanges[date]), db.getProductNames()]);
+            const [newOrderData, newProductNames] = await Promise.all([
+                db.getAllData(dateRanges[date]),
+                db.getProductNames(),
+            ]);
             setOrderData(newOrderData);
             setProductNames(newProductNames);
         }
@@ -126,9 +129,15 @@ export default function Orders({
     };
 
     const openDeleteModal = (order_uid, customer_uid) => {
-        const customerName = document.getElementById(`${customer_uid}-customer_name-text`).innerText;
-        const deliveryDate = document.getElementById(`${order_uid}-delivery_date-text`).innerText;
-        setModalBody(`<b>Name:</b> ${customerName}<br><b>Delivery Date:</b> ${deliveryDate}`);
+        const customerName = document.getElementById(
+            `${customer_uid}-customer_name-text`
+        ).innerText;
+        const deliveryDate = document.getElementById(
+            `${order_uid}-delivery_date-text`
+        ).innerText;
+        setModalBody(
+            `<b>Name:</b> ${customerName}<br><b>Delivery Date:</b> ${deliveryDate}`
+        );
         setModalIsOpen(true);
         setDeletedOrderUid(order_uid);
     };
@@ -260,9 +269,7 @@ export default function Orders({
                                                 cancelTableEdit={
                                                     cancelTableEdit
                                                 }
-                                                uid={
-                                                    order.customer_uid
-                                                }
+                                                uid={order.customer_uid}
                                                 col_name="customer_name"
                                             >
                                                 {order.customer_name}
@@ -275,9 +282,7 @@ export default function Orders({
                                                 cancelTableEdit={
                                                     cancelTableEdit
                                                 }
-                                                uid={
-                                                    order.customer_uid
-                                                }
+                                                uid={order.customer_uid}
                                                 col_name="email"
                                             >
                                                 {order.email}
@@ -290,9 +295,7 @@ export default function Orders({
                                                 cancelTableEdit={
                                                     cancelTableEdit
                                                 }
-                                                uid={
-                                                    order.customer_uid
-                                                }
+                                                uid={order.customer_uid}
                                                 col_name="phone"
                                             >
                                                 {order.phone}
@@ -305,9 +308,7 @@ export default function Orders({
                                                 cancelTableEdit={
                                                     cancelTableEdit
                                                 }
-                                                uid={
-                                                    order.customer_uid
-                                                }
+                                                uid={order.customer_uid}
                                                 col_name="address"
                                             >
                                                 {order.address}
@@ -320,9 +321,7 @@ export default function Orders({
                                                 cancelTableEdit={
                                                     cancelTableEdit
                                                 }
-                                                uid={
-                                                    order.customer_uid
-                                                }
+                                                uid={order.customer_uid}
                                                 col_name="city"
                                             >
                                                 {order.city}
@@ -425,7 +424,10 @@ export default function Orders({
                                         </td>
 
                                         {productNames.map((product) => {
-                                            const productQuantity = order.order_items?.[product.product_id]
+                                            const productQuantity =
+                                                order.order_items?.[
+                                                    product.product_id
+                                                ];
                                             return (
                                                 <td key={product.product_id}>
                                                     <OrderTableData

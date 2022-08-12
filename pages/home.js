@@ -97,24 +97,24 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
 
     const dateRanges = {
         "1st": {
-            start_date: new Date("2022-11-24"),
-            end_date: new Date("2022-12-01"),
+            start_date: new Date("2022-11-24 00:00:00"),
+            end_date: new Date("2022-12-01 00:00:00"),
         },
         "8th": {
-            start_date: new Date("2022-12-01"),
-            end_date: new Date("2022-12-08"),
+            start_date: new Date("2022-12-01 00:00:00"),
+            end_date: new Date("2022-12-08 00:00:00"),
         },
         "15th": {
-            start_date: new Date("2022-12-08"),
-            end_date: new Date("2022-12-15"),
+            start_date: new Date("2022-12-08 00:00:00"),
+            end_date: new Date("2022-12-15 00:00:00"),
         },
         "22nd": {
-            start_date: new Date("2022-12-15"),
-            end_date: new Date("2022-12-22"),
+            start_date: new Date("2022-12-15 00:00:00"),
+            end_date: new Date("2022-12-22 00:00:00"),
         },
         "29th": {
-            start_date: new Date("2022-12-22"),
-            end_date: new Date("2022-12-29"),
+            start_date: new Date("2022-12-22 00:00:00"),
+            end_date: new Date("2022-12-29 00:00:00"),
         },
     };
 

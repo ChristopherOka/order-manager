@@ -229,17 +229,17 @@ export default function Products({ products }) {
                     </h1>
                 </div>
                 <div className="sticky w-full right-0 top-8 flex justify-center md:absolute md:justify-end md:px-16 md:py-2 z-10">
-                        <div className="relative">
-                            <Button
-                                type="secondary"
-                                img="/images/icons/shopping_cart.png"
-                                clickHandler={openCartModal}
-                            >
-                                View Cart
-                            </Button>
-                            {Object.keys(cart).length ? (
-                                <div
-                                    className={`bg-default-900 text-default-100 font-bold text-center 
+                    <div className="relative">
+                        <Button
+                            type="secondary"
+                            img="/images/icons/shopping_cart.png"
+                            clickHandler={openCartModal}
+                        >
+                            View Cart
+                        </Button>
+                        {Object.keys(cart).length ? (
+                            <div
+                                className={`bg-default-900 text-default-100 font-bold text-center 
                             rounded-full absolute px-[0.4rem] h-5 top-0 right-0 
                             translate-x-2 -translate-y-2 animate-popIn ${
                                 cartModalState === "open"
@@ -247,27 +247,27 @@ export default function Products({ products }) {
                                     : "animate-popIn"
                             }
                             `}
-                                >
-                                    <p className="-translate-y-0.5 animate-delayAppear">
-                                        {Object.keys(cart).length}
-                                    </p>
-                                </div>
-                            ) : null}
-                        </div>
+                            >
+                                <p className="-translate-y-0.5 animate-delayAppear">
+                                    {Object.keys(cart).length}
+                                </p>
+                            </div>
+                        ) : null}
                     </div>
-                    <CartModal
-                        cartModalState={cartModalState}
-                        closeCartModal={closeCartModal}
-                        editCartItem={editCartItem}
-                        updateCartFormEdit={updateCartFormEdit}
-                        changeCartItemQty={changeCartItemQty}
-                        removeItemFromCart={removeItemFromCart}
-                        cartIsUpdated={cartIsUpdated}
-                        itemCosts={itemCosts}
-                        cartKey={cartKey}
-                        cart={cart}
-                        products={products}
-                    />
+                </div>
+                <CartModal
+                    cartModalState={cartModalState}
+                    closeCartModal={closeCartModal}
+                    editCartItem={editCartItem}
+                    updateCartFormEdit={updateCartFormEdit}
+                    changeCartItemQty={changeCartItemQty}
+                    removeItemFromCart={removeItemFromCart}
+                    cartIsUpdated={cartIsUpdated}
+                    itemCosts={itemCosts}
+                    cartKey={cartKey}
+                    cart={cart}
+                    products={products}
+                />
                 <form>
                     <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5">
                         {products.map((product) => (
