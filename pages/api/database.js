@@ -56,63 +56,29 @@ export async function getOrderCounts(dates) {
 }
 
 export async function getAllData(dates) {
-    const { data: orderData, error } = await supabase
-        .from("orders")
-        .select(
-            `
-        order_uid,
-        has_paid,
-        is_verified,
-        payment_type,
-        additional_information,
-        order_cost,
-        delivery_date,
-        misc_fees,
-        creation_timestamp,
-        customers ( 
-            customer_uid,
-            customer_name, 
-            email, 
-            phone, 
-            address,
-            city
-         )
-        `
-        )
-        .gt("delivery_date", dates.start_date.toISOString())
-        .lte("delivery_date", dates.end_date.toISOString())
-        .order("delivery_date", "asc");
+    const { data, error } = await supabase.rpc("get_all_order_data", {
+        start_date: dates.start_date,
+        end_date: dates.end_date,
+    });
 
     if (error) {
         console.log(error);
     }
 
-    const { data: orderItemsData, error2 } = await supabase.rpc(
-        "get_order_items",
-        {
-            start_date: dates.start_date,
-            end_date: dates.end_date,
-        }
-    );
+    return data;
+}
 
-    if (error2) {
-        console.log(error2);
-    }
-
-    const { data: productNames, error3 } = await supabase
+export async function getProductNames() {
+    const { data, error } = await supabase
         .from("products")
         .select("product_name, product_id")
         .order("product_id", "asc");
 
-    if (error3) {
-        console.log(error3);
+    if (error) {
+        console.log(error);
     }
 
-    return {
-        orderData,
-        orderItemsData,
-        productNames,
-    };
+    return data;
 }
 
 export async function updateTableData(
@@ -121,19 +87,35 @@ export async function updateTableData(
     col_name,
     ordersColNames
 ) {
-    const { customers: customers_columns, ...orders_columns } = ordersColNames;
+    const customers_columns = [
+        "customer_name",
+        "email",
+        "phone",
+        "address",
+        "city",
+    ];
+    const orders_columns = [
+        "delivery_date",
+        "has_paid",
+        "is_verified",
+        "payment_type",
+        "additional_information",
+        "order_cost",
+        "creation_timestamp",
+    ];
+
     let table_name = "order_items";
     let match_columns = { order_uid: uid, product_id: col_name };
     let column_name = "quantity";
     let updateTable = true;
     let inserted_data = table_data || 0;
 
-    if (col_name in customers_columns) {
+    if (customers_columns.includes(col_name)) {
         table_name = "customers";
         match_columns = { customer_uid: uid };
         column_name = col_name;
         inserted_data = table_data || "-";
-    } else if (col_name in orders_columns) {
+    } else if (orders_columns.includes(col_name)) {
         table_name = "orders";
         match_columns = { order_uid: uid };
         column_name = col_name;
@@ -176,5 +158,16 @@ export async function updateTableData(
         }
     }
 
+    return true;
+}
+
+export async function deleteOrder(order_uid) {
+    const { data, error } = await supabase.rpc("delete_order", {
+        deletion_order_uid: order_uid,
+    });
+    if (error) {
+        console.log(error);
+        return false;
+    }
     return true;
 }

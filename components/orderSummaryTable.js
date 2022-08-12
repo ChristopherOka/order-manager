@@ -16,11 +16,7 @@ export default function OrderSummaryTable(props) {
                         return (
                             <tr
                                 key={product.product_id}
-                                className={`text-default-900 text-md print:border-t ${
-                                    index % 2 == 0
-                                        ? "bg-pink-100 print:bg-none"
-                                        : ""
-                                }`}
+                                className={`text-default-900 text-md print:border-t`}
                             >
                                 <td className="py-2 pr-10 md:pr-12 pl-6 font-medium print:pl-0">
                                     {product.product_name}

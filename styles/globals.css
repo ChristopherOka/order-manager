@@ -2,5 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-:focus:not(:focus-visible) { outline: none }
-:focus-visible {outline: 1px solid grey}
+@layer base {
+    :focus:not(:focus-visible) { outline: none }
+    :focus-visible { outline: 1px solid grey}
+    tr:nth-child(2n){
+        @apply bg-pink-100
+    }
+  }

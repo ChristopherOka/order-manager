@@ -15,27 +15,22 @@ export async function getServerSideProps() {
         start_date: smallestPossibleDate,
         end_date: oneYearFromNow,
     };
-    const { orderData, orderItemsData, productNames } = await db.getAllData(
-        dates
-    );
+    const [ orderData, products ] = await Promise.all([db.getAllData(dates), db.getProductNames()]);
 
     return {
         props: {
             initialOrderData: orderData,
-            initialOrderItemsData: orderItemsData,
-            initialProductNames: productNames,
+            initialProductNames: products,
         },
     };
 }
 
 export default function Orders({
     initialOrderData,
-    initialOrderItemsData,
     initialProductNames,
 }) {
     const [activeDate, setActiveDate] = useState("All");
     const [orderData, setOrderData] = useState(initialOrderData);
-    const [orderItemsData, setOrderItemsData] = useState(initialOrderItemsData);
     const [productNames, setProductNames] = useState(initialProductNames);
     const [deletedOrderUid, setDeletedOrderUid] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -67,12 +62,10 @@ export default function Orders({
     const changeDate = async (date) => {
         if (date == "All") {
             setOrderData(initialOrderData);
-            setOrderItemsData(initialOrderItemsData);
         } else {
-            const newData = await db.getAllData(dateRanges[date]);
-            setOrderData(newData.orderData);
-            setOrderItemsData(newData.orderItemsData);
-            setProductNames(newData.productNames);
+            const [newOrderData, newProductNames] = await Promise.all([db.getAllData(dateRanges[date]), db.getProductNames()]);
+            setOrderData(newOrderData);
+            setProductNames(newProductNames);
         }
         setActiveDate(date);
     };
@@ -128,9 +121,8 @@ export default function Orders({
 
     const deleteOrder = async (order_uid) => {
         closeDeleteModal();
-        // confirm deletion modal
-        // await db.deleteOrder(order_uid);
-        // delete row from UI
+        await db.deleteOrder(order_uid);
+        document.getElementById(`${order_uid}-row`).classList.add("hidden");
     };
 
     const openDeleteModal = (order_uid, customer_uid) => {
@@ -223,13 +215,11 @@ export default function Orders({
                             </tr>
                         </thead>
                         <tbody>
-                            {orderData.map((order, index) => {
+                            {orderData.map((order) => {
                                 return (
                                     <tr
                                         key={order.order_uid}
-                                        className={`${
-                                            index % 2 == 0 ? "bg-pink-100" : ""
-                                        }`}
+                                        id={`${order.order_uid}-row`}
                                     >
                                         <td>
                                             <button
@@ -237,7 +227,7 @@ export default function Orders({
                                                 onClick={() => {
                                                     openDeleteModal(
                                                         order.order_uid,
-                                                        order.customers.customer_uid
+                                                        order.customer_uid
                                                     );
                                                 }}
                                             >
@@ -271,11 +261,11 @@ export default function Orders({
                                                     cancelTableEdit
                                                 }
                                                 uid={
-                                                    order.customers.customer_uid
+                                                    order.customer_uid
                                                 }
                                                 col_name="customer_name"
                                             >
-                                                {order.customers.customer_name}
+                                                {order.customer_name}
                                             </OrderTableData>
                                         </td>
                                         <td>
@@ -286,11 +276,11 @@ export default function Orders({
                                                     cancelTableEdit
                                                 }
                                                 uid={
-                                                    order.customers.customer_uid
+                                                    order.customer_uid
                                                 }
                                                 col_name="email"
                                             >
-                                                {order.customers.email}
+                                                {order.email}
                                             </OrderTableData>
                                         </td>
                                         <td>
@@ -301,11 +291,11 @@ export default function Orders({
                                                     cancelTableEdit
                                                 }
                                                 uid={
-                                                    order.customers.customer_uid
+                                                    order.customer_uid
                                                 }
                                                 col_name="phone"
                                             >
-                                                {order.customers.phone}
+                                                {order.phone}
                                             </OrderTableData>
                                         </td>
                                         <td>
@@ -316,11 +306,11 @@ export default function Orders({
                                                     cancelTableEdit
                                                 }
                                                 uid={
-                                                    order.customers.customer_uid
+                                                    order.customer_uid
                                                 }
                                                 col_name="address"
                                             >
-                                                {order.customers.address}
+                                                {order.address}
                                             </OrderTableData>
                                         </td>
                                         <td>
@@ -331,11 +321,11 @@ export default function Orders({
                                                     cancelTableEdit
                                                 }
                                                 uid={
-                                                    order.customers.customer_uid
+                                                    order.customer_uid
                                                 }
                                                 col_name="city"
                                             >
-                                                {order.customers.city}
+                                                {order.city}
                                             </OrderTableData>
                                         </td>
                                         <td>
@@ -435,15 +425,7 @@ export default function Orders({
                                         </td>
 
                                         {productNames.map((product) => {
-                                            const productQuantity =
-                                                orderItemsData.find((item) => {
-                                                    return (
-                                                        item.product_id ===
-                                                            product.product_id &&
-                                                        item.order_uid ===
-                                                            order.order_uid
-                                                    );
-                                                });
+                                            const productQuantity = order.order_items?.[product.product_id]
                                             return (
                                                 <td key={product.product_id}>
                                                     <OrderTableData
@@ -462,7 +444,7 @@ export default function Orders({
                                                         }
                                                     >
                                                         {productQuantity
-                                                            ? productQuantity.quantity
+                                                            ? productQuantity
                                                             : 0}
                                                     </OrderTableData>
                                                 </td>
