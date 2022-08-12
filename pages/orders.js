@@ -94,7 +94,7 @@ export default function Orders({
         const col_name = button.dataset["col_name"];
         const input = document.getElementById(`${uid}-${col_name}-input`);
         const value = input.value;
-        await db.updateTableData(value, uid, col_name, orderData[0]);
+        await db.updateTableData(value, uid, col_name);
         const text = document.getElementById(`${uid}-${col_name}-text`);
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const editBtn = document.getElementById(`${uid}-${col_name}-edit`);

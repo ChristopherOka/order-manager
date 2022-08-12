@@ -84,8 +84,7 @@ export async function getProductNames() {
 export async function updateTableData(
     table_data,
     uid,
-    col_name,
-    ordersColNames
+    col_name
 ) {
     const customers_columns = [
         "customer_name",

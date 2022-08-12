@@ -8,6 +8,29 @@ import { useState, useEffect } from "react";
 import debounce from "../utils/globals";
 import * as db from "./api/database.js";
 
+export async function getServerSideProps() {
+    const smallestPossibleDate = new Date(0);
+    const oneYearFromNow = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+    );
+    const dates = {
+        start_date: smallestPossibleDate,
+        end_date: oneYearFromNow,
+    };
+    const [products, initialOrderCounts] = await Promise.all([
+        db.getTotalProductQtyByDate(dates),
+        db.getOrderCounts(dates),
+    ]);
+    const productsWithQty = processProducts(products);
+
+    return {
+        props: {
+            productsWithQty,
+            initialOrderCounts,
+        },
+    };
+}
+
 const processProducts = (products) => {
     let productsWithQty = [];
 
@@ -50,26 +73,6 @@ const processProducts = (products) => {
 
     return productsWithQty;
 };
-
-export async function getServerSideProps() {
-    const smallestPossibleDate = new Date(0);
-    const oneYearFromNow = new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-    const dates = {
-        start_date: smallestPossibleDate,
-        end_date: oneYearFromNow,
-    };
-    const products = await db.getTotalProductQtyByDate(dates);
-    const productsWithQty = processProducts(products);
-    const initialOrderCounts = await db.getOrderCounts(dates);
-    return {
-        props: {
-            productsWithQty,
-            initialOrderCounts,
-        },
-    };
-}
 
 export default function Home({ productsWithQty, initialOrderCounts }) {
     const [startDate, setStartDate] = useState("Beginning of Time");
@@ -122,13 +125,13 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             setProducts(productsWithQty);
             setOrderCounts(initialOrderCounts);
         } else {
-            const products = await db.getTotalProductQtyByDate(
-                dateRanges[date]
-            );
+            const [products, newOrderCounts] = await Promise.all([
+                db.getTotalProductQtyByDate(dateRanges[date]),
+                db.getOrderCounts(dateRanges[date]),
+            ]);
             setProducts(processProducts(products));
             setStartDate(dateRanges[date].start_date.toDateString());
             setEndDate(dateRanges[date].end_date.toDateString());
-            const newOrderCounts = await db.getOrderCounts(dateRanges[date]);
             setOrderCounts(newOrderCounts);
         }
         setActiveDate(date);
