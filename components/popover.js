@@ -8,7 +8,7 @@ const Popover = (props) => {
     };
 
     return (
-        <div className="relative">
+        <div className="relative z-50">
             <div
                 className={`${
                     popOverState == "open"
