@@ -1,7 +1,7 @@
 import Button from "../components/button";
 import ProductCard from "../components/productCard";
 import CartModal from "../components/cartModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import debounce from "../utils/globals.js";
 import * as db from "./api/database";
 
@@ -24,6 +24,7 @@ export default function Products({ products }) {
     const [cartModalState, updateCartModalState] = useState(false);
     const [cartIsUpdated, updateCartIsUpdated] = useState(true);
     const [innerHeight, updateInnerHeight] = useState(0);
+    const initiallyRendered = useRef(false);
 
     useEffect(() => {
         function detectInnerHeight() {
@@ -43,12 +44,11 @@ export default function Products({ products }) {
     }, []);
 
     useEffect(() => {
-        if (Object.entries(cart).length) {
+        if (initiallyRendered.current) {
             localStorage.setItem("cart", JSON.stringify(cart));
-        }
-        if (Object.entries(itemCosts).length) {
             localStorage.setItem("itemCosts", JSON.stringify(itemCosts));
         }
+        initiallyRendered.current = true;
     }, [cart, itemCosts]);
 
     const handleInputChange = (e) => {

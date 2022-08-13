@@ -11,7 +11,7 @@ export default function CartModalProduct(props) {
     };
 
     return (
-        <div className="flex flex-wrap px-4 py-2 justify-between relative sm:gap-4 sm:flex-nowrap">
+        <div className="flex flex-wrap px-4 py-2 justify-between relative gap-4 sm:flex-nowrap overflow-x-hidden">
             <p className="text-lg font-bold">
                 {
                     props.products.find(
@@ -53,7 +53,7 @@ export default function CartModalProduct(props) {
                 className={`bg-default-900 rounded-md text-lg text-default-100 absolute flex items-center hidden origin-right`}
                 data-product_id={props.productId}
             >
-                <p className="px-4 w-72">Remove item from cart?</p>
+                <p className="px-4 w-60 sm:w-72">Remove item from cart?</p>
                 <button
                     className="px-2"
                     onClick={() => props.removeItemFromCart(props.productId)}

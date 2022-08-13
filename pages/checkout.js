@@ -1,5 +1,5 @@
 import FormField from "../components/formField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 import * as db from "./api/database";
@@ -46,9 +46,20 @@ async function sendFormData(data) {
 export default function Checkout({ products }) {
     const [formData, updateFormData] = useState({});
     const [emptyFields, updateEmptyFields] = useState({});
-
+    const [cart, updateCart] = useState({});
+    const [itemCosts, updateItemCosts] = useState({});
     const router = useRouter();
-    const {orderCost, ...orderData} = router.query;
+
+    useEffect(() => {
+        const receivedCart = JSON.parse(localStorage.getItem("cart"));
+        const receiveditemCosts = JSON.parse(localStorage.getItem("itemCosts"));
+        if (receivedCart) {
+            updateCart(receivedCart);
+        }
+        if (receiveditemCosts) {
+            updateItemCosts(receiveditemCosts);
+        }
+    }, []);
 
     const handleFocus = (e) => {
         updateEmptyFields({
@@ -66,13 +77,14 @@ export default function Checkout({ products }) {
 
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
+        const orderCost = Object.values(itemCosts).reduce((a, b) => a + b, 0);
         if (orderCost == "0.00" || !orderCost) {
             alert("No items are in your order!");
-            return;
+            return true;
         }
         if (!validateForm(formData)) {
             alert("Please fill in all required fields");
-            return;
+            return true;
         }
 
         if (
@@ -87,13 +99,13 @@ export default function Checkout({ products }) {
             !(await sendFormData({
                 ...formData,
                 order_cost: orderCost,
-                order_data: orderData,
+                order_data: cart,
             }))
         ) {
             return false;
         } else {
-            localStorage.setItem('cart', '');
-            localStorage.setItem('itemCosts', '');
+            localStorage.setItem("cart", "");
+            localStorage.setItem("itemCosts", "");
             await router.push("/thank_you");
             return true;
         }
@@ -271,8 +283,11 @@ export default function Checkout({ products }) {
 
     return (
         <>
-            <div className="w-full pt-10 pb-16 flex relative">
-                <div className="z-10 pl-10">
+            <div className="w-full pt-10 pb-16 flex flex-col md:flex-row relative justify-center md:justify-start">
+                <h1 className="text-5xl text-default-900 font-bold text-center w-full relative md:absolute">
+                    CHECKOUT
+                </h1>
+                <div className="z-10 max-w-fit pt-6 px-10 md:pr-0 md:py-0 self-center">
                     <Button
                         type="secondary"
                         img="/images/icons/back_arrow.svg"
@@ -283,10 +298,6 @@ export default function Checkout({ products }) {
                         GO BACK
                     </Button>
                 </div>
-
-                <h1 className="text-5xl text-default-900 font-bold text-center w-full absolute">
-                    CHECKOUT
-                </h1>
             </div>
 
             <form className="flex flex-col gap-8 mx-8 md:grid md:grid-cols-4 md:gap-4 lg:mx-12 xl:mx-20">
@@ -341,11 +352,17 @@ export default function Checkout({ products }) {
                     <div className="flex flex-wrap justify-between items-end px-10 py-5">
                         <h2 className="text-3xl font-bold">Your Order</h2>
                         <h3 className="text-default-900 text-xl">
-                            Total Cost: ${orderCost}
+                            Total Cost: $
+                            {(Object.values(itemCosts).length
+                                ? Object.values(itemCosts).reduce(
+                                      (a, b) => a + b
+                                  )
+                                : 0
+                            ).toFixed(2)}
                         </h3>
                     </div>
                     <div className="flex flex-row flex-wrap gap-6 max-h-[37rem] px-10 pb-5 overflow-y-auto overflow-x-hidden justify-center">
-                        {Object.keys(orderData).map((item) => {
+                        {Object.keys(cart).map((item) => {
                             const product = products.find(
                                 (product) =>
                                     product.product_id ==
@@ -354,7 +371,7 @@ export default function Checkout({ products }) {
                             return (
                                 <CheckoutProductCard
                                     productId={item}
-                                    productQty={orderData[item]}
+                                    productQty={cart[item]}
                                     imgPath={product.product_img_path}
                                     productName={product.product_name}
                                     key={item}

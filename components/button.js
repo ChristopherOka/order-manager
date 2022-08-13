@@ -53,7 +53,7 @@ export default function Button(props) {
                     as={props.as}
                 >
                     <a
-                        className={`tracking-widest rounded-md flex items-center font-bold ${buttonStyle} ${
+                        className={`tracking-widest rounded-md flex items-center justify-center font-bold ${buttonStyle} ${
                             disabled ? "opacity-50 cursor-default" : ""
                         }`}
                     >
