@@ -2,9 +2,14 @@ import Image from "next/image";
 import Popover from "./popover";
 import { useState } from "react";
 import Checkbox from "./Checkbox";
+import * as db from "../pages/api/database";
 
 export default function OrderSummaryCard(props) {
     const [flipped, setFlipped] = useState(false);
+    const [verificationStatus, setVerificationStatus] = useState(
+        props.order.is_verified
+    );
+    const [paymentStatus, setPaymentStatus] = useState(props.order.has_paid);
 
     const flipCard = (flipState) => {
         if (flipState === "toggle") {
@@ -17,10 +22,22 @@ export default function OrderSummaryCard(props) {
         }
     };
 
+    const toggleOrderVerification = async (e) => {
+        const isChecked = e.target.checked;
+        setVerificationStatus(isChecked);
+        await db.updateVerificationStatus(props.order.order_uid, isChecked);
+    };
+
+    const toggleOrderPaymentStatus = async (e) => {
+        const isChecked = e.target.checked;
+        setPaymentStatus(isChecked);
+        await db.updatePaymentStatus(props.order.order_uid, isChecked);
+    };
+
     return (
         <div className="relative">
             <div
-                className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-96 h-80 group ${
+                className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-80 sm:w-96 group ${
                     flipped == "flipped"
                         ? "animate-frontTileFlip"
                         : flipped == "unflipped"
@@ -36,14 +53,14 @@ export default function OrderSummaryCard(props) {
                         <div>
                             <Popover
                                 content={`${
-                                    props.order.is_verified
+                                    verificationStatus
                                         ? "Order is Verified!"
                                         : "Needs Verification"
                                 }`}
                             >
                                 <Image
                                     src={`/images/icons/${
-                                        props.order.is_verified
+                                        verificationStatus
                                             ? "green_checkmark.png"
                                             : "red_exclamation.png"
                                     }`}
@@ -55,14 +72,14 @@ export default function OrderSummaryCard(props) {
                         <div>
                             <Popover
                                 content={`${
-                                    props.order.has_paid
+                                    paymentStatus
                                         ? "Order Paid!"
                                         : "Has Not Paid"
                                 } (${props.order.payment_type})`}
                             >
                                 <Image
                                     src={`/images/icons/${
-                                        props.order.has_paid
+                                        paymentStatus
                                             ? "green_money.png"
                                             : "yellow_unpaid.png"
                                     }`}
@@ -106,7 +123,7 @@ export default function OrderSummaryCard(props) {
                 </div>
             </div>
             <div
-                className={`group absolute bg-default-100 px-4 py-3 rounded-md shadow-box w-96 h-80 top-0 ${
+                className={`group absolute bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-80 sm:w-96 top-0 ${
                     flipped == "flipped"
                         ? "animate-backTileFlip animation-delay-400"
                         : flipped == "unflipped"
@@ -123,14 +140,14 @@ export default function OrderSummaryCard(props) {
                         <div>
                             <Popover
                                 content={`${
-                                    props.order.is_verified
+                                    verificationStatus
                                         ? "Order is Verified!"
                                         : "Needs Verification"
                                 }`}
                             >
                                 <Image
                                     src={`/images/icons/${
-                                        props.order.is_verified
+                                        verificationStatus
                                             ? "green_checkmark.png"
                                             : "red_exclamation.png"
                                     }`}
@@ -142,14 +159,14 @@ export default function OrderSummaryCard(props) {
                         <div>
                             <Popover
                                 content={`${
-                                    props.order.has_paid
+                                    paymentStatus
                                         ? "Order Paid!"
                                         : "Has Not Paid"
                                 } (${props.order.payment_type})`}
                             >
                                 <Image
                                     src={`/images/icons/${
-                                        props.order.has_paid
+                                        paymentStatus
                                             ? "green_money.png"
                                             : "yellow_unpaid.png"
                                     }`}
@@ -175,11 +192,15 @@ export default function OrderSummaryCard(props) {
                             <h3 className="font-bold">VERIFIED:</h3>
                             <Checkbox
                                 defaultChecked={props.order.is_verified}
+                                handleInputChange={toggleOrderVerification}
                             />
                         </div>
                         <div className="flex text-default-900 text-lg gap-2">
                             <h3 className="font-bold">ORDER PAID:</h3>
-                            <Checkbox defaultChecked={props.order.has_paid} />
+                            <Checkbox
+                                defaultChecked={props.order.has_paid}
+                                handleInputChange={toggleOrderPaymentStatus}
+                            />
                         </div>
                         <div className="flex text-default-900 text-lg gap-2">
                             <h3 className="font-bold">Delivery Date:</h3>

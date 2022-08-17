@@ -9,7 +9,8 @@ export default function OrderTableData(props) {
             <input
                 id={`${props.uid}-${props.col_name}-input`}
                 className="hidden w-full bg-slate-200 rounded-md px-1"
-            ></input>
+                type={props.type}
+            />
             <button
                 id={`${props.uid}-${props.col_name}-edit`}
                 className="transition-opacity flex opacity-0 group-hover:opacity-100"

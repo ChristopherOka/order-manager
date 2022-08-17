@@ -1,6 +1,7 @@
 import Navbar from "../components/navbar";
 import DateSidebar from "../components/dateSidebar";
 import OrderSummaryCard from "../components/OrderSummaryCard";
+import Image from "next/image";
 import { useState } from "react";
 import * as db from "./api/database";
 
@@ -73,11 +74,20 @@ export default function OrderDashboard({
 
     return (
         <div className="overflow-hidden">
-            <h1 className="text-center text-4xl font-bold py-6">
+            <h1 className="absolute text-center text-4xl font-bold py-6 bg-default-100 z-[60] w-full">
                 ORDER DASHBOARD
             </h1>
+            <div className="absolute z-[100] top-0 left-0 w-screen flex items-center justify-start my-20 sm:my-5 pl-2 md:pr-5">
+                <div className="w-[50px] sm:w-[70px] md:w-[100px]">
+                    <Image
+                        src="/images/misc/logo.png"
+                        width="100"
+                        height="100"
+                    />
+                </div>
+            </div>
             <DateSidebar activeDate={activeDate} changeDate={changeDate} />
-            <div className="grid grid-rows-2 grid-flow-col -mt-8 gap-x-10 gap-y-5 overflow-auto ml-40 pl-5 pt-20 pb-3">
+            <div className="grid grid-cols-1 gap-y-3 max-h-[82vh] overflow-auto ml-20 pl-5 pr-5 pt-20 mt-10 pb-3 md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full sm:grid-flow-col sm:gap-x-10 sm:gap-y-5">
                 {orderData.map((order) => {
                     return (
                         <OrderSummaryCard

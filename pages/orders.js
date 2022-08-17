@@ -256,6 +256,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 }
                                                 uid={order.order_uid}
                                                 col_name="delivery_date"
+                                                type="date"
                                             >
                                                 {new Date(
                                                     order.delivery_date

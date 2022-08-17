@@ -81,11 +81,7 @@ export async function getProductNames() {
     return data;
 }
 
-export async function updateTableData(
-    table_data,
-    uid,
-    col_name
-) {
+export async function updateTableData(table_data, uid, col_name) {
     const customers_columns = [
         "customer_name",
         "email",
@@ -164,6 +160,34 @@ export async function deleteOrder(order_uid) {
     const { data, error } = await supabase.rpc("delete_order", {
         deletion_order_uid: order_uid,
     });
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return true;
+}
+
+export async function updateVerificationStatus(order_uid, isChecked) {
+    const { data, error } = await supabase
+        .from("orders")
+        .update({
+            is_verified: isChecked,
+        })
+        .match({ order_uid });
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return true;
+}
+
+export async function updatePaymentStatus(order_uid, isChecked) {
+    const { data, error } = await supabase
+        .from("orders")
+        .update({
+            has_paid: isChecked,
+        })
+        .match({ order_uid });
     if (error) {
         console.log(error);
         return false;
