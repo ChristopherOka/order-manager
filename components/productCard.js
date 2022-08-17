@@ -17,13 +17,13 @@ export default function ProductCard(props) {
 
     const flipCard = (flipState) => {
         if (flipState === "toggle") {
-            flipped === "flipped" ? setFlipped("unflipped") : setFlipped("flipped");
-        }
-        else if (flipState && flipped) {
+            flipped === "flipped"
+                ? setFlipped("unflipped")
+                : setFlipped("flipped");
+        } else if (flipState && flipped) {
             setFlipped(flipState);
             return;
         }
-
     };
 
     const addingToCart = (e) => {
