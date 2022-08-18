@@ -2,13 +2,26 @@ import { useState } from "react";
 
 const Popover = (props) => {
     const [popOverState, updatePopOverState] = useState(false);
+    const [zIndex, updateZIndex] = useState();
 
     const togglePopOverState = () => {
-        updatePopOverState(popOverState == "open" ? "closed" : "open");
+        if (popOverState === "open") {
+            closePopover();
+        } else {
+            updatePopOverState("open");
+            updateZIndex("z-[9999]");
+        }
+    };
+
+    const closePopover = () => {
+        updatePopOverState("closed");
+        setTimeout(() => {
+            updateZIndex("");
+        }, 200);
     };
 
     return (
-        <div className="relative z-[9999]">
+        <div className={`relative ${zIndex}`}>
             <div
                 className={`${
                     popOverState == "open"
@@ -24,8 +37,8 @@ const Popover = (props) => {
                 <div className="absolute border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[20px] border-t-default-900 w-0 h-0 left-1/2 -translate-x-1/2 z-50 -mt-8"></div>
             </div>
             <div
-                onMouseEnter={() => updatePopOverState("open")}
-                onMouseLeave={() => updatePopOverState("closed")}
+                onMouseEnter={togglePopOverState}
+                onMouseLeave={closePopover}
                 onClick={togglePopOverState}
             >
                 {props.children}

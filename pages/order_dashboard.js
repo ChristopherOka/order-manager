@@ -1,6 +1,7 @@
 import Navbar from "../components/navbar";
 import DateSidebar from "../components/dateSidebar";
 import OrderSummaryCard from "../components/OrderSummaryCard";
+import Button from "../components/button";
 import Image from "next/image";
 import { useState } from "react";
 import * as db from "./api/database";
@@ -72,12 +73,24 @@ export default function OrderDashboard({
         setActiveDate(date);
     };
 
+    const openPrintLayout = () => {
+        window.print();
+        return true;
+    };
+
     return (
         <div className="overflow-hidden">
-            <h1 className="absolute text-center text-4xl font-bold py-6 bg-default-100 z-[60] w-full">
+            <h1 className="absolute flex justify-center items-center text-4xl font-bold py-6 bg-default-100 z-[60] w-full print:hidden">
                 ORDER DASHBOARD
+                <div>
+                    <Button
+                        type="secondary-md"
+                        img="/images/icons/printer.png"
+                        clickHandler={openPrintLayout}
+                    />
+                </div>
             </h1>
-            <div className="absolute z-[100] top-0 left-0 w-screen flex items-center justify-start my-20 sm:my-5 pl-2 md:pr-5">
+            <div className="absolute z-[100] top-0 left-0 w-62 flex items-center justify-start my-20 sm:my-5 pl-2 md:pr-5 print:hidden">
                 <div className="w-[50px] sm:w-[70px] md:w-[100px]">
                     <Image
                         src="/images/misc/logo.png"
@@ -86,8 +99,13 @@ export default function OrderDashboard({
                     />
                 </div>
             </div>
-            <DateSidebar activeDate={activeDate} changeDate={changeDate} />
-            <div className="grid grid-cols-1 gap-y-3 max-h-[82vh] overflow-auto ml-20 pl-5 pr-5 pt-20 mt-10 pb-3 md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full sm:grid-flow-col sm:gap-x-10 sm:gap-y-5">
+            <div className="print:hidden">
+                <DateSidebar activeDate={activeDate} changeDate={changeDate} />
+            </div>
+            <div className={`grid grid-cols-1 gap-y-3 max-h-[82vh] overflow-auto ml-20 pl-5 
+            pr-5 pt-20 mt-10 pb-3 md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full 
+            sm:grid-flow-col sm:gap-x-10 sm:gap-y-5 print:max-h-full print:top-0 
+            print:left-0 print:flex print:flex-wrap print:m-0 print:p-0 print:gap-0 print:overflow-hidden`}>
                 {orderData.map((order) => {
                     return (
                         <OrderSummaryCard
@@ -98,8 +116,9 @@ export default function OrderDashboard({
                     );
                 })}
             </div>
-
-            <Navbar activeTab="order_dashboard" />
+            <div className="print:hidden">
+                <Navbar activeTab="order_dashboard" />
+            </div>
         </div>
     );
 }

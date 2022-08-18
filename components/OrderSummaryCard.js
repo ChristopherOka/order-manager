@@ -35,21 +35,21 @@ export default function OrderSummaryCard(props) {
     };
 
     return (
-        <div className="relative">
+        <div className="relative print:flex print:flex-col print:w-[33vw]">
             <div
                 className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-80 sm:w-96 group ${
                     flipped == "flipped"
-                        ? "animate-frontTileFlip"
+                        ? "animate-frontTileFlip print:animate-backTileFlip"
                         : flipped == "unflipped"
-                        ? "animate-backTileFlip animation-delay-400"
+                        ? "animate-backTileFlip animation-delay-400 "
                         : null
-                }`}
+                } print:border print:rounded-none print:block print:shadow-none print:w-full print:h-full print:border-b-0 `}
             >
                 <div className="flex justify-between">
-                    <h2 className="text-default-900 font-bold text-2xl pb-2">
+                    <h2 className="text-default-900 font-bold text-2xl pb-2 print:text-lg print:p-0">
                         {props.order.customer_name}
                     </h2>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 print:hidden">
                         <div>
                             <Popover
                                 content={`${
@@ -99,13 +99,13 @@ export default function OrderSummaryCard(props) {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-y-auto max-h-60 pt-2">
+                <div className="overflow-y-auto max-h-60 pt-2 print:max-h-full print:p-0">
                     {Object.keys(props.order.order_items).map((item) => {
                         if (props.order.order_items[item] > 0) {
                             return (
                                 <div
                                     key={item}
-                                    className="border-b-2 text-lg pt-2"
+                                    className="border-b-2 text-lg pt-2 print:text-sm print:pt-1 flex justify-between"
                                 >
                                     {props.order.order_items[item]}x&nbsp;
                                     {
@@ -114,6 +114,7 @@ export default function OrderSummaryCard(props) {
                                                 product.product_id == item
                                         ).product_name
                                     }
+                                    <span className="hidden print:block"><Checkbox/></span>
                                 </div>
                             );
                         } else {
@@ -128,10 +129,10 @@ export default function OrderSummaryCard(props) {
                         ? "animate-backTileFlip animation-delay-400"
                         : flipped == "unflipped"
                         ? "animate-frontTileFlip"
-                        : "hidden"
+                        : "hidden print:relative print:block print:rounded-none print:border print:border-t-0 print:shadow-none print:w-full print:h-full print:py-0"
                 }`}
             >
-                <div className="flex justify-between">
+                <div className="flex justify-between print:hidden">
                     <h2 className="text-default-900 font-bold text-2xl pb-2">
                         {props.order.customer_name}
                     </h2>
@@ -187,38 +188,38 @@ export default function OrderSummaryCard(props) {
                     </div>
                 </div>
                 <div>
-                    <div className="overflow-y-auto max-h-60 pt-2">
-                        <div className="flex text-default-900 text-lg gap-2">
+                    <div className="overflow-y-auto max-h-60 pt-2 print:max-h-full print:overflow-hidden print:p-0">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">VERIFIED:</h3>
                             <Checkbox
                                 defaultChecked={props.order.is_verified}
                                 handleInputChange={toggleOrderVerification}
                             />
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">ORDER PAID:</h3>
                             <Checkbox
                                 defaultChecked={props.order.has_paid}
                                 handleInputChange={toggleOrderPaymentStatus}
                             />
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Delivery Date:</h3>
-                            <p>{props.order.delivery_date}</p>
+                            <p>{(new Date(props.order.delivery_date)).toDateString()}</p>
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Address:</h3>
                             <p>{props.order.address}</p>
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className=" font-bold">City:</h3>
                             <p>{props.order.city}</p>
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Payment Type:</h3>
                             <p>{props.order.payment_type}</p>
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Misc. Fees:</h3>
                             <p>
                                 $
@@ -227,7 +228,7 @@ export default function OrderSummaryCard(props) {
                                 ).toFixed(2)}
                             </p>
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Total Cost:</h3>
                             <p>
                                 $
@@ -237,15 +238,15 @@ export default function OrderSummaryCard(props) {
                                 ).toFixed(2)}
                             </p>
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Email:</h3>
                             <p>{props.order.email}</p>
                         </div>
-                        <div className="flex text-default-900 text-lg gap-2">
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Phone:</h3>
                             <p>{props.order.phone}</p>
                         </div>
-                        <div className="flex flex-col text-default-900 text-lg">
+                        <div className="flex flex-col text-default-900 text-lg print:text-sm print:pb-2">
                             <h3 className="font-bold">
                                 Additional Information:
                             </h3>
