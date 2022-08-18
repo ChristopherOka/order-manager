@@ -114,7 +114,9 @@ export default function OrderSummaryCard(props) {
                                                 product.product_id == item
                                         ).product_name
                                     }
-                                    <span className="hidden print:block"><Checkbox/></span>
+                                    <span className="hidden print:block">
+                                        <Checkbox />
+                                    </span>
                                 </div>
                             );
                         } else {
@@ -205,7 +207,11 @@ export default function OrderSummaryCard(props) {
                         </div>
                         <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Delivery Date:</h3>
-                            <p>{(new Date(props.order.delivery_date)).toDateString()}</p>
+                            <p>
+                                {new Date(
+                                    props.order.delivery_date
+                                ).toDateString()}
+                            </p>
                         </div>
                         <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Address:</h3>
