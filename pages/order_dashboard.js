@@ -104,9 +104,9 @@ export default function OrderDashboard({
             </div>
             <div
                 className={`grid grid-cols-1 gap-y-3 max-h-[82vh] overflow-auto ml-20 pl-5 
-            pr-5 pt-20 mt-10 pb-3 md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full 
+            pr-5 pt-32 mt-10 pb-3 md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full 
             sm:grid-flow-col sm:gap-x-10 sm:gap-y-5 print:max-h-full print:top-0 
-            print:left-0 print:flex print:flex-wrap print:m-0 print:p-0 print:gap-0 print:overflow-hidden`}
+            print:left-0 print:table print:m-0 print:p-0 print:gap-0 print:overflow-hidden`}
             >
                 {orderData.map((order) => {
                     return (

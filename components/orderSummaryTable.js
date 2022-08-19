@@ -7,8 +7,15 @@ export default function OrderSummaryTable(props) {
                         <th className="font-medium pb-2 pr-12 pl-6 print:pl-0">
                             Product Name
                         </th>
-                        <th className="font-medium pb-2 pr-12">Total Dozens</th>
-                        <th className="font-medium pb-2 pr-12">Total Items</th>
+                        <th className="font-medium pb-2 pr-12 text-center">
+                            Total Dozens
+                        </th>
+                        <th className="font-medium pb-2 pr-12 text-center">
+                            Total Items
+                        </th>
+                        <th className="font-medium pb-2 pr-12 text-center">
+                            Cost
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,9 +40,45 @@ export default function OrderSummaryTable(props) {
                                     </span>
                                     <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                                 </td>
+                                <td className="pr-12 font-bold text-center print:text-start">
+                                    <span className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0">
+                                        ${product.cost || "-"}
+                                    </span>
+                                    <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
+                                </td>
                             </tr>
                         );
                     })}
+                    <tr className={`text-default-900 text-md print:border-t`}>
+                        <td className="font-bold py-2 pr-10 md:pr-12 pl-6 print:pl-0">
+                            Totals
+                        </td>
+                        <td className="pr-12 font-bold text-center print:text-start">
+                            <span className="rounded-xl bg-teal-100 px-3 w-fit print:mr-5 print:px-0">
+                                {props.products.reduce((total, product) => {
+                                    return total + product.total_dozens;
+                                }, 0)}
+                            </span>
+                            <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
+                        </td>
+                        <td className="pr-12 font-bold text-center print:text-start">
+                            <span className="rounded-xl bg-yellow-100 px-3 w-fit print:mr-5 print:px-0">
+                                {props.products.reduce((total, product) => {
+                                    return total + product.total_quantity;
+                                }, 0)}
+                            </span>
+                            <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
+                        </td>
+                        <td className="pr-12 font-bold text-center print:text-start">
+                            <span className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0">
+                                $
+                                {props.products.reduce((total, product) => {
+                                    return total + product.cost;
+                                }, 0)}
+                            </span>
+                            <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

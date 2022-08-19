@@ -17,21 +17,23 @@ export async function getServerSideProps() {
         start_date: smallestPossibleDate,
         end_date: oneYearFromNow,
     };
-    const [products, initialOrderCounts] = await Promise.all([
+    const [products, initialOrderCounts, productsData] = await Promise.all([
         db.getTotalProductQtyByDate(dates),
         db.getOrderCounts(dates),
+        db.getAllProductsData(),
     ]);
-    const productsWithQty = processProducts(products);
+    const productsWithQty = processProducts(products, productsData);
 
     return {
         props: {
             productsWithQty,
             initialOrderCounts,
+            productsData,
         },
     };
 }
 
-const processProducts = (products) => {
+const processProducts = (products, productsData) => {
     let productsWithQty = [];
 
     products.forEach((product) => {
@@ -47,6 +49,7 @@ const processProducts = (products) => {
             total_quantity:
                 parseFloat(product.quantity) * parseInt(product.measured_per),
             measured_per: product.measured_per,
+            cost: parseFloat(product.quantity) * parseFloat((productsData.find((p => p.product_id == product.product_id)).product_price)),
         });
         // if there are associated products, loop through the associated products
         // attempt to find the product in the productsWithQty array with matching product_id
@@ -125,11 +128,12 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             setProducts(productsWithQty);
             setOrderCounts(initialOrderCounts);
         } else {
-            const [products, newOrderCounts] = await Promise.all([
+            const [products, newOrderCounts, newProductsData] = await Promise.all([
                 db.getTotalProductQtyByDate(dateRanges[date]),
                 db.getOrderCounts(dateRanges[date]),
+                db.getAllProductsData(),
             ]);
-            setProducts(processProducts(products));
+            setProducts(processProducts(products, newProductsData));
             setStartDate(dateRanges[date].start_date.toDateString());
             setEndDate(dateRanges[date].end_date.toDateString());
             setOrderCounts(newOrderCounts);

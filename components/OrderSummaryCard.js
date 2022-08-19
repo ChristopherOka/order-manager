@@ -35,7 +35,7 @@ export default function OrderSummaryCard(props) {
     };
 
     return (
-        <div className="relative print:flex print:flex-col print:w-[33vw]">
+        <div className="relative print:inline-block print:w-[33vw]">
             <div
                 className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-80 sm:w-96 group ${
                     flipped == "flipped"
@@ -256,7 +256,7 @@ export default function OrderSummaryCard(props) {
                             <h3 className="font-bold">
                                 Additional Information:
                             </h3>
-                            <p className="leading-6">
+                            <p className="leading-5">
                                 {props.order.additional_information || "None"}
                             </p>
                         </div>
