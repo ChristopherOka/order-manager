@@ -1,6 +1,6 @@
-import Button from "../components/button";
-import ProductCard from "../components/productCard";
-import CartModal from "../components/cartModal";
+import Button from "../components/Button";
+import ProductCard from "../components/ProductCard";
+import CartModal from "../components/CartModal";
 import { useState, useEffect, useRef } from "react";
 import debounce from "../utils/globals.js";
 import * as db from "./api/database";

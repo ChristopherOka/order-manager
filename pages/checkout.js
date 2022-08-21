@@ -1,10 +1,10 @@
-import FormField from "../components/formField";
+import FormField from "../components/FormField";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 import * as db from "./api/database";
-import Button from "../components/button";
-import CheckoutProductCard from "../components/checkoutProductCard";
+import Button from "../components/Button";
+import CheckoutProductCard from "../components/CheckoutProductCard";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();

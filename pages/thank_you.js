@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Button from "../components/button";
+import Button from "../components/Button";
 
 export default function thank_you() {
     return (

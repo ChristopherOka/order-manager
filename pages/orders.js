@@ -1,8 +1,8 @@
 import { useState } from "react";
 import * as db from "./api/database";
-import OrderTableData from "../components/orderTableData";
-import Navbar from "../components/navbar";
-import DateSidebar from "../components/dateSidebar";
+import OrderTableData from "../components/OrderTableData";
+import Navbar from "../components/Navbar";
+import DateSidebar from "../components/DateSidebar";
 import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
 import Image from "next/image";
 
