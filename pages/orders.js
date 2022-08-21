@@ -86,6 +86,9 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         input.value = value;
         input.focus();
         input.classList.remove("hidden");
+        if (col_name == "additional_information") {
+            changeTextAreaHeight(null, input);
+        }
 
         button.classList.add("hidden");
         btns.classList.remove("hidden");
@@ -167,6 +170,16 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         setModalBody("");
         setModalIsOpen(false);
         setDeletedOrderUid(null);
+    };
+
+    const changeTextAreaHeight = (e, input) => {
+        if (e) {
+            e.currentTarget.style.height = "";
+            e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
+        } else {
+            input.style.height = "";
+            input.style.height = input.scrollHeight + "px";
+        }
     };
 
     return (
@@ -402,6 +415,10 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 }
                                                 uid={order.order_uid}
                                                 col_name="additional_information"
+                                                popout={true}
+                                                changeTextAreaHeight={
+                                                    changeTextAreaHeight
+                                                }
                                             >
                                                 {order.additional_information}
                                             </OrderTableData>
@@ -415,6 +432,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 }
                                                 uid={order.order_uid}
                                                 col_name="order_cost"
+                                                prepend="$"
                                             >
                                                 {order.order_cost}
                                             </OrderTableData>
@@ -428,6 +446,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 }
                                                 uid={order.order_uid}
                                                 col_name="misc_fees"
+                                                prepend="$"
                                             >
                                                 {order.misc_fees || 0}
                                             </OrderTableData>
@@ -437,6 +456,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 col_name="total_cost"
                                                 uid={order.order_uid}
                                                 readOnly={true}
+                                                prepend="$"
                                             >
                                                 {order.order_cost +
                                                     order.misc_fees}

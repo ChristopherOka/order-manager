@@ -117,11 +117,11 @@ module.exports = {
             boxShadow: {
                 "3xl": "0 0 12px 0px rgba(0, 0, 0, 0.3)",
                 top: "0 -4px 8px 0 rgba(0, 0, 0, 0.3)",
-                "box": "0 0 14px 0px rgba(0, 0, 0, 0.2)",
+                box: "0 0 14px 0px rgba(0, 0, 0, 0.2)",
             },
             screens: {
-                'print': { 'raw': 'print' },
-            }
+                print: { raw: "print" },
+            },
         },
     },
     plugins: [require("tailwindcss-animation-delay")],

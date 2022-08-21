@@ -11,6 +11,18 @@ export default function OrderSummaryCard(props) {
     );
     const [paymentStatus, setPaymentStatus] = useState(props.order.has_paid);
 
+    const deliveryDates = [
+        "Thu Dec 01 2022",
+        "Thu Dec 08 2022",
+        "Thu Dec 15 2022",
+        "Thu Dec 22 2022",
+        "Thu Dec 29 2022",
+    ];
+
+    const isIrregularDeliveryDate = !deliveryDates.includes(
+        new Date(props.order.delivery_date).toDateString()
+    );
+
     const flipCard = (flipState) => {
         if (flipState === "toggle") {
             flipped === "flipped"
@@ -36,6 +48,14 @@ export default function OrderSummaryCard(props) {
 
     return (
         <div className="relative print:inline-block print:w-[33vw]">
+            <div className="hidden">
+                <button
+                    className="flip-override"
+                    onClick={() => {
+                        setFlipped(false);
+                    }}
+                ></button>
+            </div>
             <div
                 className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-80 sm:w-96 group ${
                     flipped == "flipped"
@@ -45,11 +65,11 @@ export default function OrderSummaryCard(props) {
                         : null
                 } print:border print:rounded-none print:block print:shadow-none print:w-full print:h-full print:border-b-0 `}
             >
-                <div className="flex justify-between">
-                    <h2 className="text-default-900 font-bold text-2xl pb-2 print:text-lg print:p-0">
+                <div className="flex justify-between gap-2">
+                    <h2 className="text-default-900 font-bold text-2xl pb-2 truncate print:text-lg print:p-0 ">
                         {props.order.customer_name}
                     </h2>
-                    <div className="flex gap-2 print:hidden">
+                    <div className="flex gap-2 min-w-fit print:hidden">
                         <div>
                             <Popover
                                 content={`${
@@ -83,6 +103,34 @@ export default function OrderSummaryCard(props) {
                                             ? "green_money.png"
                                             : "yellow_unpaid.png"
                                     }`}
+                                    width="28"
+                                    height="28"
+                                />
+                            </Popover>
+                        </div>
+                        <div
+                            className={`${
+                                isIrregularDeliveryDate ? "" : "hidden"
+                            }`}
+                        >
+                            <Popover content={`Irregular Delivery Date`}>
+                                <Image
+                                    src={`/images/icons/yellow_delivery.png`}
+                                    width="28"
+                                    height="28"
+                                />
+                            </Popover>
+                        </div>
+                        <div
+                            className={`${
+                                props.order.additional_information
+                                    ? ""
+                                    : "hidden"
+                            }`}
+                        >
+                            <Popover content={`Has Additional Information!`}>
+                                <Image
+                                    src={`/images/icons/yellow_paper.png`}
                                     width="28"
                                     height="28"
                                 />
@@ -134,12 +182,12 @@ export default function OrderSummaryCard(props) {
                         : "hidden print:relative print:block print:rounded-none print:border print:border-t-0 print:shadow-none print:w-full print:h-full print:py-0"
                 }`}
             >
-                <div className="flex justify-between print:hidden">
-                    <h2 className="text-default-900 font-bold text-2xl pb-2">
+                <div className="flex justify-between gap-2 print:hidden">
+                    <h2 className="text-default-900 font-bold text-2xl pb-2 truncate">
                         {props.order.customer_name}
                     </h2>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 min-w-fit">
                         <div>
                             <Popover
                                 content={`${
@@ -173,6 +221,34 @@ export default function OrderSummaryCard(props) {
                                             ? "green_money.png"
                                             : "yellow_unpaid.png"
                                     }`}
+                                    width="28"
+                                    height="28"
+                                />
+                            </Popover>
+                        </div>
+                        <div
+                            className={`${
+                                isIrregularDeliveryDate ? "" : "hidden"
+                            }`}
+                        >
+                            <Popover content={`Irregular Delivery Date`}>
+                                <Image
+                                    src={`/images/icons/yellow_delivery.png`}
+                                    width="28"
+                                    height="28"
+                                />
+                            </Popover>
+                        </div>
+                        <div
+                            className={`${
+                                props.order.additional_information
+                                    ? ""
+                                    : "hidden"
+                            }`}
+                        >
+                            <Popover content={`Has Additional Information!`}>
+                                <Image
+                                    src={`/images/icons/yellow_paper.png`}
                                     width="28"
                                     height="28"
                                 />
@@ -224,6 +300,15 @@ export default function OrderSummaryCard(props) {
                         <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Payment Type:</h3>
                             <p>{props.order.payment_type}</p>
+                        </div>
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
+                            <h3 className="font-bold">Order Cost:</h3>
+                            <p>
+                                $
+                                {(
+                                    parseFloat(props.order.order_cost) || 0
+                                ).toFixed(2)}
+                            </p>
                         </div>
                         <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">Misc. Fees:</h3>

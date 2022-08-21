@@ -3,14 +3,33 @@ import Image from "next/image";
 export default function OrderTableData(props) {
     return (
         <div className="flex group justify-between items-center px-4 py-2 whitespace-nowrap gap-3 min-w-max">
-            <div id={`${props.uid}-${props.col_name}-text`}>
-                {props.children}
+            <div className="flex justify-start">
+                <span className={`${props.prepend ? "inline" : "hidden"}`}>
+                    {props.prepend}
+                </span>
+                <div
+                    id={`${props.uid}-${props.col_name}-text`}
+                    className={`${
+                        props.popout ? "truncate max-w-[10rem]" : ""
+                    }`}
+                >
+                    {props.children}
+                </div>
             </div>
-            <input
-                id={`${props.uid}-${props.col_name}-input`}
-                className="hidden w-full bg-slate-200 rounded-md px-1"
-                type={props.type}
-            />
+            {props.popout ? (
+                <textarea
+                    id={`${props.uid}-${props.col_name}-input`}
+                    className="hidden w-full bg-slate-200 rounded-md px-1 min-h-max min-w-[20rem]"
+                    type={props.type}
+                    onChange={props.changeTextAreaHeight}
+                ></textarea>
+            ) : (
+                <input
+                    id={`${props.uid}-${props.col_name}-input`}
+                    className="hidden w-full bg-slate-200 rounded-md px-1"
+                    type={props.type}
+                />
+            )}
             <button
                 id={`${props.uid}-${props.col_name}-edit`}
                 className={`transition-opacity flex opacity-0 group-hover:opacity-100 ${

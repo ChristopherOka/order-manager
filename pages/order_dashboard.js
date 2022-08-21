@@ -37,6 +37,12 @@ export default function OrderDashboard({
     const [productNames, setProductNames] = useState(initialProductNames);
 
     const dateRanges = {
+        All: {
+            start_date: new Date(0),
+            end_date: new Date(
+                new Date().setFullYear(new Date().getFullYear() + 1)
+            ),
+        },
         "1st": {
             start_date: new Date("2022-11-24"),
             end_date: new Date("2022-12-01"),
@@ -60,27 +66,26 @@ export default function OrderDashboard({
     };
 
     const changeDate = async (date) => {
-        if (date == "All") {
-            setOrderData(initialOrderData);
-        } else {
-            const [newOrderData, newProductNames] = await Promise.all([
-                db.getAllData(dateRanges[date]),
-                db.getProductNames(),
-            ]);
-            setOrderData(newOrderData);
-            setProductNames(newProductNames);
-        }
+        const [newOrderData, newProductNames] = await Promise.all([
+            db.getAllData(dateRanges[date]),
+            db.getProductNames(),
+        ]);
+        setOrderData(newOrderData);
+        setProductNames(newProductNames);
         setActiveDate(date);
     };
 
-    const openPrintLayout = () => {
+    const openPrintLayout = async () => {
+        await document.querySelectorAll(".flip-override").forEach((el) => {
+            el.click();
+        });
         window.print();
         return true;
     };
 
     return (
         <div className="overflow-hidden">
-            <h1 className="absolute flex justify-center items-center text-4xl font-bold py-6 bg-default-100 z-[60] w-full print:hidden">
+            <h1 className="absolute flex justify-center items-center text-4xl font-bold py-6 bg-default-100 w-full print:hidden">
                 ORDER DASHBOARD
                 <div>
                     <Button
