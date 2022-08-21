@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BlurImage from "../components/blurImage";
+import BlurImage from "./BlurImage";
 import { useState } from "react";
 
 export default function ProductCard(props) {

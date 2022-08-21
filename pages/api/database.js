@@ -141,15 +141,31 @@ export async function updateTableData(table_data, uid, col_name) {
         }
     }
     if (updateTable) {
-        const { data, error } = await supabase
-            .from(table_name)
-            .update({
-                [column_name]: inserted_data,
-            })
-            .match(match_columns);
-        if (error) {
-            console.log(error);
-            return false;
+        const updateCols = {
+            [column_name]: inserted_data,
+        };
+        if (table_name === "order_items") {
+            const { data, error } = await supabase.rpc("update_order_item", {
+                update_order_uid: uid,
+                update_product_id: col_name,
+                update_quantity: inserted_data || 0,
+            });
+            if (error) {
+                console.log(error);
+                return false;
+            }
+        } else {
+            if (table_name === "orders") {
+                updateCols.is_verified = false;
+            }
+            const { data, error } = await supabase
+                .from(table_name)
+                .update(updateCols)
+                .match(match_columns);
+            if (error) {
+                console.log(error);
+                return false;
+            }
         }
     }
 

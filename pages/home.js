@@ -1,8 +1,8 @@
-import Navbar from "../components/navbar";
-import DateSidebar from "../components/dateSidebar";
-import OrderSummaryTable from "../components/orderSummaryTable";
-import Button from "../components/button";
-import AtAGlanceRow from "../components/atAGlanceRow";
+import Navbar from "../components/Navbar";
+import DateSidebar from "../components/DateSidebar";
+import OrderSummaryTable from "../components/OrderSummaryTable";
+import Button from "../components/Button";
+import AtAGlanceRow from "../components/AtAGlanceRow";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import debounce from "../utils/globals";
@@ -155,7 +155,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     />
                 </div>
             </div>
-            <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-8 w-screen items-center justify-center print:hidden xl:flex">
+            <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-5 w-screen items-center justify-center print:hidden xl:flex">
                 HOME
             </h1>
             <div className="print:hidden">

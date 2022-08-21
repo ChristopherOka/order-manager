@@ -1,7 +1,7 @@
-import Button from "../components/button";
+import Button from "./button";
 import Image from "next/image";
-import CartModalProduct from "../components/cartModalProduct";
-import Popover from "../components/popover";
+import CartModalProduct from "./CartModalProduct";
+import Popover from "./Popover";
 
 export default function CartModal(props) {
     return (

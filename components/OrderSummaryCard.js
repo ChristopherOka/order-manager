@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Popover from "./popover";
+import Popover from "./Popover";
 import { useState } from "react";
 import Checkbox from "./Checkbox";
 import * as db from "../pages/api/database";
