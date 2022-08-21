@@ -1,4 +1,4 @@
-import Button from "./button";
+import Button from "./Button";
 import Image from "next/image";
 import CartModalProduct from "./CartModalProduct";
 import Popover from "./Popover";
