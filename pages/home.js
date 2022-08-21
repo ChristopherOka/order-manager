@@ -49,7 +49,8 @@ const processProducts = (products, productsData) => {
             total_quantity:
                 parseFloat(product.quantity) * parseInt(product.measured_per),
             measured_per: product.measured_per,
-            cost: parseFloat(product.quantity) * parseFloat((productsData.find((p => p.product_id == product.product_id)).product_price)),
+            cost: productsData.find((p) => p.product_id == product.product_id)
+                .product_price,
         });
         // if there are associated products, loop through the associated products
         // attempt to find the product in the productsWithQty array with matching product_id
@@ -128,11 +129,12 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             setProducts(productsWithQty);
             setOrderCounts(initialOrderCounts);
         } else {
-            const [products, newOrderCounts, newProductsData] = await Promise.all([
-                db.getTotalProductQtyByDate(dateRanges[date]),
-                db.getOrderCounts(dateRanges[date]),
-                db.getAllProductsData(),
-            ]);
+            const [products, newOrderCounts, newProductsData] =
+                await Promise.all([
+                    db.getTotalProductQtyByDate(dateRanges[date]),
+                    db.getOrderCounts(dateRanges[date]),
+                    db.getAllProductsData(),
+                ]);
             setProducts(processProducts(products, newProductsData));
             setStartDate(dateRanges[date].start_date.toDateString());
             setEndDate(dateRanges[date].end_date.toDateString());
@@ -185,7 +187,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     </div>
                     <OrderSummaryTable products={products} />
                 </div>
-                <div className="hidden items-center mr-10 xl:mr-52 2xl:mr-62 md:flex print:hidden">
+                <div className="hidden items-center mr-10 xl:mr-28 2xl:mr-72 md:flex print:hidden">
                     <div className="bg-default-100 shadow-box flex flex-col rounded-md">
                         <h2 className="text-default-900 font-bold text-3xl py-8 px-12">
                             AT A GLANCE

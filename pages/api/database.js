@@ -96,13 +96,13 @@ export async function updateTableData(table_data, uid, col_name) {
         "payment_type",
         "additional_information",
         "order_cost",
+        "misc_fees",
         "creation_timestamp",
     ];
 
     let table_name = "order_items";
     let match_columns = { order_uid: uid, product_id: col_name };
     let column_name = "quantity";
-    let updateTable = true;
     let inserted_data = table_data || 0;
 
     if (customers_columns.includes(col_name)) {
@@ -116,56 +116,30 @@ export async function updateTableData(table_data, uid, col_name) {
         column_name = col_name;
         inserted_data = table_data || "-";
     }
+    const updateCols = {
+        [column_name]: inserted_data,
+    };
     if (table_name === "order_items") {
-        const { data, error } = await supabase
-            .from("order_items")
-            .select("*")
-            .match(match_columns);
+        const { data, error } = await supabase.rpc("update_order_item", {
+            update_order_uid: uid,
+            update_product_id: col_name,
+            update_quantity: inserted_data || 0,
+        });
         if (error) {
             console.log(error);
             return false;
         }
-        if (data.length === 0) {
-            const { error2 } = await supabase.from("order_items").insert([
-                {
-                    order_uid: uid,
-                    product_id: col_name,
-                    quantity: inserted_data || 0,
-                },
-            ]);
-            updateTable = false;
-            if (error2) {
-                console.log(error2);
-                return false;
-            }
+    } else {
+        if (table_name === "orders" && column_name !== "is_verified") {
+            updateCols.is_verified = false;
         }
-    }
-    if (updateTable) {
-        const updateCols = {
-            [column_name]: inserted_data,
-        };
-        if (table_name === "order_items") {
-            const { data, error } = await supabase.rpc("update_order_item", {
-                update_order_uid: uid,
-                update_product_id: col_name,
-                update_quantity: inserted_data || 0,
-            });
-            if (error) {
-                console.log(error);
-                return false;
-            }
-        } else {
-            if (table_name === "orders") {
-                updateCols.is_verified = false;
-            }
-            const { data, error } = await supabase
-                .from(table_name)
-                .update(updateCols)
-                .match(match_columns);
-            if (error) {
-                console.log(error);
-                return false;
-            }
+        const { data, error } = await supabase
+            .from(table_name)
+            .update(updateCols)
+            .match(match_columns);
+        if (error) {
+            console.log(error);
+            return false;
         }
     }
 

@@ -13,7 +13,9 @@ export default function OrderTableData(props) {
             />
             <button
                 id={`${props.uid}-${props.col_name}-edit`}
-                className="transition-opacity flex opacity-0 group-hover:opacity-100"
+                className={`transition-opacity flex opacity-0 group-hover:opacity-100 ${
+                    props.readOnly ? "hidden" : ""
+                }`}
                 onClick={props.editTableData}
                 data-uid={props.uid}
                 data-customer_uid={props.customer_uid}

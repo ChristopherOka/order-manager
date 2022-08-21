@@ -42,7 +42,7 @@ export default function OrderSummaryTable(props) {
                                 </td>
                                 <td className="pr-12 font-bold text-center print:text-start">
                                     <span className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0">
-                                        ${product.cost || "-"}
+                                        ${product.cost * (product.total_dozens || product.total_quantity) || "-"}
                                     </span>
                                     <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                                 </td>
@@ -73,7 +73,7 @@ export default function OrderSummaryTable(props) {
                             <span className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0">
                                 $
                                 {props.products.reduce((total, product) => {
-                                    return total + product.cost;
+                                    return total + product.cost * (product.total_dozens || product.total_quantity);
                                 }, 0)}
                             </span>
                             <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>

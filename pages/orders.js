@@ -106,6 +106,27 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         input.classList.add("hidden");
         editBtn.classList.remove("hidden");
         btns.classList.add("hidden");
+        const orders_columns = [
+            "delivery_date",
+            "has_paid",
+            "is_verified",
+            "payment_type",
+            "additional_information",
+            "order_cost",
+            "misc_fees",
+            "creation_timestamp",
+        ];
+        if (orders_columns.includes(col_name) && col_name !== "is_verified") {
+            document.getElementById(`${uid}-is_verified-text`).innerText = "No";
+            if ((col_name = "misc_fees")) {
+                const order_cost = document.getElementById(
+                    `${uid}-order_cost-text`
+                ).innerText;
+                const total_cost = parseInt(order_cost) + parseInt(value);
+                document.getElementById(`${uid}-total_cost-text`).innerText =
+                    total_cost;
+            }
+        }
     };
 
     const cancelTableEdit = (e) => {
@@ -207,6 +228,9 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                 </th>
                                 <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
                                     Misc. Fees
+                                </th>
+                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                    Total Cost
                                 </th>
                                 <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
                                     Time of Order
@@ -405,17 +429,22 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 uid={order.order_uid}
                                                 col_name="misc_fees"
                                             >
-                                                {order.misc_fees}
+                                                {order.misc_fees || 0}
                                             </OrderTableData>
                                         </td>
                                         <td>
                                             <OrderTableData
-                                                editTableData={editTableData}
-                                                saveTableEdit={saveTableEdit}
-                                                cancelTableEdit={
-                                                    cancelTableEdit
-                                                }
+                                                col_name="total_cost"
                                                 uid={order.order_uid}
+                                                readOnly={true}
+                                            >
+                                                {order.order_cost +
+                                                    order.misc_fees}
+                                            </OrderTableData>
+                                        </td>
+                                        <td>
+                                            <OrderTableData
+                                                readOnly={true}
                                                 col_name="creation_timestamp"
                                             >
                                                 {new Date(
