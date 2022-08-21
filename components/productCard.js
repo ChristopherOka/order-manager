@@ -47,7 +47,7 @@ export default function ProductCard(props) {
                             : null
                     }`}
                 >
-                    <div className="bg-default-900 rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
+                    <div className="bg-default-900 relative rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
                         <h3 className="text-xl font-bold">{props.text}</h3>
                         <p className="italic">
                             ${props.price} per{" "}
@@ -57,6 +57,21 @@ export default function ProductCard(props) {
                     {props.imgPath ? (
                         <BlurImage alt={props.text} imgPath={props.imgPath} />
                     ) : null}
+                    <div className="absolute bottom-0 right-0">
+                        <div className="bg-default-900 relative rounded-br-md flex items-center gap-2 px-4 py-1">
+                            <h4 className="text-default-100 text-xl z-10">
+                                Description
+                            </h4>
+                            <div className="rotate-180 flex">
+                                <Image
+                                    src="/images/icons/back_arrow.svg"
+                                    width="25"
+                                    height="25"
+                                />
+                            </div>
+                            <div className="absolute -left-[31.5px] bottom-0 w-0 h-0 border-l-[2rem] border-l-transparent border-r-[2rem] border-r-transparent border-b-[36.5px] border-b-default-900"></div>
+                        </div>
+                    </div>
                 </div>
                 <div
                     className={`group absolute top-0 ${
