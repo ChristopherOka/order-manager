@@ -184,3 +184,13 @@ export async function updatePaymentStatus(order_uid, isChecked) {
     }
     return true;
 }
+
+export async function getAllMaterials() {
+    const { data, error } = await supabase.rpc("get_all_materials");
+
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return data;
+}
