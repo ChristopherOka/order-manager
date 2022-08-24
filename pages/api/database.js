@@ -194,3 +194,33 @@ export async function getAllMaterials() {
     }
     return data;
 }
+
+export async function addMaterialQuantity(material_uid, quantity, cost) {
+    const { data, error } = await supabase.from("material_quantities").insert([
+        {
+            material_uid,
+            quantity,
+            cost,
+        },
+    ]);
+
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return true;
+}
+
+export async function addMaterial(material_name) {
+    const { data, error } = await supabase.from("materials").insert([
+        {
+            material_name,
+        },
+    ]);
+
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return true;
+}
