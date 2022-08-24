@@ -79,9 +79,12 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         const col_name = button.dataset["col_name"];
         const input = document.getElementById(`${uid}-${col_name}-input`);
         const text = document.getElementById(`${uid}-${col_name}-text`);
+        const textWell = document.getElementById(
+            `${uid}-${col_name}-text-well`
+        );
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const value = text.innerText;
-        text.classList.add("hidden");
+        textWell.classList.add("hidden");
         input.setAttribute("size", value.length);
         input.value = value;
         input.focus();
@@ -102,10 +105,13 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         const value = input.value;
         await db.updateTableData(value, uid, col_name);
         const text = document.getElementById(`${uid}-${col_name}-text`);
+        const textWell = document.getElementById(
+            `${uid}-${col_name}-text-well`
+        );
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const editBtn = document.getElementById(`${uid}-${col_name}-edit`);
         text.innerText = parseInt("col_name") ? value || 0 : value || "-";
-        text.classList.remove("hidden");
+        textWell.classList.remove("hidden");
         input.classList.add("hidden");
         editBtn.classList.remove("hidden");
         btns.classList.add("hidden");
@@ -137,7 +143,9 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         const uid = button.dataset["uid"];
         const col_name = button.dataset["col_name"];
         const input = document.getElementById(`${uid}-${col_name}-input`);
-        const text = document.getElementById(`${uid}-${col_name}-text`);
+        const textWell = document.getElementById(
+            `${uid}-${col_name}-text-well`
+        );
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const editBtn = document.getElementById(`${uid}-${col_name}-edit`);
         text.classList.remove("hidden");

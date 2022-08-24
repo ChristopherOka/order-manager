@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function OrderTableData(props) {
     return (
         <div className="flex group justify-between items-center px-4 py-2 whitespace-nowrap gap-3 min-w-max">
-            <div className="flex justify-start">
+            <div id={`${props.uid}-${props.col_name}-text-well`} className="flex justify-start">
                 <span className={`${props.prepend ? "inline" : "hidden"}`}>
                     {props.prepend}
                 </span>
