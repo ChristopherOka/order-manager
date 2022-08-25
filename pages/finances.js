@@ -3,6 +3,7 @@ import FinancesTable from "../components/FinancesTable";
 import Image from "next/image";
 import Button from "../components/Button";
 import { useState } from "react";
+import { LineChart, Line } from 'recharts';
 import * as db from "./api/database";
 
 export async function getServerSideProps() {
