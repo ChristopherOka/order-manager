@@ -3,7 +3,7 @@ import FinancesTable from "../components/FinancesTable";
 import Image from "next/image";
 import Button from "../components/Button";
 import { useState } from "react";
-import { LineChart, Line } from 'recharts';
+import { LineChart, Line, XAxis, YAxis } from 'recharts';
 import * as db from "./api/database";
 
 export async function getServerSideProps() {
@@ -118,6 +118,13 @@ export default function Finances({ initialMaterials }) {
                         </div>
                     </div>
                     <FinancesTable materials={materials} />
+                    <div>
+                        <LineChart>
+                            <Line />
+                            <XAxis />
+                            <YAxis />
+                        </LineChart>
+                    </div>
                 </div>
             </div>
             <Navbar activeTab="finances" />
