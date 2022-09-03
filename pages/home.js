@@ -149,7 +149,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             style={{ height: `${innerHeight + "px" || "100vh"}` }}
         >
             <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:justify-end md:pr-5 print:hidden">
-                <div className="w-[70px] md:w-[100px]">
+                <div className="px-3 py-3 bg-default-900 flex w-[60px] md:w-[100px] rounded-md overflow-hidden">
                     <Image
                         src="/images/misc/logo.png"
                         width="100"

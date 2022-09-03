@@ -17,6 +17,7 @@ module.exports = {
             },
             fontFamily: {
                 "source-sans-pro": ["Source Sans Pro", "sans-serif"],
+                "fjalla-one": ["Fjalla One", "sans-serif"],
             },
             keyframes: {
                 slideOut: {

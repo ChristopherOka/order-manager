@@ -44,7 +44,7 @@ export default function Finances({ initialMaterials }) {
     return (
         <div className="w-screen relative h-screen">
             <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:justify-end md:pr-5 print:hidden">
-                <div className="w-[70px] md:w-[100px]">
+                <div className="rounded-md bg-default-900 p-3 flex w-[70px] md:w-[100px]">
                     <Image
                         src="/images/misc/logo.png"
                         width="100"

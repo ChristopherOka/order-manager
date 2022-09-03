@@ -96,7 +96,7 @@ export default function OrderDashboard({
                 </div>
             </h1>
             <div className="absolute z-[100] top-0 left-0 w-62 flex items-center justify-start my-20 sm:my-5 pl-2 md:pr-5 print:hidden">
-                <div className="w-[50px] sm:w-[70px] md:w-[100px]">
+                <div className="rounded-md px-3 py-3 bg-default-900 flex w-[60px] sm:w-[70px] md:w-[100px]">
                     <Image
                         src="/images/misc/logo.png"
                         width="100"
