@@ -96,6 +96,10 @@ module.exports = {
                     "0%": { opacity: "1" },
                     "100%": { opacity: "0" },
                 },
+                dropDown: {
+                    "0%": { transform: "scaleY(0)" },
+                    "100%": { transform: "scaleY(1)" },
+                },
             },
             animation: {
                 slideOut: "slideOut 0.3s ease",
@@ -113,6 +117,7 @@ module.exports = {
                 fadeInOut: "fadeInOut 1.5s ease-in-out forwards",
                 fadeIn: "fadeIn 0.3s ease-in-out forwards",
                 fadeOut: "fadeOut 0.3s ease-in-out forwards",
+                dropDown: "dropDown 0.3s ease forwards",
             },
             boxShadow: {
                 "3xl": "0 0 12px 0px rgba(0, 0, 0, 0.3)",
