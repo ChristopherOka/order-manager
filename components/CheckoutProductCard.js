@@ -9,7 +9,7 @@ export default function CheckoutProductCard(props) {
             <div className="bg-default-100 rounded-md w-56 h-56 relative shadow-lg overflow-hidden">
                 <div className="rounded-md">
                     <Image
-                        src={`/images/product_images/${props.imgPath}`}
+                        src={`/images/product_images/christmas_products/${props.imgPath}`}
                         width="160"
                         height="160"
                         objectFit="cover"

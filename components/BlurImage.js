@@ -14,7 +14,7 @@ export default function BlurImage(props) {
                             : "grayscale-0 blur-0 scale-100"
                     }`}
                     alt={props.alt}
-                    src={`/images/product_images/${props.imgPath}`}
+                    src={`/images/product_images/christmas_products/${props.imgPath}`}
                     objectFit="cover"
                     layout="fill"
                     onLoadingComplete={() => setIsLoading(false)}
