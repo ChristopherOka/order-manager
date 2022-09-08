@@ -58,7 +58,7 @@ export default function Home() {
                         CUSTOM COOKIES
                     </h2>
                     <p className="text-slate-600 text-xl">
-                        Homemade Cookies With Any Design That You'd Like!
+                        Homemade Cookies With Any Design That You&apos;d Like!
                     </p>
                     <button className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
                         ORDER NOW
