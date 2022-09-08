@@ -7,16 +7,16 @@ import ImageCarosel from "../components/ImageCarosel";
 
 export default function Home() {
     const images = [
-        "/images/product_images/custom_products/1.jpg",
-        "/images/product_images/custom_products/2.jpg",
-        "/images/product_images/custom_products/3.jpg",
-        "/images/product_images/custom_products/4.jpg",
-        "/images/product_images/custom_products/5.jpg",
-        "/images/product_images/custom_products/6.jpg",
-        "/images/product_images/custom_products/7.jpg",
-        "/images/product_images/custom_products/8.jpg",
-        "/images/product_images/custom_products/9.jpg",
-        "/images/product_images/custom_products/10.jpg",
+        "/images/product_images/custom_products/1.webp",
+        "/images/product_images/custom_products/2.webp",
+        "/images/product_images/custom_products/3.webp",
+        "/images/product_images/custom_products/4.webp",
+        "/images/product_images/custom_products/5.webp",
+        "/images/product_images/custom_products/6.webp",
+        "/images/product_images/custom_products/7.webp",
+        "/images/product_images/custom_products/8.webp",
+        "/images/product_images/custom_products/9.webp",
+        "/images/product_images/custom_products/10.webp",
     ];
 
     return (
@@ -30,7 +30,7 @@ export default function Home() {
             <main>
                 <MainHeader></MainHeader>
                 <MainNavbar active="home"></MainNavbar>{" "}
-                <section className="w-full h-96 relative bg-[url('/images/product_images/home_banner.jpg')] bg-cover"></section>
+                <section className="w-full h-96 relative bg-[url('/images/product_images/home_banner.webp')] bg-cover"></section>
                 <section className="w-full flex justify-center items-center gap-10 mt-16 bg-gray-100 py-10">
                     <div className="w-96 h-96 rounded-md overflow-hidden">
                         <Image
