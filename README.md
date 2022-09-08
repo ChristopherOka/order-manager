@@ -1,4 +1,4 @@
-## Inventory Manager V2
+## Order Management System
 
 This is the second iteration of an order processing and management system for a small bakery business (MarthaRaveCookies).
 
