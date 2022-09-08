@@ -5,40 +5,41 @@ export default function ImageCarosel(props) {
     const [selected, setSelected] = useState(props.images[0]);
     const THREE_HALVES_IMAGE_WIDTH = 900;
     let mounted = false;
-    let imageIdx = 1;
-    let caroselStart;
 
-    function selectImage(newImageIdx) {
-        debugger
-        setSelected(props.images[newImageIdx]);
+    function swapImages(direction) {
+        const caroselStart = Math.abs(
+            THREE_HALVES_IMAGE_WIDTH -
+                document.getElementById("carosel").offsetWidth / 2
+        );
+        const imageIdx = props.images.indexOf(selected);
+        const newIdx =
+            imageIdx + direction > 0
+                ? imageIdx + direction
+                : props.images.length - 1;
         const caroselImages = document.querySelector(".carosel-images");
         caroselImages.style.transform = `translateX(-${
-            caroselStart + newImageIdx * 604
+            caroselStart + newIdx * 604
         }px)`;
-        imageIdx = newImageIdx;
+        console.log(newIdx);
+        setSelected(props.images[newIdx]);
     }
 
     useEffect(() => {
         if (mounted) return;
-        caroselStart = Math.abs(
+        const caroselStart = Math.abs(
             THREE_HALVES_IMAGE_WIDTH -
                 document.getElementById("carosel").offsetWidth / 2
         );
         document.querySelector(
             ".carosel-images"
         ).style.transform = `translateX(-${caroselStart}px)`;
-        
+
         (function loopThroughImages() {
             setTimeout(() => {
-                console.log(imageIdx);
-                if (imageIdx >= props.images.length) {
-                    imageIdx = 0;
-                }
-                selectImage(imageIdx);
-                if (imageIdx < props.images.length) {
+                swapImages(1);
+                if (props.images.indexOf(selected) < props.images.length) {
                     loopThroughImages();
                 }
-                imageIdx++;
             }, 4000);
         })();
         mounted = true;
@@ -101,7 +102,12 @@ export default function ImageCarosel(props) {
                     </button>
                 </div>
                 <div className="absolute flex justify-center items-center right-0 h-full">
-                    <button className="px-3 py-5 opacity-70 bg-black flex rotate-180" onClick={() => {selectImage(imageIdx + 1)}}>
+                    <button
+                        className="px-3 py-5 opacity-70 bg-black flex rotate-180"
+                        onClick={() => {
+                            swapImages(1);
+                        }}
+                    >
                         <Image
                             src="/images/icons/carosel_arrow.svg"
                             height="30"
