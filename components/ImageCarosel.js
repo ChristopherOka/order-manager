@@ -44,8 +44,9 @@ export default function ImageCarosel(props) {
             ".carosel-images"
         ).style.transform = `translateX(-${caroselStart}px)`;
 
+        let loop;
         (function loopThroughImages() {
-            setTimeout(() => {
+            loop = setTimeout(() => {
                 swapImages(1);
                 if (
                     props.images.indexOf(selected.current) < props.images.length
@@ -54,6 +55,7 @@ export default function ImageCarosel(props) {
                 }
             }, 4000);
         })();
+        return () => clearTimeout(loop);
 
         mounted.current = true;
     }, []);

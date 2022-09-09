@@ -2,18 +2,19 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export default function MainNavbar(props) {
-    const [cookiesDropdownState, setCookiesDropdownState] = useState(false);
+    const [cookiesDropdownState, setCookiesDropdownState] = useState(null);
+
     useEffect(() => {
         if (cookiesDropdownState) {
-            // document.addEventListener(
-            //     "mousedown",
-            //     (e) => {
-            //         if (e.target.text !== "COOKIES") {
-            //             setCookiesDropdownState(false);
-            //         }
-            //     },
-            //     { once: true }
-            // );
+            document.addEventListener(
+                "mousedown",
+                (e) => {
+                    if (!e.target.closest(".cookies-dropdown")) {
+                        setCookiesDropdownState(false);
+                    }
+                },
+                { once: true }
+            );
         }
     }, [cookiesDropdownState]);
 
@@ -28,18 +29,20 @@ export default function MainNavbar(props) {
                         <a
                             className={`${
                                 props.active == "home" ? "font-bold" : ""
-                            } px-2`}
+                            } pr-5`}
                         >
                             HOME
                         </a>
                     </Link>
                 </div>
 
-                <div className="cursor-pointer relative">
+                <div className="relative cookies-dropdown">
                     <a
                         className={`${
-                            props.active == "cookies" ? "font-bold" : ""
-                        } px-2`}
+                            props.active == ("christmas" || "custom")
+                                ? "font-bold"
+                                : ""
+                        } pl-3 cursor-pointer`}
                         onClick={() => {
                             setCookiesDropdownState(!cookiesDropdownState);
                         }}
@@ -50,23 +53,27 @@ export default function MainNavbar(props) {
                         className={`${
                             cookiesDropdownState
                                 ? "animate-dropDown"
-                                : "animate-dropUp"
-                        } origin-top-left absolute top-10 z-10 flex flex-col gap-2 bg-black p-3 rounded-b-md`}
+                                : cookiesDropdownState === false
+                                ? "animate-dropUp"
+                                : "hidden"
+                        } origin-top-left absolute top-10 z-10 flex flex-col gap-2 bg-black rounded-b-md`}
                     >
                         <Link href="/products">
                             <a
                                 className={`${
-                                    props.active == "shop" ? "font-bold" : ""
-                                }`}
+                                    props.active == "christmas"
+                                        ? "font-bold"
+                                        : ""
+                                } px-3`}
                             >
                                 CHRISTMAS
                             </a>
                         </Link>
-                        <Link href="/">
+                        <Link href="/custom_cookies">
                             <a
                                 className={`${
-                                    props.active == "shop" ? "font-bold" : ""
-                                }`}
+                                    props.active == "custom" ? "font-bold" : ""
+                                } px-3 pb-2`}
                             >
                                 CUSTOM
                             </a>

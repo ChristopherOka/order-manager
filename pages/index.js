@@ -5,8 +5,12 @@ import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
 import ImageCarosel from "../components/ImageCarosel";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import debounce from "../utils/globals.js";
 
 export default function Home() {
+    const [innerHeight, updateInnerHeight] = useState(0);
+
     const images = [
         "/images/product_images/custom_products/1.webp",
         "/images/product_images/custom_products/2.webp",
@@ -20,6 +24,18 @@ export default function Home() {
         "/images/product_images/custom_products/10.webp",
     ];
 
+    useEffect(() => {
+        function detectInnerHeight() {
+            const headerHeight =
+                document.querySelector("#main-header").offsetHeight;
+            const navbarHeight =
+                document.querySelector("#main-navbar").offsetHeight;
+            updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
+        }
+        detectInnerHeight();
+        window.addEventListener("resize", debounce(detectInnerHeight, 500));
+    }, []);
+
     return (
         <div>
             <Head>
@@ -27,10 +43,12 @@ export default function Home() {
                 <meta name="description" content="Martha Rave cookies" />
                 <link rel="icon" href="/images/icons/favicon.ico" />
             </Head>
-
-            <main>
-                <MainHeader></MainHeader>
-                <MainNavbar active="home"></MainNavbar>{" "}
+            <MainHeader></MainHeader>
+            <MainNavbar active="home"></MainNavbar>
+            <main
+                style={{ height: `${innerHeight + "px" || "100vh"}` }}
+                className="overflow-auto"
+            >
                 <section className="w-full h-96 relative bg-[url('/images/product_images/home_banner.webp')] bg-cover"></section>
                 <section className="w-full flex justify-center items-center gap-10 mt-16 bg-gray-100 py-10">
                     <div className="w-96 h-96 rounded-md overflow-hidden">
@@ -63,9 +81,11 @@ export default function Home() {
                     <p className="text-slate-600 text-xl">
                         Homemade Cookies With Any Design That You&apos;d Like!
                     </p>
-                    <button className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
-                        ORDER NOW
-                    </button>
+                    <Link href="/custom_cookies">
+                        <a className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
+                            ORDER NOW
+                        </a>
+                    </Link>
                 </section>
                 <MainFooter></MainFooter>
             </main>

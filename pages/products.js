@@ -30,8 +30,10 @@ export default function Products({ products }) {
 
     useEffect(() => {
         function detectInnerHeight() {
-            const headerHeight = document.querySelector("#main-header").offsetHeight;
-            const navbarHeight = document.querySelector("#main-navbar").offsetHeight;
+            const headerHeight =
+                document.querySelector("#main-header").offsetHeight;
+            const navbarHeight =
+                document.querySelector("#main-navbar").offsetHeight;
             updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
         }
         detectInnerHeight();
@@ -224,7 +226,7 @@ export default function Products({ products }) {
     return (
         <>
             <MainHeader></MainHeader>
-            <MainNavbar active="cookies"></MainNavbar>
+            <MainNavbar active="christmas"></MainNavbar>
             <div
                 className={`font-source-sans-pro flex h-full flex-col`}
                 style={{ height: `${innerHeight + "px" || "100vh"}` }}
@@ -232,7 +234,7 @@ export default function Products({ products }) {
                 <div className="flex flex-1 flex-col overflow-auto">
                     <div>
                         <h1 className="font-bold text-5xl text-center pb-5 pt-10 md:pb-5">
-                            PRODUCTS
+                            CHRISTMAS COOKIES
                         </h1>
                     </div>
                     <div className="sticky w-full right-0 top-8 flex justify-center md:absolute md:justify-end md:px-16 md:py-2 z-10">
