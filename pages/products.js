@@ -1,6 +1,8 @@
 import Button from "../components/Button";
 import ProductCard from "../components/ProductCard";
 import CartModal from "../components/CartModal";
+import MainHeader from "../components/MainHeader";
+import MainNavbar from "../components/MainNavbar";
 import { useState, useEffect, useRef } from "react";
 import debounce from "../utils/globals.js";
 import * as db from "./api/database";
@@ -28,10 +30,12 @@ export default function Products({ products }) {
 
     useEffect(() => {
         function detectInnerHeight() {
-            updateInnerHeight(window.innerHeight);
+            const headerHeight = document.querySelector("#main-header").offsetHeight;
+            const navbarHeight = document.querySelector("#main-navbar").offsetHeight;
+            updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
         }
         detectInnerHeight();
-        window.addEventListener("resize", debounce(detectInnerHeight, 1000));
+        window.addEventListener("resize", debounce(detectInnerHeight, 500));
 
         const storedCart = localStorage.getItem("cart");
         const storedItemCosts = localStorage.getItem("itemCosts");
@@ -218,28 +222,31 @@ export default function Products({ products }) {
     };
 
     return (
-        <div
-            className={`font-source-sans-pro flex h-full flex-col`}
-            style={{ height: `${innerHeight + "px" || "100vh"}` }}
-        >
-            <div className="flex flex-1 flex-col overflow-auto">
-                <div>
-                    <h1 className="font-bold text-5xl text-center pb-5 pt-10 md:pb-5">
-                        PRODUCTS
-                    </h1>
-                </div>
-                <div className="sticky w-full right-0 top-8 flex justify-center md:absolute md:justify-end md:px-16 md:py-2 z-10">
-                    <div className="relative">
-                        <Button
-                            type="secondary"
-                            img="/images/icons/shopping_cart.png"
-                            clickHandler={openCartModal}
-                        >
-                            View Cart
-                        </Button>
-                        {Object.keys(cart).length ? (
-                            <div
-                                className={`bg-default-900 text-default-100 font-bold text-center 
+        <>
+            <MainHeader></MainHeader>
+            <MainNavbar active="cookies"></MainNavbar>
+            <div
+                className={`font-source-sans-pro flex h-full flex-col`}
+                style={{ height: `${innerHeight + "px" || "100vh"}` }}
+            >
+                <div className="flex flex-1 flex-col overflow-auto">
+                    <div>
+                        <h1 className="font-bold text-5xl text-center pb-5 pt-10 md:pb-5">
+                            PRODUCTS
+                        </h1>
+                    </div>
+                    <div className="sticky w-full right-0 top-8 flex justify-center md:absolute md:justify-end md:px-16 md:py-2 z-10">
+                        <div className="relative">
+                            <Button
+                                type="secondary"
+                                img="/images/icons/shopping_cart.png"
+                                clickHandler={openCartModal}
+                            >
+                                View Cart
+                            </Button>
+                            {Object.keys(cart).length ? (
+                                <div
+                                    className={`bg-default-900 text-default-100 font-bold text-center 
                             rounded-full absolute px-[0.4rem] h-5 top-0 right-0 
                             translate-x-2 -translate-y-2 animate-popIn ${
                                 cartModalState === "open"
@@ -247,79 +254,82 @@ export default function Products({ products }) {
                                     : "animate-popIn"
                             }
                             `}
-                            >
-                                <p className="-translate-y-0.5 animate-delayAppear">
-                                    {Object.keys(cart).length}
-                                </p>
-                            </div>
-                        ) : null}
+                                >
+                                    <p className="-translate-y-0.5 animate-delayAppear">
+                                        {Object.keys(cart).length}
+                                    </p>
+                                </div>
+                            ) : null}
+                        </div>
                     </div>
+                    <CartModal
+                        cartModalState={cartModalState}
+                        closeCartModal={closeCartModal}
+                        editCartItem={editCartItem}
+                        updateCartFormEdit={updateCartFormEdit}
+                        changeCartItemQty={changeCartItemQty}
+                        removeItemFromCart={removeItemFromCart}
+                        cartIsUpdated={cartIsUpdated}
+                        itemCosts={itemCosts}
+                        cartKey={cartKey}
+                        cart={cart}
+                        products={products}
+                    />
+                    <form>
+                        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5">
+                            {products.map((product) => (
+                                <ProductCard
+                                    addToCart={addToCart}
+                                    handleInputChange={handleInputChange}
+                                    type="number"
+                                    fieldStyle="productInput"
+                                    measured_per_text={
+                                        product.measured_per_text
+                                    }
+                                    price={product.product_price}
+                                    imgPath={product.product_img_path}
+                                    text={product.product_name}
+                                    product_description={
+                                        product.product_description
+                                    }
+                                    placeholder="How many?"
+                                    name={"product_" + product.product_id}
+                                    key={product.product_id}
+                                />
+                            ))}
+                        </div>
+                    </form>
                 </div>
-                <CartModal
-                    cartModalState={cartModalState}
-                    closeCartModal={closeCartModal}
-                    editCartItem={editCartItem}
-                    updateCartFormEdit={updateCartFormEdit}
-                    changeCartItemQty={changeCartItemQty}
-                    removeItemFromCart={removeItemFromCart}
-                    cartIsUpdated={cartIsUpdated}
-                    itemCosts={itemCosts}
-                    cartKey={cartKey}
-                    cart={cart}
-                    products={products}
-                />
-                <form>
-                    <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5">
-                        {products.map((product) => (
-                            <ProductCard
-                                addToCart={addToCart}
-                                handleInputChange={handleInputChange}
-                                type="number"
-                                fieldStyle="productInput"
-                                measured_per_text={product.measured_per_text}
-                                price={product.product_price}
-                                imgPath={product.product_img_path}
-                                text={product.product_name}
-                                product_description={
-                                    product.product_description
-                                }
-                                placeholder="How many?"
-                                name={"product_" + product.product_id}
-                                key={product.product_id}
-                            />
-                        ))}
+                <footer className="bg-default-100 flex flex-row justify-between items-center h-24 shadow-3xl">
+                    <p className="font-bold text-xl sm:text-2xl md:text-3xl px-4 sm:px-8 md:px-12">
+                        Total Cost: $
+                        {(Object.values(itemCosts).length
+                            ? Object.values(itemCosts).reduce((a, b) => a + b)
+                            : 0
+                        ).toFixed(2)}
+                    </p>
+                    <div className="px-12">
+                        <Button
+                            type="primary"
+                            img="/images/icons/shopping_cart.png"
+                            link={true}
+                            path="/checkout"
+                            as="/checkout"
+                            query={{
+                                ...cart,
+                                orderCost: (Object.values(itemCosts).length
+                                    ? Object.values(itemCosts).reduce(
+                                          (a, b) => a + b
+                                      )
+                                    : 0
+                                ).toFixed(2),
+                            }}
+                        >
+                            CHECKOUT
+                        </Button>
                     </div>
-                </form>
+                </footer>
             </div>
-            <footer className="bg-default-100 flex flex-row justify-between items-center h-24 shadow-3xl">
-                <p className="font-bold text-xl sm:text-2xl md:text-3xl px-4 sm:px-8 md:px-12">
-                    Total Cost: $
-                    {(Object.values(itemCosts).length
-                        ? Object.values(itemCosts).reduce((a, b) => a + b)
-                        : 0
-                    ).toFixed(2)}
-                </p>
-                <div className="px-12">
-                    <Button
-                        type="primary"
-                        img="/images/icons/shopping_cart.png"
-                        link={true}
-                        path="/checkout"
-                        as="/checkout"
-                        query={{
-                            ...cart,
-                            orderCost: (Object.values(itemCosts).length
-                                ? Object.values(itemCosts).reduce(
-                                      (a, b) => a + b
-                                  )
-                                : 0
-                            ).toFixed(2),
-                        }}
-                    >
-                        CHECKOUT
-                    </Button>
-                </div>
-            </footer>
-        </div>
+        </>
     );
 }

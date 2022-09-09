@@ -4,6 +4,7 @@ import MainNavbar from "../components/MainNavbar";
 import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
 import ImageCarosel from "../components/ImageCarosel";
+import Link from "next/link";
 
 export default function Home() {
     const images = [
@@ -47,9 +48,11 @@ export default function Home() {
                         <p className="text-slate-600 text-2xl">
                             Order now for the 2022 season!
                         </p>
-                        <button className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
-                            ORDER NOW
-                        </button>
+                        <Link href="/products">
+                            <a className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
+                                ORDER NOW
+                            </a>
+                        </Link>
                     </div>
                 </section>
                 <ImageCarosel images={images}></ImageCarosel>

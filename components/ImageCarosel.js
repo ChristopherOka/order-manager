@@ -22,7 +22,6 @@ export default function ImageCarosel(props) {
         caroselImages.style.transform = `translateX(-${
             caroselStart + newIdx * 604
         }px)`;
-        console.log(newIdx);
         selected.current = props.images[newIdx];
         document.querySelectorAll(".carosel-image.selected").forEach((el) => {
             el.classList.remove("selected");
