@@ -55,9 +55,8 @@ export default function ImageCarosel(props) {
                 }
             }, 4000);
         })();
-        return () => clearTimeout(loop);
-
         mounted.current = true;
+        return () => clearTimeout(loop);
     }, []);
 
     return (
