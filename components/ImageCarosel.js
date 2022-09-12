@@ -5,11 +5,12 @@ export default function ImageCarosel(props) {
     const selected = useRef(props.images[0]);
     const THREE_HALVES_IMAGE_WIDTH = 900;
     const mounted = useRef(false);
+    let loop;
 
     function swapImages(direction) {
         const caroselStart = Math.abs(
             THREE_HALVES_IMAGE_WIDTH -
-                document.getElementById("carosel").offsetWidth / 2
+                document.getElementById(`carosel-${props.carosel_id}`).offsetWidth / 2
         );
         const imageIdx = props.images.indexOf(selected.current);
         let newIdx = imageIdx + direction;
@@ -38,16 +39,16 @@ export default function ImageCarosel(props) {
         if (mounted.current) return;
         const caroselStart = Math.abs(
             THREE_HALVES_IMAGE_WIDTH -
-                document.getElementById("carosel").offsetWidth / 2
+                document.getElementById(`carosel-${props.carosel_id}`)
+                    .offsetWidth /
+                    2
         );
         document.querySelector(
             ".carosel-images"
         ).style.transform = `translateX(-${caroselStart}px)`;
-
-        let loop;
         function loopThroughImages() {
             loop = setTimeout(() => {
-                if (!document.getElementById("carosel")) {
+                if (!document.getElementById(`carosel-${props.carosel_id}`)) {
                     clearTimeout(loop);
                     return;
                 }
@@ -58,7 +59,7 @@ export default function ImageCarosel(props) {
                     loopThroughImages();
                 }
             }, 4000);
-        };
+        }
         loopThroughImages();
         mounted.current = true;
     }, []);
@@ -67,7 +68,7 @@ export default function ImageCarosel(props) {
         <section className="flex justify-center items-center py-16">
             <div
                 className="flex w-[66vw] overflow-hidden relative group"
-                id="carosel"
+                id={`carosel-${props.carosel_id}`}
             >
                 <div className="flex gap-1 carosel-images transition ease duration-700">
                     <div

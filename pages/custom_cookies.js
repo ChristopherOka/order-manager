@@ -43,7 +43,7 @@ export default function CustomCookies() {
                 <h1 className="font-bold text-5xl text-center pb-5 pt-10 md:pb-5">
                     CUSTOM COOKIES
                 </h1>
-                <ImageCarosel images={images} />
+                <ImageCarosel images={images} carosel_id="custom_cookies"/>
             </div>
         </>
     );

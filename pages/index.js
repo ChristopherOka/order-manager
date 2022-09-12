@@ -73,7 +73,7 @@ export default function Home() {
                         </Link>
                     </div>
                 </section>
-                <ImageCarosel images={images}></ImageCarosel>
+                <ImageCarosel images={images} carosel_id="index"></ImageCarosel>
                 <section className="flex flex-col justify-around items-center bg-gray-100 mb-16 py-10 gap-4">
                     <h2 className="text-default-900 text-5xl font-fjalla-one">
                         CUSTOM COOKIES
