@@ -10,7 +10,9 @@ export default function ImageCarosel(props) {
     function swapImages(direction) {
         const caroselStart = Math.abs(
             THREE_HALVES_IMAGE_WIDTH -
-                document.getElementById(`carosel-${props.carosel_id}`).offsetWidth / 2
+                document.getElementById(`carosel-${props.carosel_id}`)
+                    .offsetWidth /
+                    2
         );
         const imageIdx = props.images.indexOf(selected.current);
         let newIdx = imageIdx + direction;

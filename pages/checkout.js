@@ -298,7 +298,10 @@ export default function Checkout({ products }) {
         <>
             <MainHeader />
             <MainNavbar />
-            <div className="overflow-auto" style={{ height: `${innerHeight + "px" || "100vh"}` }}>
+            <div
+                className="overflow-auto"
+                style={{ height: `${innerHeight + "px" || "100vh"}` }}
+            >
                 <div className="w-full pt-10 pb-8 flex flex-col md:flex-row relative justify-center md:justify-start">
                     <h1 className="text-5xl text-default-900 font-bold text-center w-full relative md:absolute">
                         CHECKOUT
