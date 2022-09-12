@@ -148,7 +148,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         );
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const editBtn = document.getElementById(`${uid}-${col_name}-edit`);
-        text.classList.remove("hidden");
+        textWell.classList.remove("hidden");
         input.classList.add("hidden");
         editBtn.classList.remove("hidden");
         btns.classList.add("hidden");

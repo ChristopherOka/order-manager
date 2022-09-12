@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 import * as db from "./api/database";
 import Button from "../components/Button";
 import CheckoutProductCard from "../components/CheckoutProductCard";
+import MainHeader from "../components/MainHeader";
+import MainNavbar from "../components/MainNavbar";
+import debounce from "../utils/globals.js";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
@@ -48,6 +51,7 @@ export default function Checkout({ products }) {
     const [emptyFields, updateEmptyFields] = useState({});
     const [cart, updateCart] = useState({});
     const [itemCosts, updateItemCosts] = useState({});
+    const [innerHeight, updateInnerHeight] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
@@ -59,6 +63,15 @@ export default function Checkout({ products }) {
         if (receiveditemCosts) {
             updateItemCosts(receiveditemCosts);
         }
+        function detectInnerHeight() {
+            const headerHeight =
+                document.querySelector("#main-header").offsetHeight;
+            const navbarHeight =
+                document.querySelector("#main-navbar").offsetHeight;
+            updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
+        }
+        detectInnerHeight();
+        window.addEventListener("resize", debounce(detectInnerHeight, 500));
     }, []);
 
     const handleFocus = (e) => {
@@ -283,112 +296,119 @@ export default function Checkout({ products }) {
 
     return (
         <>
-            <div className="w-full pt-10 pb-16 flex flex-col md:flex-row relative justify-center md:justify-start">
-                <h1 className="text-5xl text-default-900 font-bold text-center w-full relative md:absolute">
-                    CHECKOUT
-                </h1>
-                <div className="z-10 max-w-fit pt-6 px-10 md:pr-0 md:py-0 self-center">
-                    <Button
-                        type="secondary"
-                        img="/images/icons/back_arrow.svg"
-                        link="true"
-                        path="/products"
-                        as="/products"
-                    >
-                        GO BACK
-                    </Button>
-                </div>
-            </div>
-
-            <form className="flex flex-col gap-8 mx-8 md:grid md:grid-cols-4 md:gap-4 lg:mx-12 xl:mx-20">
-                <div className="md:mr-10">
-                    <h2 className="text-3xl font-bold">Personal Details</h2>
-                    {personalFields.map((field, index) => {
-                        return (
-                            <FormField
-                                handleFocus={handleFocus}
-                                onChange={handleChange}
-                                error={emptyFields[field.name]}
-                                type={field.type}
-                                name={field.name}
-                                text={field.text}
-                                fieldStyle={field.fieldStyle}
-                                options={field.options}
-                                required={field.required}
-                                description={field.description}
-                                key={index}
-                            />
-                        );
-                    })}
-                    <p className="italic text-lg text-slate-600 mt-3">
-                        <span className="text-red-500 text-xl">*</span> required
-                    </p>
-                </div>
-                <div className="md:mr-10">
-                    <h2 className="text-3xl font-bold">Order Details</h2>
-                    {orderFields.map((field, index) => {
-                        return (
-                            <FormField
-                                handleFocus={handleFocus}
-                                onChange={handleChange}
-                                customChangeHandler={field.customChangeHandler}
-                                hidden={field.hidden}
-                                error={emptyFields[field.name]}
-                                type={field.type}
-                                name={field.name}
-                                text={field.text}
-                                fieldStyle={field.fieldStyle}
-                                options={field.options}
-                                required={field.required}
-                                description={field.description}
-                                min={field.min}
-                                max={field.max}
-                                key={index}
-                            />
-                        );
-                    })}
-                </div>
-                <div className="bg-default-100 rounded-md shadow-3xl h-full col-span-2 md:ml-10">
-                    <div className="flex flex-wrap justify-between items-end px-10 py-5">
-                        <h2 className="text-3xl font-bold">Your Order</h2>
-                        <h3 className="text-default-900 text-xl">
-                            Total Cost: $
-                            {(Object.values(itemCosts).length
-                                ? Object.values(itemCosts).reduce(
-                                      (a, b) => a + b
-                                  )
-                                : 0
-                            ).toFixed(2)}
-                        </h3>
+            <MainHeader />
+            <MainNavbar />
+            <div className="overflow-auto" style={{ height: `${innerHeight + "px" || "100vh"}` }}>
+                <div className="w-full pt-10 pb-8 flex flex-col md:flex-row relative justify-center md:justify-start">
+                    <h1 className="text-5xl text-default-900 font-bold text-center w-full relative md:absolute">
+                        CHECKOUT
+                    </h1>
+                    <div className="z-10 max-w-fit pt-6 px-10 md:pr-0 md:py-0 self-center">
+                        <Button
+                            type="secondary"
+                            img="/images/icons/back_arrow.svg"
+                            link="true"
+                            path="/products"
+                            as="/products"
+                        >
+                            GO BACK
+                        </Button>
                     </div>
-                    <div className="flex flex-row flex-wrap gap-6 max-h-[37rem] px-10 pb-5 overflow-y-auto overflow-x-hidden justify-center">
-                        {Object.keys(cart).map((item) => {
-                            const product = products.find(
-                                (product) =>
-                                    product.product_id ==
-                                    item.replace("product_", "")
-                            );
+                </div>
+
+                <form className="flex flex-col gap-8 mx-8 md:grid md:grid-cols-4 md:gap-4 lg:mx-12 xl:mx-20">
+                    <div className="md:mr-10">
+                        <h2 className="text-3xl font-bold">Personal Details</h2>
+                        {personalFields.map((field, index) => {
                             return (
-                                <CheckoutProductCard
-                                    productId={item}
-                                    productQty={cart[item]}
-                                    imgPath={product.product_img_path}
-                                    productName={product.product_name}
-                                    key={item}
+                                <FormField
+                                    handleFocus={handleFocus}
+                                    onChange={handleChange}
+                                    error={emptyFields[field.name]}
+                                    type={field.type}
+                                    name={field.name}
+                                    text={field.text}
+                                    fieldStyle={field.fieldStyle}
+                                    options={field.options}
+                                    required={field.required}
+                                    description={field.description}
+                                    key={index}
+                                />
+                            );
+                        })}
+                        <p className="italic text-lg text-slate-600 mt-3">
+                            <span className="text-red-500 text-xl">*</span>{" "}
+                            required
+                        </p>
+                    </div>
+                    <div className="md:mr-10">
+                        <h2 className="text-3xl font-bold">Order Details</h2>
+                        {orderFields.map((field, index) => {
+                            return (
+                                <FormField
+                                    handleFocus={handleFocus}
+                                    onChange={handleChange}
+                                    customChangeHandler={
+                                        field.customChangeHandler
+                                    }
+                                    hidden={field.hidden}
+                                    error={emptyFields[field.name]}
+                                    type={field.type}
+                                    name={field.name}
+                                    text={field.text}
+                                    fieldStyle={field.fieldStyle}
+                                    options={field.options}
+                                    required={field.required}
+                                    description={field.description}
+                                    min={field.min}
+                                    max={field.max}
+                                    key={index}
                                 />
                             );
                         })}
                     </div>
+                    <div className="bg-default-100 rounded-md shadow-3xl h-full col-span-2 md:ml-10">
+                        <div className="flex flex-wrap justify-between items-end px-10 py-5">
+                            <h2 className="text-3xl font-bold">Your Order</h2>
+                            <h3 className="text-default-900 text-xl">
+                                Total Cost: $
+                                {(Object.values(itemCosts).length
+                                    ? Object.values(itemCosts).reduce(
+                                          (a, b) => a + b
+                                      )
+                                    : 0
+                                ).toFixed(2)}
+                            </h3>
+                        </div>
+                        <div className="flex flex-row flex-wrap gap-6 max-h-[37rem] px-10 pb-5 overflow-y-auto overflow-x-hidden justify-center">
+                            {Object.keys(cart).map((item) => {
+                                const product = products.find(
+                                    (product) =>
+                                        product.product_id ==
+                                        item.replace("product_", "")
+                                );
+                                return (
+                                    <CheckoutProductCard
+                                        productId={item}
+                                        productQty={cart[item]}
+                                        imgPath={product.product_img_path}
+                                        productName={product.product_name}
+                                        key={item}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
+                </form>
+                <div className="flex my-8 justify-center md:justify-end md:px-20 w-full md:mt-4">
+                    <Button
+                        type="primary"
+                        img="/images/icons/cookie.png"
+                        clickHandler={handlePlaceOrder}
+                    >
+                        PLACE ORDER
+                    </Button>
                 </div>
-            </form>
-            <div className="flex my-8 justify-center md:justify-end md:px-20 w-full md:my-7">
-                <Button
-                    type="primary"
-                    img="/images/icons/cookie.png"
-                    clickHandler={handlePlaceOrder}
-                >
-                    PLACE ORDER
-                </Button>
             </div>
         </>
     );

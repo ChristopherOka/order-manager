@@ -248,7 +248,7 @@ export default function Products({ products }) {
                             </Button>
                             {Object.keys(cart).length ? (
                                 <div
-                                    className={`bg-default-900 text-default-100 font-bold text-center 
+                                    className={`bg-default-900 outline outline-2 text-default-100 font-bold text-center 
                             rounded-full absolute px-[0.4rem] h-5 top-0 right-0 
                             translate-x-2 -translate-y-2 animate-popIn ${
                                 cartModalState === "open"
