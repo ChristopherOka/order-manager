@@ -8,6 +8,7 @@ import CheckoutProductCard from "../components/CheckoutProductCard";
 import MainHeader from "../components/MainHeader";
 import MainNavbar from "../components/MainNavbar";
 import debounce from "../utils/globals.js";
+import sendOrderEmail from "./api/sendOrderEmail";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
@@ -55,8 +56,10 @@ export default function Checkout({ products }) {
     const router = useRouter();
 
     useEffect(() => {
-        const receivedCart = JSON.parse(localStorage.getItem("cart"));
-        const receiveditemCosts = JSON.parse(localStorage.getItem("itemCosts"));
+        const receivedCart = JSON.parse(localStorage.getItem("cart") || "{}");
+        const receiveditemCosts = JSON.parse(
+            localStorage.getItem("itemCosts") || "{}"
+        );
         if (receivedCart) {
             updateCart(receivedCart);
         }
@@ -119,7 +122,17 @@ export default function Checkout({ products }) {
         } else {
             localStorage.setItem("cart", "");
             localStorage.setItem("itemCosts", "");
-            await router.push("/thank_you");
+            console.log(
+                await fetch("/api/sendOrderEmail", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email: formData.email,
+                        name: formData.customer_name,
+                    })
+                })
+            );
+            // await router.push("/thank_you");
             return true;
         }
     };
