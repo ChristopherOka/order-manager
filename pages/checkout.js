@@ -8,7 +8,6 @@ import CheckoutProductCard from "../components/CheckoutProductCard";
 import MainHeader from "../components/MainHeader";
 import MainNavbar from "../components/MainNavbar";
 import debounce from "../utils/globals.js";
-import sendOrderEmail from "./api/sendOrderEmail";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
@@ -120,8 +119,8 @@ export default function Checkout({ products }) {
         ) {
             return false;
         } else {
-            localStorage.setItem("cart", "");
-            localStorage.setItem("itemCosts", "");
+
+            
             console.log(
                 await fetch("/api/sendOrderEmail", {
                     method: "POST",
@@ -129,10 +128,17 @@ export default function Checkout({ products }) {
                     body: JSON.stringify({
                         email: formData.email,
                         name: formData.customer_name,
+                        order_cost: orderCost,
+                        delivery_date: formData.delivery_date,
+                        payment_type: formData.payment_type,
+                        cart,
+                        products: products,
                     })
                 })
             );
             // await router.push("/thank_you");
+            // localStorage.setItem("cart", "");
+            // localStorage.setItem("itemCosts", "");
             return true;
         }
     };
@@ -407,7 +413,7 @@ export default function Checkout({ products }) {
                                     <CheckoutProductCard
                                         productId={item}
                                         productQty={cart[item]}
-                                        imgPath={product.product_img_path}
+                                        imgPath={product.product_img_filename}
                                         productName={product.product_name}
                                         key={item}
                                     />

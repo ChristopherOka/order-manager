@@ -9,6 +9,7 @@ import * as db from "./api/database";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
+    console.log(products);
 
     return {
         props: {
@@ -289,7 +290,7 @@ export default function Products({ products }) {
                                         product.measured_per_text
                                     }
                                     price={product.product_price}
-                                    imgPath={product.product_img_path}
+                                    imgPath={product.product_img_filename}
                                     text={product.product_name}
                                     product_description={
                                         product.product_description
