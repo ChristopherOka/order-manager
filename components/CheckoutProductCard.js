@@ -22,6 +22,11 @@ export default function CheckoutProductCard(props) {
                         {props.productQty}x
                     </p>
                 </div>
+                <div className="bg-default-900 rounded-md absolute h-8 w-14 right-0 bottom-0 mr-2 mb-2">
+                    <p className="text-default-100 text-2xl font-bold text-center">
+                        ${props.productPrice}
+                    </p>
+                </div>
             </div>
         </div>
     );

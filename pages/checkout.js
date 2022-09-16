@@ -119,21 +119,16 @@ export default function Checkout({ products }) {
         ) {
             return false;
         } else {
-
-            
             console.log(
                 await fetch("/api/sendOrderEmail", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        email: formData.email,
-                        name: formData.customer_name,
+                        order_details: formData,
                         order_cost: orderCost,
-                        delivery_date: formData.delivery_date,
-                        payment_type: formData.payment_type,
                         cart,
                         products: products,
-                    })
+                    }),
                 })
             );
             // await router.push("/thank_you");
@@ -415,6 +410,10 @@ export default function Checkout({ products }) {
                                         productQty={cart[item]}
                                         imgPath={product.product_img_filename}
                                         productName={product.product_name}
+                                        productPrice={
+                                            parseFloat(product.product_price) *
+                                            parseFloat(cart[item])
+                                        }
                                         key={item}
                                     />
                                 );
