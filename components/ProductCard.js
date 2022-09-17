@@ -1,11 +1,12 @@
 import Image from "next/image";
 import BlurImage from "./BlurImage";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function ProductCard(props) {
     const [inputFocus, setInputFocus] = useState(false);
     const [flipped, setFlipped] = useState(false);
     const [toggleAddedToCart, setToggleAddedToCart] = useState("hidden");
+    const clickedCount = useRef(0);
 
     const handleFocus = (e) => {
         setInputFocus(true);
@@ -28,8 +29,17 @@ export default function ProductCard(props) {
 
     const addingToCart = (e) => {
         e.preventDefault();
-        if (props.addToCart(e)) setToggleAddedToCart(!toggleAddedToCart);
+        if (props.addToCart(e)) {
+            setToggleAddedToCart(!toggleAddedToCart);
+            clickedCount.current = clickedCount.current + 1;
+        }
     };
+
+    const NUM_SELECTABLE_OPTIONS = 15;
+    let options = [];
+    for (let i = 0; i <= NUM_SELECTABLE_OPTIONS; i++) {
+        options.push({ value: i, selected: props.cart[props.name] == i });
+    }
 
     return (
         <div id="productCard" className="my-6 mx-auto cursor-pointer">
@@ -60,7 +70,7 @@ export default function ProductCard(props) {
                     <div className="absolute bottom-0 right-0">
                         <div className="bg-default-900 relative rounded-br-md rounded-tl-md flex items-center gap-2 px-4 py-1">
                             <h4 className="text-default-100 text-xl z-10">
-                                Description
+                                Click for Details
                             </h4>
                             <div className="rotate-180 flex">
                                 <Image
@@ -102,23 +112,27 @@ export default function ProductCard(props) {
 
             <div className="flex gap-4 pt-4 justify-center w-72 relative">
                 <div>
-                    <input
+                    <select
                         onChange={props.handleInputChange}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         className={
-                            `bg-default-900 rounded-md border-none text-default-100 text-xl py-1 text-center placeholder:italic w-32
+                            `bg-default-900 rounded px-2 w-32 h-10 appearance-none bg-dropdown-arrow-white bg-no-repeat bg-right bg-origin-content border-none text-default-100 text-xl py-1 text-center placeholder:italic
                             focus:rounded-b-none transition-border duration-500 focus-visible:outline-none
                             ` +
                             " " +
                             (props.error ? "border-red" : "")
                         }
-                        inputMode="numeric"
-                        maxLength="3"
-                        placeholder="How many?"
                         name={props.name}
-                        autoComplete="off"
-                    />
+                    >
+                        {options.map((option) => {
+                            return (
+                                <option value={option.value} selected={option.selected}>
+                                    {option.value}
+                                </option>
+                            );
+                        })}
+                    </select>
                     <div
                         className={`text-center absolute w-32 rounded-b-md shadow-xl text-lg font-bold animate-slideOut -z-10 ${
                             inputFocus ? null : "hidden"
@@ -150,7 +164,9 @@ export default function ProductCard(props) {
                         key={toggleAddedToCart}
                         className="animate-fadeInOut -"
                     >
-                        Added to cart!
+                        {clickedCount.current > 1
+                            ? "Updated Cart!"
+                            : "Added to cart!"}
                     </div>
                 ) : null}
             </div>

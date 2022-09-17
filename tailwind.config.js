@@ -8,6 +8,8 @@ module.exports = {
         extend: {
             backgroundImage: {
                 "dropdown-arrow": "url(/images/icons/dropdown_arrow.png)",
+                "dropdown-arrow-white":
+                    "url(/images/icons/dropdown_arrow_white.png)",
             },
             colors: {
                 default: {

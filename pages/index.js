@@ -1,16 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
-import MainNavbar from "../components/MainNavbar";
 import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
 import ImageCarosel from "../components/ImageCarosel";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import debounce from "../utils/globals.js";
 
 export default function Home() {
-    const [innerHeight, updateInnerHeight] = useState(0);
-
     const images = [
         "/images/product_images/custom_products/1.webp",
         "/images/product_images/custom_products/2.webp",
@@ -24,31 +19,15 @@ export default function Home() {
         "/images/product_images/custom_products/10.webp",
     ];
 
-    useEffect(() => {
-        function detectInnerHeight() {
-            const headerHeight =
-                document.querySelector("#main-header").offsetHeight;
-            const navbarHeight =
-                document.querySelector("#main-navbar").offsetHeight;
-            updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
-        }
-        detectInnerHeight();
-        window.addEventListener("resize", debounce(detectInnerHeight, 500));
-    }, []);
-
     return (
-        <div>
+        <div className="overflow-auto">
+            <MainHeader active="home"></MainHeader>
             <Head>
                 <title>Martha Rave Cookies</title>
                 <meta name="description" content="Martha Rave cookies" />
                 <link rel="icon" href="/images/icons/favicon.ico" />
             </Head>
-            <MainHeader></MainHeader>
-            <MainNavbar active="home"></MainNavbar>
-            <main
-                style={{ height: `${innerHeight + "px" || "100vh"}` }}
-                className="overflow-auto"
-            >
+            <main>
                 <section className="w-full h-96 relative bg-[url('/images/product_images/home_banner.webp')] bg-cover"></section>
                 <section className="w-full flex justify-center items-center gap-10 mt-16 bg-gray-100 py-10">
                     <div className="w-96 h-96 rounded-md overflow-hidden">

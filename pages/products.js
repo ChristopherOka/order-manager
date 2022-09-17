@@ -9,7 +9,6 @@ import * as db from "./api/database";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
-    console.log(products);
 
     return {
         props: {
@@ -33,9 +32,7 @@ export default function Products({ products }) {
         function detectInnerHeight() {
             const headerHeight =
                 document.querySelector("#main-header").offsetHeight;
-            const navbarHeight =
-                document.querySelector("#main-navbar").offsetHeight;
-            updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
+            updateInnerHeight(window.innerHeight - headerHeight);
         }
         detectInnerHeight();
         window.addEventListener("resize", debounce(detectInnerHeight, 500));
@@ -44,6 +41,7 @@ export default function Products({ products }) {
         const storedItemCosts = localStorage.getItem("itemCosts");
         if (storedCart) {
             updateCart(JSON.parse(storedCart));
+            updateFormData(JSON.parse(storedCart));
         }
         if (storedItemCosts) {
             updateItemCosts(JSON.parse(storedItemCosts));
@@ -67,52 +65,31 @@ export default function Products({ products }) {
 
     const addToCart = (e) => {
         e.preventDefault();
-
         const productId = e.currentTarget.name;
         const itemQuantity = formData[productId];
-        if (!validateCartItemQty(itemQuantity)) return false;
+        if (!validateCartItemQty(itemQuantity, productId)) return false;
+        if (itemQuantity < 1) {
+            removeItemFromCart(productId);
+            return true;
+        }
         const itemCost = e.currentTarget.dataset.price;
 
-        clearInput(productId);
-
-        const currentCartItem = cart[productId];
-        if (currentCartItem) {
-            updateCart({
-                ...cart,
-                [productId]:
-                    parseFloat(currentCartItem) + parseFloat(itemQuantity),
-            });
-        } else {
-            updateCart({
-                ...cart,
-                [productId]: formData[productId],
-            });
-        }
+        updateCart({
+            ...cart,
+            [productId]: parseFloat(itemQuantity),
+        });
 
         updateCartKey(Math.random());
         updateEditCart({
             ...editCart,
-            [productId]: (editCart[productId] ?? 0) + parseFloat(itemQuantity),
+            [productId]: parseFloat(itemQuantity),
         });
 
         updateItemCosts({
             ...itemCosts,
-            [productId]:
-                (itemCosts[productId] ?? 0) +
-                parseFloat(itemCost) * parseFloat(itemQuantity),
+            [productId]: parseFloat(itemCost) * parseFloat(itemQuantity),
         });
-
-        const updatedFormData = formData;
-        delete updatedFormData[productId];
-
-        updateFormData(updatedFormData);
         return true;
-    };
-
-    const clearInput = (productId) => {
-        document.querySelector(
-            `#productCard input[name="${productId}"]`
-        ).value = "";
     };
 
     const openCartModal = () => {
@@ -201,12 +178,12 @@ export default function Products({ products }) {
         updateCartIsUpdated(false);
     };
 
-    const validateCartItemQty = (qty) => {
+    const validateCartItemQty = (qty, productId) => {
         if (!(parseFloat(qty) == qty)) {
             alert("Please enter a valid quantity");
             return false;
         }
-        if (qty <= 0) {
+        if (qty <= 0 && !formData[productId]) {
             alert("Quantity must be greater than 0");
             return false;
         }
@@ -226,8 +203,7 @@ export default function Products({ products }) {
 
     return (
         <>
-            <MainHeader></MainHeader>
-            <MainNavbar active="christmas"></MainNavbar>
+            <MainHeader active="christmas"></MainHeader>
             <div
                 className={`font-source-sans-pro flex h-full flex-col`}
                 style={{ height: `${innerHeight + "px" || "100vh"}` }}
@@ -298,6 +274,7 @@ export default function Products({ products }) {
                                     placeholder="How many?"
                                     name={"product_" + product.product_id}
                                     key={product.product_id}
+                                    cart={cart}
                                 />
                             ))}
                         </div>

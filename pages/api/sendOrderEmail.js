@@ -1,5 +1,4 @@
 export default async function sendOrderEmail(req, res) {
-    console.log(req.body);
     const { body } = req;
     const { products, cart, order_details, order_cost } = body;
 
@@ -104,7 +103,6 @@ export default async function sendOrderEmail(req, res) {
                 </div>
              </div>`;
     messageBody += `</div></body></html>`;
-    console.log(messageBody);
 
     let reqHeaders = new Headers();
     reqHeaders.append("api-key", process.env.SENDINBLUE_API_KEY);

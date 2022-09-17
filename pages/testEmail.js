@@ -61,7 +61,7 @@ export default function testEmail() {
         <tbody>
         `;
     products.forEach((product, index) => {
-        if ((index) % 3 === 0) {
+        if (index % 3 === 0) {
             body += `<tr>`;
         }
         body += `

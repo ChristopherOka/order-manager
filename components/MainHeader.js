@@ -1,14 +1,22 @@
 import Image from "next/image";
+import MainNavbar from "./MainNavbar";
 
-export default function MainHeader() {
+export default function MainHeader(props) {
     return (
-        <section
-            className="h-[20vh] bg-default-900 flex justify-center items-center"
+        <div
+            className="sticky top-0 z-10 w-full bg-default-900 flex justify-center items-center"
             id="main-header"
         >
-            <div className="pt-2">
-                <Image src="/images/misc/logo.png" width="140" height="140" />
+            <div className="pt-2 flex flex-col">
+                <div className="flex justify-center py-4">
+                    <Image
+                        src="/images/misc/logo.png"
+                        width="140"
+                        height="140"
+                    />
+                </div>
+                <MainNavbar active={props.active} />
             </div>
-        </section>
+        </div>
     );
 }

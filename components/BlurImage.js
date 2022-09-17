@@ -3,7 +3,6 @@ import Image from "next/image";
 
 export default function BlurImage(props) {
     const [isLoading, setIsLoading] = useState(true);
-    console.log(props.imgPath);
     return (
         <a href="#">
             <div className="rounded-b-md overflow-hidden bg-gray-200 relative w-72 h-72 shadow-2xl group-hover:opacity-75 duration-300 ease-in-out">

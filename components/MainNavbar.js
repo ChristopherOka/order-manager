@@ -1,10 +1,17 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import debounce from "../utils/globals.js";
 
 export default function MainNavbar(props) {
     const [cookiesDropdownState, setCookiesDropdownState] = useState(null);
+    const [innerWidth, setInnerWidth] = useState(null);
 
     useEffect(() => {
+        function detectInnerWidth() {
+            setInnerWidth(window.innerWidth);
+        }
+        detectInnerWidth();
+        window.addEventListener("resize", debounce(detectInnerWidth, 500));
         if (cookiesDropdownState) {
             document.addEventListener(
                 "mousedown",
@@ -19,11 +26,12 @@ export default function MainNavbar(props) {
     }, [cookiesDropdownState]);
 
     return (
-        <section
-            className="bg-black flex justify-center items-center"
+        <div
+            className="bg-black flex justify-center w-full items-center"
             id="main-navbar"
+            style={{ width: `${innerWidth + "px" || "100vh"}` }}
         >
-            <nav className="text-lg text-default-100 flex justify-center items-center py-4">
+            <nav className="text-lg text-default-100 flex  justify-center items-center py-4">
                 <div>
                     <Link href="/">
                         <a
@@ -81,6 +89,6 @@ export default function MainNavbar(props) {
                     </div>
                 </div>
             </nav>
-        </section>
+        </div>
     );
 }
