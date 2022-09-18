@@ -51,7 +51,13 @@ export default function Products({ products }) {
     useEffect(() => {
         if (initiallyRendered.current) {
             localStorage.setItem("cart", JSON.stringify(cart));
-            localStorage.setItem("itemCosts", JSON.stringify(itemCosts));
+            let strippedItemCosts = {};
+            for (const [key, value] of Object.entries(itemCosts)) {
+                if (value) {
+                    strippedItemCosts[key] = value;
+                }
+            }
+            localStorage.setItem("itemCosts", JSON.stringify(strippedItemCosts));
         }
         initiallyRendered.current = true;
     }, [cart, itemCosts]);
@@ -84,7 +90,6 @@ export default function Products({ products }) {
             ...editCart,
             [productId]: parseFloat(itemQuantity),
         });
-
         updateItemCosts({
             ...itemCosts,
             [productId]: parseFloat(itemCost) * parseFloat(itemQuantity),

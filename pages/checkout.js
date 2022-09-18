@@ -1,5 +1,5 @@
 import FormField from "../components/FormField";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 import * as db from "./api/database";
@@ -51,6 +51,8 @@ export default function Checkout({ products }) {
     const [cart, updateCart] = useState({});
     const [itemCosts, updateItemCosts] = useState({});
     const [innerHeight, updateInnerHeight] = useState(0);
+    const [cookieFormData, updateCookieFormData] = useState({});
+    const initiallyRendered = useRef(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -187,6 +189,52 @@ export default function Checkout({ products }) {
             ...formData,
             [e.target.name]: e.target.value.trim(),
         });
+    };
+
+    useEffect(() => {
+        console.log(itemCosts);
+        if (initiallyRendered.current) {
+            localStorage.setItem("cart", JSON.stringify(cart));
+            localStorage.setItem("itemCosts", JSON.stringify(itemCosts));
+        }
+        initiallyRendered.current = true;
+    }, [cart, itemCosts]);
+
+    const handleCookieSelectChange = (e) => {
+        updateCookieFormData({
+            ...cookieFormData,
+            [e.target.name]: e.target.value.trim(),
+        });
+    };
+
+    const updateCartItems = (e) => {
+        e.preventDefault();
+        const productId = e.currentTarget.name;
+        const itemQuantity = cookieFormData[productId];
+        if (itemQuantity < 1) {
+            removeItemFromCart(productId);
+            return true;
+        }
+        const itemCost = e.currentTarget.dataset.price;
+        debugger
+        updateCart({
+            ...cart,
+            [productId]: parseFloat(itemQuantity),
+        });
+        updateItemCosts({
+            ...itemCosts,
+            [productId]: parseFloat(itemCost) * parseFloat(itemQuantity),
+        });
+        return true;
+    };
+
+    
+    const removeItemFromCart = (productId) => {
+        let updatedCart = { ...cart };
+        delete updatedCart[productId];
+
+        updateCart(updatedCart);
+        updateItemCosts({ ...itemCosts, [productId]: 0 });
     };
 
     const personalFields = [
@@ -408,12 +456,15 @@ export default function Checkout({ products }) {
                                         productQty={cart[item]}
                                         imgPath={product.product_img_filename}
                                         productName={product.product_name}
-                                        productPrice={
+                                        productPrice={product.product_price}
+                                        totalCost={
                                             parseFloat(product.product_price) *
                                             parseFloat(cart[item])
                                         }
+                                        addToCart={updateCartItems}
                                         key={item}
                                         cart={cart}
+                                        handleChange={handleCookieSelectChange}
                                     />
                                 );
                             })}
