@@ -1,6 +1,7 @@
 import Image from "next/image";
 import BlurImage from "./BlurImage";
 import { useState, useRef } from "react";
+import UpdateCartDrodown from "./UpdateCartDropdown";
 
 export default function ProductCard(props) {
     const [inputFocus, setInputFocus] = useState(false);
@@ -110,54 +111,18 @@ export default function ProductCard(props) {
                 </div>
             </div>
 
-            <div className="flex gap-4 pt-4 justify-center w-72 relative">
-                <div>
-                    <select
-                        onChange={props.handleInputChange}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                        className={
-                            `bg-default-900 rounded px-2 w-32 h-10 appearance-none bg-dropdown-arrow-white bg-no-repeat bg-right bg-origin-content border-none text-default-100 text-xl py-1 text-center placeholder:italic
-                            focus:rounded-b-none transition-border duration-500 focus-visible:outline-none
-                            ` +
-                            " " +
-                            (props.error ? "border-red" : "")
-                        }
-                        name={props.name}
-                    >
-                        {options.map((option) => {
-                            return (
-                                <option value={option.value} selected={option.selected}>
-                                    {option.value}
-                                </option>
-                            );
-                        })}
-                    </select>
-                    <div
-                        className={`text-center absolute w-32 rounded-b-md shadow-xl text-lg font-bold animate-slideOut -z-10 ${
-                            inputFocus ? null : "hidden"
-                        } `}
-                    >
-                        {props.measured_per_text}s
-                    </div>
-                </div>
-                <button
-                    className="bg-default-900 rounded-md px-5 p-1 flex hover:bg-zinc-700 active:bg-zinc-600"
-                    onClick={addingToCart}
-                    name={props.name}
-                    data-price={props.price}
-                >
-                    <span className="text-default-100 text-xl font-bold">
-                        +
-                    </span>
-                    <Image
-                        className=""
-                        src="/images/icons/shopping_cart.png"
-                        width="28"
-                        height="28"
-                    />
-                </button>
-            </div>
+            <UpdateCartDrodown
+                handleInputChange={props.handleInputChange}
+                error={props.error}
+                name={props.name}
+                measured_per_text={props.measured_per_text}
+                price={props.price}
+                inputFocus={inputFocus}
+                handleFocus={handleFocus}
+                handleBlur={handleBlur}
+                addingToCart={addingToCart}
+                options={options}
+            ></UpdateCartDrodown>
             <div className="text-lg font-bold text-center text-green-500 pt-2 h-2">
                 {toggleAddedToCart !== "hidden" ? (
                     <div

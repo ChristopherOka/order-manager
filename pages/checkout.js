@@ -6,7 +6,6 @@ import * as db from "./api/database";
 import Button from "../components/Button";
 import CheckoutProductCard from "../components/CheckoutProductCard";
 import MainHeader from "../components/MainHeader";
-import MainNavbar from "../components/MainNavbar";
 import debounce from "../utils/globals.js";
 
 export async function getStaticProps() {
@@ -310,8 +309,7 @@ export default function Checkout({ products }) {
 
     return (
         <>
-            <MainHeader />
-            <MainNavbar />
+            <MainHeader active="christmas" />
             <div
                 className="overflow-auto"
                 style={{ height: `${innerHeight + "px" || "100vh"}` }}
@@ -415,6 +413,7 @@ export default function Checkout({ products }) {
                                             parseFloat(cart[item])
                                         }
                                         key={item}
+                                        cart={cart}
                                     />
                                 );
                             })}

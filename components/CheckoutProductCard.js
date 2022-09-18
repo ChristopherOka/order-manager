@@ -1,6 +1,23 @@
 import Image from "next/image";
+import UpdateCartDropdown from "./UpdateCartDropdown";
+import { useState } from "react";
 
 export default function CheckoutProductCard(props) {
+    const [toggleAddedToCart, setToggleAddedToCart] = useState("hidden");
+
+    const addingToCart = (e) => {
+        e.preventDefault();
+        if (props.addToCart(e)) {
+            setToggleAddedToCart(!toggleAddedToCart);
+        }
+    };
+
+    const NUM_SELECTABLE_OPTIONS = 15;
+    let options = [];
+    for (let i = 0; i <= NUM_SELECTABLE_OPTIONS; i++) {
+        options.push({ value: i, selected: props.cart[props.productId] == i });
+    }
+
     return (
         <div className="flex flex-col items-center">
             <h3 className="text-default-900 text-lg text-center pb-1">
@@ -28,6 +45,15 @@ export default function CheckoutProductCard(props) {
                     </p>
                 </div>
             </div>
+            <UpdateCartDropdown
+                handleInputChange={props.handleInputChange}
+                error={props.error}
+                name={props.name}
+                measured_per_text={props.measured_per_text}
+                price={props.price}
+                addingToCart={addingToCart}
+                options={options}
+            ></UpdateCartDropdown>
         </div>
     );
 }
