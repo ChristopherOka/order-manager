@@ -34,8 +34,7 @@ export default function CustomCookies() {
 
     return (
         <>
-            <MainHeader></MainHeader>
-            <MainNavbar active="custom"></MainNavbar>
+            <MainHeader active="custom"></MainHeader>
             <div
                 className="overflow-auto"
                 style={{ height: `${innerHeight + "px" || "100vh"}` }}

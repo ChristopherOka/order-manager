@@ -1,6 +1,5 @@
 import Image from "next/image";
 export default function UpdateCartDropdown(props) {
-
     return (
         <div className="flex gap-4 pt-4 justify-center w-72 relative">
             <div>

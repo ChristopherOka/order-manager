@@ -8,7 +8,7 @@ export default function ProductCard(props) {
     const [flipped, setFlipped] = useState(false);
     const [toggleAddedToCart, setToggleAddedToCart] = useState("hidden");
     const clickedCount = useRef(0);
-console.log(props.productQty)
+    console.log(props.productQty);
     const handleFocus = (e) => {
         setInputFocus(true);
     };
@@ -35,7 +35,6 @@ console.log(props.productQty)
             clickedCount.current = clickedCount.current + 1;
         }
     };
-
 
     return (
         <div id="productCard" className="my-6 mx-auto cursor-pointer">

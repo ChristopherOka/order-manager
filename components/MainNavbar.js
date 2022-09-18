@@ -47,7 +47,7 @@ export default function MainNavbar(props) {
                 <div className="relative cookies-dropdown">
                     <a
                         className={`${
-                            props.active == ("christmas" || "custom")
+                            props.active == "christmas" || props.active == "custom"
                                 ? "font-bold"
                                 : ""
                         } pl-3 cursor-pointer`}

@@ -8,7 +8,7 @@ export default async function sendOrderEmail(req, res) {
     <body>
         <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);width: 100%; height: 8rem; margin-top: 3rem">
             <div style="width: fit-content; margin: auto;">
-                <img style="height: 8rem; width: 8rem;" src="https://wefopjbwswtxrkbsmzvn.supabase.co/storage/v1/object/public/public/mrave_logo.png?t=2022-09-15T01%3A36%3A49.534Z"/>
+                <img style="height: 8rem; width: 8rem;" src="https://wefopjbwswtxrkbsmzvn.supabase.co/storage/v1/object/public/public/mrave_logo.png"/>
             </div>
         </div>
         <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin-top: 2rem; margin-bottom: 0.75rem">

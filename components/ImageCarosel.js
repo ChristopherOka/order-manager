@@ -81,6 +81,7 @@ export default function ImageCarosel(props) {
                             height="600"
                             width="600"
                             objectFit="cover"
+                            priority
                         />
                     </div>
                     {props.images.map((image, index) => {
@@ -97,6 +98,7 @@ export default function ImageCarosel(props) {
                                     height="600"
                                     width="600"
                                     objectFit="cover"
+                                    priority
                                 />
                             </div>
                         );
