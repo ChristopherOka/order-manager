@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 export default function CartModalProduct(props) {
-    console.log('rendered');
     const closeConfirmDelete = () => {
         document
             .querySelector(`#cartModal [data-product_id="${props.productId}"]`)

@@ -69,9 +69,7 @@ export default function Checkout({ products }) {
         function detectInnerHeight() {
             const headerHeight =
                 document.querySelector("#main-header").offsetHeight;
-            const navbarHeight =
-                document.querySelector("#main-navbar").offsetHeight;
-            updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
+            updateInnerHeight(window.innerHeight - headerHeight);
         }
         detectInnerHeight();
         window.addEventListener("resize", debounce(detectInnerHeight, 500));
@@ -111,6 +109,11 @@ export default function Checkout({ products }) {
             delete formData["alternative_delivery_date"];
         }
 
+        if (formData["city"] == "Other" && formData["alternative_city"]) {
+            formData["city"] = formData["alternative_city"];
+            delete formData["alternative_city"];
+        }
+
         if (
             !(await sendFormData({
                 ...formData,
@@ -120,21 +123,19 @@ export default function Checkout({ products }) {
         ) {
             return false;
         } else {
-            console.log(
-                await fetch("/api/sendOrderEmail", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        order_details: formData,
-                        order_cost: orderCost,
-                        cart,
-                        products: products,
-                    }),
-                })
-            );
-            // await router.push("/thank_you");
-            // localStorage.setItem("cart", "");
-            // localStorage.setItem("itemCosts", "");
+            // await fetch("/api/sendOrderEmail", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({
+            //         order_details: formData,
+            //         order_cost: orderCost,
+            //         cart,
+            //         products: products,
+            //     }),
+            // });
+            await router.push("/thank_you");
+            localStorage.setItem("cart", "");
+            localStorage.setItem("itemCosts", "");
             return true;
         }
     };
@@ -168,6 +169,17 @@ export default function Checkout({ products }) {
                 };
                 isValid = false;
             }
+            if (
+                field === "city" &&
+                formData["city"] === "Other" &&
+                formData["alternative_city"] === ""
+            ) {
+                newEmptyFields = {
+                    ...newEmptyFields,
+                    alternative_city: true,
+                };
+                isValid = false;
+            }
         }
         updateEmptyFields({ ...emptyFields, ...newEmptyFields });
 
@@ -191,8 +203,22 @@ export default function Checkout({ products }) {
         });
     };
 
+    const handleCityChange = (e) => {
+        const value = e.target.value;
+        if (value == "Other") {
+            document
+                .getElementById("alternative_city")
+                .classList.remove("hidden");
+        } else {
+            document.getElementById("alternative_city").classList.add("hidden");
+        }
+        updateFormData({
+            ...formData,
+            [e.target.name]: e.target.value.trim(),
+        });
+    };
+
     useEffect(() => {
-        console.log(itemCosts);
         if (initiallyRendered.current) {
             localStorage.setItem("cart", JSON.stringify(cart));
             localStorage.setItem("itemCosts", JSON.stringify(itemCosts));
@@ -216,7 +242,7 @@ export default function Checkout({ products }) {
             return true;
         }
         const itemCost = e.currentTarget.dataset.price;
-        debugger
+        debugger;
         updateCart({
             ...cart,
             [productId]: parseFloat(itemQuantity),
@@ -228,7 +254,6 @@ export default function Checkout({ products }) {
         return true;
     };
 
-    
     const removeItemFromCart = (productId) => {
         let updatedCart = { ...cart };
         delete updatedCart[productId];
@@ -269,11 +294,26 @@ export default function Checkout({ products }) {
                     text: "Mississauga",
                 },
                 {
-                    value: "Burlington",
-                    text: "Burlington",
+                    value: "Etobicoke",
+                    text: "Etobicoke",
+                },
+                {
+                    value: "Other",
+                    text: "Other",
                 },
             ],
             required: true,
+            customChangeHandler: handleCityChange,
+        },
+        {
+            name: "alternative_city",
+            text: "Alternative City",
+            fieldStyle: "input",
+            type: "text",
+            hidden: true,
+            required: true,
+            description:
+                "Local deliveries only, but some exceptions can be made. Please leave a note in additional information at to why!",
         },
         {
             type: "text",
@@ -296,7 +336,7 @@ export default function Checkout({ products }) {
                 },
                 {
                     value: "Cash",
-                    text: "Cash",
+                    text: "Cash On Delivery",
                 },
             ],
             required: true,
@@ -309,22 +349,27 @@ export default function Checkout({ products }) {
                 {
                     value: "2022-12-01",
                     text: "December 1st",
+                    disabled: new Date() > new Date("2022-12-01"),
                 },
                 {
                     value: "2022-12-08",
                     text: "December 8th",
+                    disabled: new Date() > new Date("2022-12-08"),
                 },
                 {
                     value: "2022-12-15",
                     text: "December 15th",
+                    disabled: new Date() > new Date("2022-12-15"),
                 },
                 {
                     value: "2022-12-22",
                     text: "December 22nd",
+                    disabled: new Date() > new Date("2022-12-22"),
                 },
                 {
                     value: "2022-12-29",
                     text: "December 29th",
+                    disabled: new Date() > new Date("2022-12-29"),
                 },
                 {
                     value: "Other",
@@ -344,7 +389,7 @@ export default function Checkout({ products }) {
             hidden: true,
             required: true,
             description:
-                "Please provide a reason in additional information for the alternative delivery date!",
+                "These are my set delivery days, however if you require a differen day, please leave a note in additional information and I'll see what I can do!",
         },
         {
             type: "text",
@@ -387,6 +432,9 @@ export default function Checkout({ products }) {
                                 <FormField
                                     handleFocus={handleFocus}
                                     onChange={handleChange}
+                                    customChangeHandler={
+                                        field.customChangeHandler
+                                    }
                                     error={emptyFields[field.name]}
                                     type={field.type}
                                     name={field.name}
@@ -394,6 +442,7 @@ export default function Checkout({ products }) {
                                     fieldStyle={field.fieldStyle}
                                     options={field.options}
                                     required={field.required}
+                                    hidden={field.hidden}
                                     description={field.description}
                                     key={index}
                                 />
@@ -444,30 +493,42 @@ export default function Checkout({ products }) {
                             </h3>
                         </div>
                         <div className="flex flex-row flex-wrap gap-6 max-h-[37rem] px-10 pb-5 overflow-y-auto overflow-x-hidden justify-center">
-                            {Object.keys(cart).map((item) => {
-                                const product = products.find(
-                                    (product) =>
-                                        product.product_id ==
-                                        item.replace("product_", "")
-                                );
-                                return (
-                                    <CheckoutProductCard
-                                        productId={item}
-                                        productQty={cart[item]}
-                                        imgPath={product.product_img_filename}
-                                        productName={product.product_name}
-                                        productPrice={product.product_price}
-                                        totalCost={
-                                            parseFloat(product.product_price) *
-                                            parseFloat(cart[item])
-                                        }
-                                        addToCart={updateCartItems}
-                                        key={item}
-                                        cart={cart}
-                                        handleChange={handleCookieSelectChange}
-                                    />
-                                );
-                            })}
+                            {Object.keys(cart)
+                                .sort((a, b) => {
+                                    return (
+                                        a.match(/product_([0-9]+)/)[1] -
+                                        b.match(/product_([0-9]+)/)[1]
+                                    );
+                                })
+                                .map((item) => {
+                                    const product = products.find(
+                                        (product) =>
+                                            product.product_id ==
+                                            item.replace("product_", "")
+                                    );
+                                    return (
+                                        <CheckoutProductCard
+                                            productId={item}
+                                            productQty={cart[item]}
+                                            imgPath={
+                                                product.product_img_filename
+                                            }
+                                            productName={product.product_name}
+                                            productPrice={product.product_price}
+                                            totalCost={
+                                                parseFloat(
+                                                    product.product_price
+                                                ) * parseFloat(cart[item])
+                                            }
+                                            addToCart={updateCartItems}
+                                            key={item}
+                                            cart={cart}
+                                            handleChange={
+                                                handleCookieSelectChange
+                                            }
+                                        />
+                                    );
+                                })}
                         </div>
                     </div>
                 </form>

@@ -26,6 +26,7 @@ export default function Products({ products }) {
     const [cartModalState, updateCartModalState] = useState(false);
     const [cartIsUpdated, updateCartIsUpdated] = useState(true);
     const [innerHeight, updateInnerHeight] = useState(0);
+    const [isBusy, updateIsBusy] = useState(true);
     const initiallyRendered = useRef(false);
 
     useEffect(() => {
@@ -46,6 +47,7 @@ export default function Products({ products }) {
         if (storedItemCosts) {
             updateItemCosts(JSON.parse(storedItemCosts));
         }
+        updateIsBusy(false);
     }, []);
 
     useEffect(() => {
@@ -261,7 +263,7 @@ export default function Products({ products }) {
                     />
                     <form>
                         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5">
-                            {products.map((product) => (
+                            {!isBusy && products.map((product) => (
                                 <ProductCard
                                     addToCart={addToCart}
                                     handleInputChange={handleInputChange}
@@ -279,6 +281,7 @@ export default function Products({ products }) {
                                     placeholder="How many?"
                                     name={"product_" + product.product_id}
                                     key={product.product_id}
+                                    productQty={cart["product_" + product.product_id]}
                                     cart={cart}
                                 />
                             ))}

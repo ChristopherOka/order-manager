@@ -12,12 +12,6 @@ export default function CheckoutProductCard(props) {
         }
     };
 
-    const NUM_SELECTABLE_OPTIONS = 15;
-    let options = [];
-    for (let i = 0; i <= NUM_SELECTABLE_OPTIONS; i++) {
-        options.push({ value: i, selected: props.cart[props.productId] == i });
-    }
-
     return (
         <div className="flex flex-col items-center">
             <h3 className="text-default-900 text-lg text-center pb-1">
@@ -27,8 +21,6 @@ export default function CheckoutProductCard(props) {
                 <div className="rounded-md">
                     <Image
                         src={`/images/product_images/christmas_products/${props.imgPath}`}
-                        width="160"
-                        height="160"
                         objectFit="cover"
                         layout="fill"
                         alt={props.productName}
@@ -52,7 +44,7 @@ export default function CheckoutProductCard(props) {
                 measured_per_text={props.measured_per_text}
                 price={props.productPrice}
                 addingToCart={addingToCart}
-                options={options}
+                productQty={props.productQty}
             ></UpdateCartDropdown>
         </div>
     );

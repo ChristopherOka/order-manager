@@ -1,4 +1,5 @@
 export default function FormField(props) {
+    console.log(props.options);
     let formField = <></>;
     switch (props.fieldStyle) {
         case "input":
@@ -38,7 +39,7 @@ export default function FormField(props) {
                 >
                     <option value=""></option>
                     {props.options.map((option) => (
-                        <option key={option.value} value={option.value}>
+                        <option key={option.value} value={option.value} disabled={option.disabled}>
                             {option.text}
                         </option>
                     ))}

@@ -1,5 +1,6 @@
 import Image from "next/image";
-export default function UpdateCartDrodown(props) {
+export default function UpdateCartDropdown(props) {
+
     return (
         <div className="flex gap-4 pt-4 justify-center w-72 relative">
             <div>
@@ -15,14 +16,12 @@ export default function UpdateCartDrodown(props) {
                         (props.error ? "border-red" : "")
                     }
                     name={props.name}
+                    defaultValue={props.productQty}
                 >
-                    {props.options.map((option) => {
+                    {Array.from(Array(16).keys()).map((option, index) => {
                         return (
-                            <option
-                                value={option.value}
-                                selected={option.selected}
-                            >
-                                {option.value}
+                            <option value={index} key={index}>
+                                {index}
                             </option>
                         );
                     })}

@@ -1,14 +1,14 @@
 import Image from "next/image";
 import BlurImage from "./BlurImage";
 import { useState, useRef } from "react";
-import UpdateCartDrodown from "./UpdateCartDropdown";
+import UpdateCartDropdown from "./UpdateCartDropdown";
 
 export default function ProductCard(props) {
     const [inputFocus, setInputFocus] = useState(false);
     const [flipped, setFlipped] = useState(false);
     const [toggleAddedToCart, setToggleAddedToCart] = useState("hidden");
     const clickedCount = useRef(0);
-
+console.log(props.productQty)
     const handleFocus = (e) => {
         setInputFocus(true);
     };
@@ -36,11 +36,6 @@ export default function ProductCard(props) {
         }
     };
 
-    const NUM_SELECTABLE_OPTIONS = 15;
-    let options = [];
-    for (let i = 0; i <= NUM_SELECTABLE_OPTIONS; i++) {
-        options.push({ value: i, selected: props.cart[props.name] == i });
-    }
 
     return (
         <div id="productCard" className="my-6 mx-auto cursor-pointer">
@@ -111,7 +106,7 @@ export default function ProductCard(props) {
                 </div>
             </div>
 
-            <UpdateCartDrodown
+            <UpdateCartDropdown
                 handleInputChange={props.handleInputChange}
                 error={props.error}
                 name={props.name}
@@ -121,8 +116,8 @@ export default function ProductCard(props) {
                 handleFocus={handleFocus}
                 handleBlur={handleBlur}
                 addingToCart={addingToCart}
-                options={options}
-            ></UpdateCartDrodown>
+                productQty={props.productQty}
+            ></UpdateCartDropdown>
             <div className="text-lg font-bold text-center text-green-500 pt-2 h-2">
                 {toggleAddedToCart !== "hidden" ? (
                     <div
