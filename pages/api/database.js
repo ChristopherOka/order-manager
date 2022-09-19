@@ -68,6 +68,19 @@ export async function getAllData(dates) {
     return data;
 }
 
+
+export async function getOrderByUid(order_uid) {
+    const { data, error } = await supabase.rpc("get_order_by_uid", {
+        retrieval_order_uid: order_uid,
+    });
+
+    if (error) {
+        console.log(error);
+    }
+
+    return data;
+}
+
 export async function getProductNames() {
     const { data, error } = await supabase
         .from("products")

@@ -112,6 +112,16 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         const col_name = button.dataset["col_name"];
         const input = document.getElementById(`${uid}-${col_name}-input`);
         const value = input.value;
+        let productsData;
+        if (!isNaN(col_name)) {
+            const productsData = await db.getAllProductsData();
+            const order = await db.getOrderByUid(uid);
+            debugger
+            const product = productsData.find((p) => p.product_id == col_name);
+            const product_price = product.product_price;
+
+        }
+        debugger
         await db.updateTableData(value, uid, col_name);
         const text = document.getElementById(`${uid}-${col_name}-text`);
         const textWell = document.getElementById(
@@ -456,6 +466,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 }
                                                 uid={order.order_uid}
                                                 col_name="order_cost"
+                                                readOnly={true}
                                                 prepend="$"
                                             >
                                                 {order.order_cost}

@@ -33,7 +33,7 @@ export default function Products({ products }) {
         function detectInnerHeight() {
             const headerHeight =
                 document.querySelector("#main-header").offsetHeight;
-            updateInnerHeight(window.innerHeight - headerHeight);
+            updateInnerHeight(window.innerHeight - headerHeight - 1);
         }
         detectInnerHeight();
         window.addEventListener("resize", debounce(detectInnerHeight, 500));
@@ -262,7 +262,7 @@ export default function Products({ products }) {
                         products={products}
                     />
                     <form>
-                        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5">
+                        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5 2xl:gap-x-1">
                             {!isBusy && products.map((product) => (
                                 <ProductCard
                                     addToCart={addToCart}
