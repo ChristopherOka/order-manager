@@ -4,14 +4,14 @@ import debounce from "../utils/globals.js";
 
 export default function MainNavbar(props) {
     const [cookiesDropdownState, setCookiesDropdownState] = useState(null);
-    const [innerWidth, setInnerWidth] = useState(null);
+    const [mainHeaderWidth, setMainHeaderWidth] = useState(null);
 
     useEffect(() => {
-        function detectInnerWidth() {
-            setInnerWidth(window.innerWidth);
+        function detectMainHeaderWidth() {
+            setMainHeaderWidth(document.getElementById("main-header").offsetWidth);
         }
-        detectInnerWidth();
-        window.addEventListener("resize", debounce(detectInnerWidth, 500));
+        detectMainHeaderWidth();
+        window.addEventListener("resize", debounce(detectMainHeaderWidth, 500));
         if (cookiesDropdownState) {
             document.addEventListener(
                 "mousedown",
@@ -29,7 +29,7 @@ export default function MainNavbar(props) {
         <div
             className="bg-black flex justify-center w-full items-center"
             id="main-navbar"
-            style={{ width: `${innerWidth + "px" || "100vh"}` }}
+            style={{ width: `${mainHeaderWidth + "px" || "100vw"}` }}
         >
             <nav className="text-lg text-default-100 flex  justify-center items-center py-4">
                 <div>
