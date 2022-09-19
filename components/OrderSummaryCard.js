@@ -57,7 +57,7 @@ export default function OrderSummaryCard(props) {
                 ></button>
             </div>
             <div
-                className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-80 sm:w-96 group ${
+                className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-64 sm:w-96 group ${
                     flipped == "flipped"
                         ? "animate-frontTileFlip print:animate-backTileFlip"
                         : flipped == "unflipped"
@@ -147,7 +147,7 @@ export default function OrderSummaryCard(props) {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-y-auto max-h-60 pt-2 print:max-h-full print:p-0">
+                <div className="overflow-y-auto max-h-48 pt-2 print:max-h-full print:p-0">
                     {Object.keys(props.order.order_items).map((item) => {
                         if (props.order.order_items[item] > 0) {
                             return (
@@ -174,7 +174,7 @@ export default function OrderSummaryCard(props) {
                 </div>
             </div>
             <div
-                className={`group absolute bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-80 sm:w-96 top-0 ${
+                className={`group absolute bg-default-100 px-4 py-3 rounded-md shadow-box w-[70vw] h-68 sm:w-96 top-0 ${
                     flipped == "flipped"
                         ? "animate-backTileFlip animation-delay-400"
                         : flipped == "unflipped"
@@ -266,7 +266,7 @@ export default function OrderSummaryCard(props) {
                     </div>
                 </div>
                 <div>
-                    <div className="overflow-y-auto max-h-60 pt-2 print:max-h-full print:overflow-hidden print:p-0">
+                    <div className="overflow-y-auto max-h-48 pt-2 print:max-h-full print:overflow-hidden print:p-0">
                         <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">VERIFIED:</h3>
                             <Checkbox

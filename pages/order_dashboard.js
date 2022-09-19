@@ -96,7 +96,7 @@ export default function OrderDashboard({
                 </div>
             </h1>
             <div className="absolute z-[100] top-0 left-0 w-62 flex items-center justify-start my-20 sm:my-5 pl-2 md:pr-5 print:hidden">
-                <div className="rounded-md px-3 py-3 bg-default-900 flex w-[60px] sm:w-[70px] md:w-[100px]">
+                <div className="rounded-md px-3 py-3 bg-default-900 flex w-[60px] sm:w-[70px] md:w-[80px]">
                     <Image
                         src="/images/misc/logo.png"
                         width="100"
@@ -107,22 +107,25 @@ export default function OrderDashboard({
             <div className="print:hidden">
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>
-            <div
-                className={`grid grid-cols-1 gap-y-3 max-h-[82vh] overflow-auto ml-20 pl-5 
-            pr-5 pt-24 mt-10 pb-8 justify-start md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full 
+            <div className="flex h-screen items-center">
+                <div
+                    className={`grid grid-cols-1 gap-y-3 max-h-[82vh] overflow-auto ml-20 pl-5 
+            pr-5 pt-10 pb-2 justify-start md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full 
             sm:grid-flow-col sm:gap-x-10 sm:gap-y-5 print:max-h-full print:top-0 
             print:left-0 print:table print:m-0 print:p-0 print:gap-0 print:overflow-hidden`}
-            >
-                {orderData.map((order) => {
-                    return (
-                        <OrderSummaryCard
-                            key={order.order_uid}
-                            order={order}
-                            productNames={productNames}
-                        />
-                    );
-                })}
+                >
+                    {orderData.map((order) => {
+                        return (
+                            <OrderSummaryCard
+                                key={order.order_uid}
+                                order={order}
+                                productNames={productNames}
+                            />
+                        );
+                    })}
+                </div>
             </div>
+
             <div className="print:hidden">
                 <Navbar activeTab="order_dashboard" />
             </div>
