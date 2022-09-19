@@ -94,7 +94,7 @@ export async function getProductNames() {
     return data;
 }
 
-export async function updateTableData(table_data, uid, col_name) {
+export async function updateTableData(table_data, uid, col_name, order_cost) {
     const customers_columns = [
         "customer_name",
         "email",
@@ -137,6 +137,7 @@ export async function updateTableData(table_data, uid, col_name) {
             update_order_uid: uid,
             update_product_id: col_name,
             update_quantity: inserted_data || 0,
+            update_order_cost: order_cost,
         });
         if (error) {
             console.log(error);

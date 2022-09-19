@@ -1,6 +1,6 @@
 export default function OrderSummaryTable(props) {
     return (
-        <div className="overflow-auto">
+        <div className="overflow-auto print:overflow-hidden">
             <table className="rounded-md overflow-hidden">
                 <thead>
                     <tr className="text-slate-600 text-left">

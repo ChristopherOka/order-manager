@@ -148,8 +148,8 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             className="w-screen relative"
             style={{ height: `${innerHeight + "px" || "100vh"}` }}
         >
-            <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:justify-end md:pr-5 print:hidden">
-                <div className="px-3 py-3 bg-default-900 flex w-[60px] md:w-[100px] rounded-md overflow-hidden">
+            <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 print:hidden">
+                <div className="px-3 py-3 bg-default-900 flex w-[60px] md:w-[80px] rounded-md overflow-hidden">
                     <Image
                         src="/images/misc/logo.png"
                         width="100"
@@ -157,13 +157,10 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     />
                 </div>
             </div>
-            <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-5 w-screen items-center justify-center print:hidden xl:flex">
-                HOME
-            </h1>
             <div className="print:hidden">
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>
-            <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-between pt-8 pb-24 md:flex-row">
+            <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-between pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
                 <div className="ml-24 mr-4 flex flex-col justify-center overflow-auto sm:ml-28 md:ml-44 print:mx-0 print:pt-0">
                     <div className="hidden print:flex text-default-900 text-lg flex-col">
                         <div>Start Date: {startDate}</div>
