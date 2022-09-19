@@ -5,22 +5,22 @@
 @layer base {
     :focus:not(:focus-visible) { outline: none }
     :focus-visible { outline: 1px solid grey}
-    tr:nth-child(5n){
+    tr:nth-child(5n) > td{
         @apply bg-default-100
     }
-    tr:nth-child(5n+1){
+    tr:nth-child(5n+1) > td{
         @apply bg-pink-100
     }
-    tr:nth-child(5n+2){
+    tr:nth-child(5n+2) > td{
         @apply bg-blue-100
     }
-    tr:nth-child(5n+3){
+    tr:nth-child(5n+3) > td{
         @apply bg-green-100
     }
-    tr:nth-child(5n+4){
+    tr:nth-child(5n+4) > td{
         @apply bg-yellow-100
     }
-    #orders-table thead th:first-child {
+    /* #orders-table thead th:first-child, #orders-table th {
         @apply sticky
-    }
+    } */
   }

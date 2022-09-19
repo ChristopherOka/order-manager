@@ -86,6 +86,11 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         const value = text.innerText;
         textWell.classList.add("hidden");
         input.setAttribute("size", value.length);
+        if (col_name === "delivery_date") {
+            const date = new Date(value);
+            value = date.getUTCFullYear() + "-" + ("0" + (date.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + date.getUTCDate()).slice(-2);
+            
+        }
         input.value = value;
         input.focus();
         input.classList.remove("hidden");
@@ -110,6 +115,10 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         );
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const editBtn = document.getElementById(`${uid}-${col_name}-edit`);
+        if (col_name === "delivery_date") {
+            const date = new Date(value + 'T00:00:00');
+            value = date.toDateString();
+        }
         text.innerText = parseInt("col_name") ? value || 0 : value || "-";
         textWell.classList.remove("hidden");
         input.classList.add("hidden");
@@ -210,14 +219,17 @@ export default function Orders({ initialOrderData, initialProductNames }) {
             </div>
             <div className="flex absolute top-0 left-0 my-20 ">
                 <div className="overflow-auto ml-20 mr-10 h-[80vh] shadow-box w-[77vw] sm:w-[82vw] sm:ml-24 md:ml-36 xl:w-[88vw]">
-                    <table className="bg-default-100 rounded-md w-screen" id="orders-table">
+                    <table
+                        className="bg-default-100 rounded-md w-screen"
+                        id="orders-table"
+                    >
                         <thead>
                             <tr className="border-b-2 whitespace-nowrap">
                                 <th className="bg-default-100 py-3 px-4 sticky top-0 text-left z-10"></th>
                                 <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
                                     Delivery Date
                                 </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
+                                <th className="bg-default-100 py-3 pl-4 sticky top-0 left-0 text-left z-20">
                                     Customer Name
                                 </th>
                                 <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
@@ -301,14 +313,14 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                 }
                                                 uid={order.order_uid}
                                                 col_name="delivery_date"
-                                                type="date["
+                                                type="date"
                                             >
                                                 {new Date(
                                                     order.delivery_date
                                                 ).toDateString()}
                                             </OrderTableData>
                                         </td>
-                                        <td>
+                                        <td className="sticky left-0">
                                             <OrderTableData
                                                 editTableData={editTableData}
                                                 saveTableEdit={saveTableEdit}
