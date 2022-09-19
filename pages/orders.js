@@ -6,7 +6,7 @@ import DateSidebar from "../components/DateSidebar";
 import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
 import Image from "next/image";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const smallestPossibleDate = new Date(0);
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
@@ -88,8 +88,12 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         input.setAttribute("size", value.length);
         if (col_name === "delivery_date") {
             const date = new Date(value);
-            value = date.getUTCFullYear() + "-" + ("0" + (date.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + date.getUTCDate()).slice(-2);
-            
+            value =
+                date.getUTCFullYear() +
+                "-" +
+                ("0" + (date.getUTCMonth() + 1)).slice(-2) +
+                "-" +
+                ("0" + date.getUTCDate()).slice(-2);
         }
         input.value = value;
         input.focus();
@@ -116,7 +120,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         const btns = document.getElementById(`${uid}-${col_name}-btns`);
         const editBtn = document.getElementById(`${uid}-${col_name}-edit`);
         if (col_name === "delivery_date") {
-            const date = new Date(value + 'T00:00:00');
+            const date = new Date(value + "T00:00:00");
             value = date.toDateString();
         }
         text.innerText = parseInt("col_name") ? value || 0 : value || "-";
