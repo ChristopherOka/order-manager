@@ -245,8 +245,8 @@ export default function Orders({ initialOrderData, initialProductNames }) {
             <div>
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>
-            <div className="flex absolute top-0 left-0 my-20 ">
-                <div className="overflow-auto ml-20 mr-10 h-[80vh] shadow-box w-[77vw] sm:w-[82vw] sm:ml-24 md:ml-36 xl:w-[88vw]">
+            <div className="flex w-full justify-center absolute top-0 left-0 mt-44 md:my-20 ">
+                <div className="overflow-auto h-[58vh] shadow-box w-[95vw] md:mr-10 md:h-[80vh] md:w-[82vw] md:ml-36 xl:w-[88vw]">
                     <table
                         className="bg-default-100 rounded-md w-screen"
                         id="orders-table"
