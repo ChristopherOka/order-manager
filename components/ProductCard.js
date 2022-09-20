@@ -8,7 +8,6 @@ export default function ProductCard(props) {
     const [flipped, setFlipped] = useState(false);
     const [toggleAddedToCart, setToggleAddedToCart] = useState("hidden");
     const clickedCount = useRef(0);
-    console.log(props.productQty);
     const handleFocus = (e) => {
         setInputFocus(true);
     };

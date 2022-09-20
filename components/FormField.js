@@ -1,5 +1,4 @@
 export default function FormField(props) {
-    console.log(props.options);
     let formField = <></>;
     switch (props.fieldStyle) {
         case "input":

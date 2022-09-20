@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Button from "../components/Button";
+import { useRouter } from "next/router";
 import MainHeader from "../components/MainHeader";
 
 export default function thank_you() {
+    const router = useRouter();
+
     return (
         <>
             <MainHeader active="christmas" />
@@ -11,9 +14,12 @@ export default function thank_you() {
                     <h1 className="text-default-900 text-6xl font-bold text-center">
                         Thank you for ordering!
                     </h1>
+
                     <div className="flex flex-wrap justify-center gap-5 text-center my-8">
                         <p className="text-default-900 text-3xl ">
-                            Your order has been sent to your email
+                            {router.query.hasAdditionalInformation == "false"
+                                ? "Your order has been sent to your email"
+                                : "I will email you shortly with your order and total!"}
                         </p>
                         <div className="flex h-10 w-20">
                             <Image

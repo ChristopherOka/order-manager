@@ -1,6 +1,18 @@
 export default async function sendOrderEmail(req, res) {
     const { body } = req;
-    const { products, cart, order_details, order_cost } = body;
+    const { products, cart, order_details, order_cost, email_addresses } = body;
+
+    const messageVersions = [
+        {
+            to: [{ email: "marthamrave@gmail.com", name: "Martha Rave" }],
+            subject: "You've received a new order!",
+        },
+    ];
+    email_addresses.forEach((email) => {
+        messageVersions.push({
+            to: [{ email: email.address, name: email.name }],
+        });
+    });
 
     let messageBody = `
     <!DOCTYPE html>
@@ -93,16 +105,23 @@ export default async function sendOrderEmail(req, res) {
                             : "Please pay cash at time of delivery"
                     }</p>
                 </div>
-                <div style="margin-top: 0.2rem;">
-                    <p style="margin: 0;text-align: center; font-size: 1.2rem; font-style: italic">* if there are any additional fees, I will email you directly with the correct total</p>
-                </div>
              </div>
-             <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 3rem;">
-                <div style="padding: 2rem;">
-                    <p style="margin: 0;font-size: 1.5rem">Please feel free to email me if you have any questions at <a href="mailto:martharave@yahoo.com">martharave@yahoo.com</a><br><br>I look forward to baking holiday treats for you!<br><br>Sincerely,<br>Martha</p>
+             `;
+    if (order_details.additional_information) {
+        messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 1rem;">
+                            <div style="padding: 2rem;">
+                                <p style="margin: 0;font-size: 1.3rem"><b>Additional Information: </b>${order_details.additional_information}</p>
+                            </div>
+                        </div>`;
+    }
+    messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 3rem;">
+                        <div style="padding: 2rem;">
+                            <p style="margin: 0;font-size: 1.3rem">Please feel free to email me if you have any questions at <a href="mailto:martharave@yahoo.com">martharave@yahoo.com</a><br><br>I look forward to baking holiday treats for you!<br><br>Sincerely,<br>Martha</p>
+                        </div>
+                    </div>
                 </div>
-             </div>`;
-    messageBody += `</div></body></html>`;
+            </body>
+        </html>`;
 
     let reqHeaders = new Headers();
     reqHeaders.append("api-key", process.env.SENDINBLUE_API_KEY);
@@ -116,25 +135,7 @@ export default async function sendOrderEmail(req, res) {
         },
         subject: "Your Order from Martha Rave Cookies",
         htmlContent: messageBody,
-        messageVersions: [
-            {
-                to: [
-                    {
-                        email: order_details.email,
-                        name: order_details.name,
-                    },
-                ],
-            },
-            {
-                to: [
-                    {
-                        email: "marthamrave@gmail.com",
-                        name: "Martha Rave",
-                    },
-                ],
-                subject: "You've received a new order!",
-            },
-        ],
+        messageVersions,
     });
 
     const options = {

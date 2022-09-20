@@ -85,7 +85,7 @@ export default function OrderDashboard({
 
     return (
         <div className="overflow-hidden">
-            <h1 className="absolute flex justify-center items-center text-4xl font-bold py-6 bg-default-100 w-full print:hidden">
+            <h1 className="absolute flex justify-center items-center text-2xl sm:text-4xl font-bold py-6 bg-default-100 w-full print:hidden">
                 ORDER DASHBOARD
                 <div>
                     <Button
@@ -95,8 +95,8 @@ export default function OrderDashboard({
                     />
                 </div>
             </h1>
-            <div className="absolute z-[100] top-0 left-0 w-62 flex items-center justify-start my-20 sm:my-5 pl-2 md:pr-5 print:hidden">
-                <div className="rounded-md px-3 py-3 bg-default-900 flex w-[60px] sm:w-[70px] md:w-[80px]">
+            <div className="absolute z-[100] top-0 left-0 w-62 items-center justify-start hidden sm:flex my-2 pl-2 md:pr-5 print:hidden">
+                <div className="rounded-md px-3 py-3 bg-default-900 flex w-[60px] sm:w-[60px] md:w-[80px]">
                     <Image
                         src="/images/misc/logo.png"
                         width="100"
@@ -107,11 +107,11 @@ export default function OrderDashboard({
             <div className="print:hidden">
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>
-            <div className="flex h-screen items-center">
+            <div className="flex h-screen sm:items-center">
                 <div
-                    className={`grid grid-cols-1 gap-y-3 max-h-[82vh] overflow-auto ml-20 pl-5 
-            pr-5 pt-10 pb-2 justify-start md:ml-40 sm:grid-rows-2 sm:grid-cols-none sm:max-h-full 
-            sm:grid-flow-col sm:gap-x-10 sm:gap-y-5 print:max-h-full print:top-0 
+                    className={`grid grid-cols-1 gap-y-3 gap-x-3 overflow-auto
+            px-8 pt-2 max-h-[65vh] sm:max-h-full sm:pl-5 sm:pr-5 mt-44 sm:mt-0 sm:pt-20 md:pt-20 md:pb-2 md:mb-20 md:mt-0 justify-start md:ml-40 sm:grid-rows-2 sm:grid-cols-none 
+            sm:grid-flow-col md:gap-x-10 sm:gap-y-3 print:max-h-full print:top-0 
             print:left-0 print:table print:m-0 print:p-0 print:gap-0 print:overflow-hidden`}
                 >
                     {orderData.map((order) => {

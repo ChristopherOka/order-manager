@@ -25,11 +25,9 @@ export function showThrobber() {
     spinnerDiv.appendChild(spinner);
     throbber.appendChild(spinnerDiv);
     document.body.appendChild(throbber);
-    console.log("showing throbber");
 }
 
 export function hideThrobber() {
     if (!document.getElementById("throbber")) return;
     document.getElementById("throbber").remove();
-    console.log("hiding throbber");
 }

@@ -17,11 +17,12 @@ const Popover = (props) => {
         updatePopOverState("closed");
         setTimeout(() => {
             updatePopOverState(false);
+            updatePopoverExists(false);
         }, 250);
     };
 
     return (
-        <div className={`relative ${popoverExists ? " z-[9999]" : ""}`}>
+        <div className={`relative ${popoverExists ? "z-[9999]" : ""}`}>
             <div
                 className={`${
                     popOverState == "open"

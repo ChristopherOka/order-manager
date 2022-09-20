@@ -120,24 +120,39 @@ export default function Checkout({ products }) {
                 order_cost: orderCost,
                 order_data: cart,
             }))
-        ) {
+        )
             return false;
-        } else {
-            // await fetch("/api/sendOrderEmail", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({
-            //         order_details: formData,
-            //         order_cost: orderCost,
-            //         cart,
-            //         products: products,
-            //     }),
-            // });
-            await router.push("/thank_you");
-            localStorage.setItem("cart", "");
-            localStorage.setItem("itemCosts", "");
-            return true;
+
+        const hasAdditionalInformation = !!formData.additional_information;
+
+        let email_addresses = [
+            { address: formData.email, name: formData.name },
+        ];
+        if (hasAdditionalInformation) {
+            email_addresses = [];
         }
+        await fetch("/api/sendOrderEmail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                order_details: formData,
+                order_cost: orderCost,
+                cart,
+                products: products,
+                email_addresses,
+            }),
+        });
+
+        await router.push(
+            {
+                pathname: "/thank_you",
+                query: { hasAdditionalInformation },
+            },
+            "/thank_you"
+        );
+        localStorage.setItem("cart", "");
+        localStorage.setItem("itemCosts", "");
+        return true;
     };
 
     const validateForm = () => {
