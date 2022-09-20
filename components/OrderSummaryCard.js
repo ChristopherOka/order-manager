@@ -3,6 +3,7 @@ import Popover from "./Popover";
 import { useState } from "react";
 import Checkbox from "./Checkbox";
 import * as db from "../pages/api/database";
+import Button from "./Button";
 
 export default function OrderSummaryCard(props) {
     const [flipped, setFlipped] = useState(false);
@@ -44,6 +45,9 @@ export default function OrderSummaryCard(props) {
         const isChecked = e.target.checked;
         setPaymentStatus(isChecked);
         await db.updatePaymentStatus(props.order.order_uid, isChecked);
+    };
+
+    const sendEmail = async () => {
     };
 
     return (
@@ -189,70 +193,11 @@ export default function OrderSummaryCard(props) {
 
                     <div className="flex gap-2 min-w-fit">
                         <div>
-                            <Popover
-                                content={`${
-                                    verificationStatus
-                                        ? "Order is Verified!"
-                                        : "Needs Verification"
-                                }`}
-                            >
-                                <Image
-                                    src={`/images/icons/${
-                                        verificationStatus
-                                            ? "green_checkmark.png"
-                                            : "red_exclamation.png"
-                                    }`}
-                                    width="28"
-                                    height="28"
-                                />
-                            </Popover>
-                        </div>
-                        <div>
-                            <Popover
-                                content={`${
-                                    paymentStatus
-                                        ? "Order Paid!"
-                                        : "Has Not Paid"
-                                } (${props.order.payment_type})`}
-                            >
-                                <Image
-                                    src={`/images/icons/${
-                                        paymentStatus
-                                            ? "green_money.png"
-                                            : "yellow_unpaid.png"
-                                    }`}
-                                    width="28"
-                                    height="28"
-                                />
-                            </Popover>
-                        </div>
-                        <div
-                            className={`${
-                                isIrregularDeliveryDate ? "" : "hidden"
-                            }`}
-                        >
-                            <Popover content={`Irregular Delivery Date`}>
-                                <Image
-                                    src={`/images/icons/yellow_delivery.png`}
-                                    width="28"
-                                    height="28"
-                                />
-                            </Popover>
-                        </div>
-                        <div
-                            className={`${
-                                props.order.additional_information
-                                    ? ""
-                                    : "hidden"
-                            }`}
-                        >
-                            <Popover content={`Has Additional Information!`}>
-                                <Image
-                                    src={`/images/icons/yellow_paper.png`}
-                                    width="28"
-                                    height="28"
-                                />
-                            </Popover>
+                            <Button
+                                type="secondary-md"
+                                img="/images/icons/mail.png"
+                                clickHandler={sendEmail}
+                            />
                         </div>
                         <div>
                             <button onClick={() => flipCard("toggle")}>

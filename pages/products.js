@@ -2,7 +2,6 @@ import Button from "../components/Button";
 import ProductCard from "../components/ProductCard";
 import CartModal from "../components/CartModal";
 import MainHeader from "../components/MainHeader";
-import MainNavbar from "../components/MainNavbar";
 import { useState, useEffect, useRef } from "react";
 import debounce from "../utils/globals.js";
 import * as db from "./api/database";

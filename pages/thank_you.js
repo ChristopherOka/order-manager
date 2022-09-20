@@ -3,7 +3,7 @@ import Button from "../components/Button";
 import { useRouter } from "next/router";
 import MainHeader from "../components/MainHeader";
 
-export default function thank_you() {
+export default function ThankYou() {
     const router = useRouter();
 
     return (
