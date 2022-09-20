@@ -20,7 +20,13 @@
     tr:nth-child(5n+4) > td{
         @apply bg-yellow-100
     }
-    /* #orders-table thead th:first-child, #orders-table th {
-        @apply sticky
-    } */
+  }
+
+  @keyframes throbber {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }

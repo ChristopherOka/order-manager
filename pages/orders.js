@@ -127,13 +127,18 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                 const currentProduct = productsData.find(
                     (product) => product.product_id == parseInt(id)
                 );
-                const product_cost = parseFloat(currentProduct.product_price) * parseFloat(qty);
+                const product_cost =
+                    parseFloat(currentProduct.product_price) * parseFloat(qty);
                 order_cost += product_cost;
             }
             await db.updateTableData(value, uid, col_name, order_cost);
-            document.getElementById(`${uid}-order_cost-text`).innerText = order_cost;
-            const misc_fees = document.getElementById(`${uid}-misc_fees-text`).innerText;
-            document.getElementById(`${uid}-total_cost-text`).innerText = order_cost + parseFloat(misc_fees);
+            document.getElementById(`${uid}-order_cost-text`).innerText =
+                order_cost;
+            const misc_fees = document.getElementById(
+                `${uid}-misc_fees-text`
+            ).innerText;
+            document.getElementById(`${uid}-total_cost-text`).innerText =
+                order_cost + parseFloat(misc_fees);
         } else {
             await db.updateTableData(value, uid, col_name);
         }
@@ -254,48 +259,39 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                         <thead>
                             <tr className="border-b-2 whitespace-nowrap">
                                 <th className="bg-default-100 py-3 px-4 sticky top-0 text-left z-10"></th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Delivery Date
-                                </th>
-                                <th className="bg-default-100 py-3 pl-4 sticky top-0 left-0 text-left z-20">
-                                    Customer Name
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Email
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Phone
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Street Address
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    City
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Payment Received
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Verified
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Payment Type
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Additional Information
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Order Cost
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Misc. Fees
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Total Cost
-                                </th>
-                                <th className="bg-default-100 py-3 px-4 sticky top-0 text-left">
-                                    Time of Order
-                                </th>
+                                {[
+                                    "Delivery Date",
+                                    {
+                                        title: "Customer Name",
+                                        props: "z-20 px-0 pl-4 left-0",
+                                    },
+                                    "Email",
+                                    "Phone",
+                                    "Street Address",
+                                    "City",
+                                    "Payment Received",
+                                    "Verified",
+                                    "Payment Type",
+                                    "Additional Information",
+                                    "Order Cost",
+                                    "Misc Fees",
+                                    "Total Cost",
+                                    "Time of Order",
+                                ].map((columnHeader) => {
+                                    return (
+                                        <th
+                                            className={`bg-default-100 py-3 px-4 sticky top-0 text-left ${
+                                                columnHeader.props ?? ""
+                                            }`}
+                                            key={
+                                                columnHeader.title ??
+                                                columnHeader
+                                            }
+                                        >
+                                            {columnHeader.title ?? columnHeader}
+                                        </th>
+                                    );
+                                })}
                                 {productNames.map((product) => {
                                     return (
                                         <th
