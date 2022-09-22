@@ -192,28 +192,28 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                         <div className="text-default-900 px-3 py-5 pt-0 text-lg lg:text-2xl lg:px-12 ">
                             <AtAGlanceRow
                                 text="Total Orders:"
-                                src="/images/icons/edit_icon.png"
+                                src="/images/icons/edit_icon.svg"
                                 number={orderCounts[0].total_orders}
                             />
                             <AtAGlanceRow
                                 text="Unverified Orders:"
-                                src="/images/icons/red_exclamation.png"
+                                src="/images/icons/red_exclamation.svg"
                                 number={orderCounts[0].unverified_orders}
                             />
                             <AtAGlanceRow
                                 text="Unpaid Orders:"
-                                src="/images/icons/yellow_unpaid.png"
+                                src="/images/icons/yellow_unpaid.svg"
                                 number={orderCounts[0].unpaid_orders}
                             />
                             <AtAGlanceRow
                                 text="Verified Orders:"
-                                src="/images/icons/green_checkmark.png"
+                                src="/images/icons/green_checkmark.svg"
                                 number={orderCounts[0].verified_orders}
                             />
                             <div className="pb-6">
                                 <AtAGlanceRow
                                     text="Paid Orders:"
-                                    src="/images/icons/green_money.png"
+                                    src="/images/icons/green_money.svg"
                                     number={orderCounts[0].paid_orders}
                                 />
                             </div>

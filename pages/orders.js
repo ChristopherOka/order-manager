@@ -4,7 +4,6 @@ import OrderTableData from "../components/OrderTableData";
 import Navbar from "../components/Navbar";
 import DateSidebar from "../components/DateSidebar";
 import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
-import Image from "next/image";
 
 export async function getStaticProps() {
     const smallestPossibleDate = new Date(0);
@@ -321,11 +320,22 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                                                     );
                                                 }}
                                             >
-                                                <Image
-                                                    src="/images/icons/trash.svg"
-                                                    height="24"
+                                                <svg
                                                     width="24"
-                                                />
+                                                    height="24"
+                                                    viewBox="0 0 73 73"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M15.2083 60.8332C15.2083 62.4466 15.8493 63.994 16.9901 65.1348C18.1309 66.2757 19.6783 66.9166 21.2917 66.9166H51.7083C53.3217 66.9166 54.8691 66.2757 56.0099 65.1348C57.1507 63.994 57.7917 62.4466 57.7917 60.8332V24.3333H63.875V18.2499H51.7083V12.1666C51.7083 10.5532 51.0674 9.00586 49.9266 7.86502C48.7857 6.72417 47.2384 6.08325 45.625 6.08325H27.375C25.7616 6.08325 24.2143 6.72417 23.0734 7.86502C21.9326 9.00586 21.2917 10.5532 21.2917 12.1666V18.2499H9.125V24.3333H15.2083V60.8332ZM27.375 12.1666H45.625V18.2499H27.375V12.1666ZM24.3333 24.3333H51.7083V60.8332H21.2917V24.3333H24.3333Z"
+                                                        fill="#F00101"
+                                                    />
+                                                    <path
+                                                        d="M27.375 30.4167H33.4583V54.7501H27.375V30.4167ZM39.5417 30.4167H45.625V54.7501H39.5417V30.4167Z"
+                                                        fill="#F00101"
+                                                    />
+                                                </svg>
                                             </button>
                                         </td>
                                         <td>

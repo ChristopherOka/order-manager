@@ -1,5 +1,4 @@
 import MainHeader from "../components/MainHeader";
-import MainNavbar from "../components/MainNavbar";
 import { useState, useEffect } from "react";
 import debounce from "../utils/globals.js";
 import ImageCarosel from "../components/ImageCarosel";
