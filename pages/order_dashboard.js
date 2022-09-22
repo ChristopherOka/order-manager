@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import DateSidebar from "../components/DateSidebar";
 import OrderSummaryCard from "../components/OrderSummaryCard";
 import Button from "../components/Button";
+import EmailModal from "../components/EmailModal";
 import Image from "next/image";
 import { useState } from "react";
 import * as db from "./api/database";
@@ -35,6 +36,9 @@ export default function OrderDashboard({
     const [activeDate, setActiveDate] = useState("All");
     const [orderData, setOrderData] = useState(initialOrderData);
     const [productNames, setProductNames] = useState(initialProductNames);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalBody, setModalBody] = useState("");
+    const [modalOrderUid, setModalOrderUid] = useState("");
 
     const dateRanges = {
         All: {
@@ -83,8 +87,53 @@ export default function OrderDashboard({
         return true;
     };
 
+    const openEmailModal = (customer_name, order_uid) => {
+        setModalBody(
+            `<p style="margin:0; padding-bottom: 1rem">Send To: ${customer_name}</p> Email Message: <br><textarea id="email-body-textarea" rows="4" style="border: 1px solid black; border-radius: 5px; padding: 0.5rem; width: 100%;"></textarea>`
+        );
+        setModalOrderUid(order_uid);
+        setModalIsOpen(true);
+    };
+
+    const closeEmailModal = () => {
+        setModalBody("");
+        setModalIsOpen(false);
+    };
+
+    const sendEmailCallback = async () => {
+        const email_body = document.getElementById("email-body-textarea").value;
+        const order_data = orderData.find(
+            (order) => order.order_uid === modalOrderUid
+        );
+        const response = await fetch("/api/sendDeferredOrderEmail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                order_data,
+                products: productNames,
+                email_body,
+            }),
+        });
+        if (response.status === 200) {
+            document.getElementById(
+                `${modalOrderUid}-email-sent-message`
+            ).innerText = "Sent";
+        }
+        closeEmailModal();
+    };
+
     return (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden print:overflow-visible">
+            <div className={`${modalIsOpen ? "" : "hidden"}`}>
+                <EmailModal
+                    header={"SEND EMAIL"}
+                    body={modalBody}
+                    closeCallback={() => {
+                        closeEmailModal();
+                    }}
+                    sendEmailCallback={sendEmailCallback}
+                />
+            </div>
             <h1 className="absolute flex justify-center items-center text-2xl sm:text-4xl font-bold py-6 bg-default-100 w-full print:hidden">
                 ORDER DASHBOARD
                 <div>
@@ -120,6 +169,7 @@ export default function OrderDashboard({
                                 key={order.order_uid}
                                 order={order}
                                 productNames={productNames}
+                                openEmailModal={openEmailModal}
                             />
                         );
                     })}

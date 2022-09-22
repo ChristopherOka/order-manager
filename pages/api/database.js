@@ -68,7 +68,6 @@ export async function getAllData(dates) {
     return data;
 }
 
-
 export async function getOrderByUid(order_uid) {
     const { data, error } = await supabase.rpc("get_order_by_uid", {
         retrieval_order_uid: order_uid,
@@ -84,7 +83,7 @@ export async function getOrderByUid(order_uid) {
 export async function getProductNames() {
     const { data, error } = await supabase
         .from("products")
-        .select("product_name, product_id")
+        .select("product_name, product_id, product_price, product_img_api_path")
         .order("product_id", "asc");
 
     if (error) {
@@ -232,6 +231,20 @@ export async function addMaterial(material_name) {
         },
     ]);
 
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return true;
+}
+
+export async function setEmailedStatus(order_uid) {
+    const { data, error } = await supabase
+        .from("orders")
+        .update({
+            email_sent: true,
+        })
+        .match({ order_uid });
     if (error) {
         console.log(error);
         return false;

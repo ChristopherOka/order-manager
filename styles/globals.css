@@ -3,30 +3,34 @@
 @tailwind utilities;
 
 @layer base {
-    :focus:not(:focus-visible) { outline: none }
-    :focus-visible { outline: 1px solid grey}
-    tr:nth-child(5n) > td{
-        @apply bg-default-100
+    :focus:not(:focus-visible) {
+        outline: none;
     }
-    tr:nth-child(5n+1) > td{
-        @apply bg-pink-100
+    :focus-visible {
+        outline: 1px solid grey;
     }
-    tr:nth-child(5n+2) > td{
-        @apply bg-blue-100
+    tr:nth-child(5n) > td {
+        @apply bg-default-100;
     }
-    tr:nth-child(5n+3) > td{
-        @apply bg-green-100
+    tr:nth-child(5n + 1) > td {
+        @apply bg-pink-100;
     }
-    tr:nth-child(5n+4) > td{
-        @apply bg-yellow-100
+    tr:nth-child(5n + 2) > td {
+        @apply bg-blue-100;
     }
-  }
+    tr:nth-child(5n + 3) > td {
+        @apply bg-green-100;
+    }
+    tr:nth-child(5n + 4) > td {
+        @apply bg-yellow-100;
+    }
+}
 
-  @keyframes throbber {
+@keyframes throbber {
     from {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     to {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}

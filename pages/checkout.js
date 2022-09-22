@@ -42,7 +42,7 @@ async function sendFormData(data) {
         alert("Order not processed. Please try again.");
         return false;
     }
-    return true;
+    return { order_uid, customer_uid };
 }
 
 export default function Checkout({ products }) {
@@ -114,14 +114,13 @@ export default function Checkout({ products }) {
             delete formData["alternative_city"];
         }
 
-        if (
-            !(await sendFormData({
-                ...formData,
-                order_cost: orderCost,
-                order_data: cart,
-            }))
-        )
-            return false;
+        const { order_uid } = await sendFormData({
+            ...formData,
+            order_cost: orderCost,
+            order_data: cart,
+        });
+
+        if (!order_uid) return false;
 
         const hasAdditionalInformation = !!formData.additional_information;
 
@@ -142,6 +141,8 @@ export default function Checkout({ products }) {
                 email_addresses,
             }),
         });
+
+        if (!hasAdditionalInformation) await db.setEmailedStatus(order_uid);
 
         await router.push(
             {

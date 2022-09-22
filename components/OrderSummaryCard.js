@@ -3,7 +3,6 @@ import Popover from "./Popover";
 import { useState } from "react";
 import Checkbox from "./Checkbox";
 import * as db from "../pages/api/database";
-import Button from "./Button";
 
 export default function OrderSummaryCard(props) {
     const [flipped, setFlipped] = useState(false);
@@ -45,9 +44,6 @@ export default function OrderSummaryCard(props) {
         const isChecked = e.target.checked;
         setPaymentStatus(isChecked);
         await db.updatePaymentStatus(props.order.order_uid, isChecked);
-    };
-
-    const sendEmail = async () => {
     };
 
     return (
@@ -186,32 +182,60 @@ export default function OrderSummaryCard(props) {
                         : "hidden print:relative print:block print:rounded-none print:border print:border-t-0 print:shadow-none print:w-full print:h-full print:py-0"
                 }`}
             >
-                <div className="flex justify-between gap-2 print:hidden">
-                    <h2 className="text-default-900 font-bold text-2xl pb-2 truncate">
+                <div className="flex justify-between gap-2 items-center print:hidden pb-2">
+                    <h2 className="text-default-900 font-bold text-2xl truncate">
                         {props.order.customer_name}
                     </h2>
 
                     <div className="flex gap-2 min-w-fit">
-                        <div>
-                            <Button
-                                type="secondary-md"
-                                img="/images/icons/mail.png"
-                                clickHandler={sendEmail}
-                            />
-                        </div>
-                        <div>
-                            <button onClick={() => flipCard("toggle")}>
-                                <Image
-                                    src="/images/icons/right_arrow.svg"
-                                    width="28"
-                                    height="28"
-                                />
+                        <div className="flex justify-right items-center gap-2">
+                            <div
+                                id={`${props.order.order_uid}-email-sent-message`}
+                            >
+                                {props.order.email_sent ? (
+                                    <p className="text-green-500">Sent</p>
+                                ) : (
+                                    <p className="text-red-500">Not Sent</p>
+                                )}
+                            </div>
+
+                            <button
+                                className="bg-default-100 rounded-md shadow-box px-2"
+                                onClick={() => {
+                                    props.openEmailModal(
+                                        props.order.customer_name,
+                                        props.order.order_uid
+                                    );
+                                }}
+                            >
+                                <svg
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 32 32"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M28 6H4C3.46957 6 2.96086 6.21071 2.58579 6.58579C2.21071 6.96086 2 7.46957 2 8V24C2 24.5304 2.21071 25.0391 2.58579 25.4142C2.96086 25.7893 3.46957 26 4 26H28C28.5304 26 29.0391 25.7893 29.4142 25.4142C29.7893 25.0391 30 24.5304 30 24V8C30 7.46957 29.7893 6.96086 29.4142 6.58579C29.0391 6.21071 28.5304 6 28 6V6ZM25.8 8L16 14.78L6.2 8H25.8ZM4 24V8.91L15.43 16.82C15.5974 16.9361 15.7963 16.9984 16 16.9984C16.2037 16.9984 16.4026 16.9361 16.57 16.82L28 8.91V24H4Z"
+                                        fill="#161616"
+                                    />
+                                </svg>
                             </button>
                         </div>
+                        <button
+                            className="flex"
+                            onClick={() => flipCard("toggle")}
+                        >
+                            <Image
+                                src="/images/icons/right_arrow.svg"
+                                width="28"
+                                height="28"
+                            />
+                        </button>
                     </div>
                 </div>
                 <div>
-                    <div className="overflow-y-auto max-h-48 sm:max-h-40 md:max-h-48 pt-2 print:max-h-full print:overflow-hidden print:p-0">
+                    <div className="overflow-y-auto max-h-44 sm:max-h-40 md:max-h-44 pt-2 print:max-h-full print:overflow-hidden print:p-0">
                         <div className="flex text-default-900 text-lg gap-2 print:text-sm">
                             <h3 className="font-bold">VERIFIED:</h3>
                             <Checkbox
