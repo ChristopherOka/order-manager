@@ -9,19 +9,22 @@
     :focus-visible {
         outline: 1px solid grey;
     }
-    tr:nth-child(5n) > td {
+    th {
         @apply bg-default-100;
     }
-    tr:nth-child(5n + 1) > td {
+    tr:nth-child(5n) {
+        @apply bg-default-100;
+    }
+    tr:nth-child(5n + 1) {
         @apply bg-pink-100;
     }
-    tr:nth-child(5n + 2) > td {
+    tr:nth-child(5n + 2) {
         @apply bg-blue-100;
     }
-    tr:nth-child(5n + 3) > td {
+    tr:nth-child(5n + 3) {
         @apply bg-green-100;
     }
-    tr:nth-child(5n + 4) > td {
+    tr:nth-child(5n + 4) {
         @apply bg-yellow-100;
     }
 }
