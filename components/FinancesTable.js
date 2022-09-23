@@ -90,7 +90,7 @@ export default function FinancesTable(props) {
                                 key={material.material_uid}
                                 className={`text-default-900 text-md print:border-t group`}
                             >
-                                <td className="py-2 pr-10 md:pr-12 pl-6 font-medium print:pl-0">
+                                <td className="py-2 pr-10 md:pr-12 pl-6 font-medium truncate print:pl-0">
                                     {material.material_name}
                                 </td>
                                 <td className="pr-12 font-bold text-center print:text-start">

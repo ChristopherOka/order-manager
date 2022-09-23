@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import FinancesTable from "../components/FinancesTable";
+import FinancesChart from "../components/FinancesChart";
 import Image from "next/image";
 import Button from "../components/Button";
 import { useState } from "react";
@@ -7,15 +8,17 @@ import * as db from "./api/database";
 
 export async function getServerSideProps() {
     const materials = await db.getAllMaterials();
+    const spendingByDay = await db.getSpendingByDay(100);
 
     return {
         props: {
             initialMaterials: materials,
+            spendingByDay,
         },
     };
 }
 
-export default function Finances({ initialMaterials }) {
+export default function Finances({ initialMaterials, spendingByDay }) {
     const [addMaterialOpen, setAddMaterialOpen] = useState(false);
     const [materialName, setMaterialName] = useState("");
     const [materials, setMaterials] = useState(initialMaterials);
@@ -55,8 +58,8 @@ export default function Finances({ initialMaterials }) {
             <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-5 w-screen items-center justify-center print:hidden xl:flex">
                 FINANCES
             </h1>
-            <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-between pb-72 md:flex-row">
-                <div className="ml-8 mr-4 flex flex-col justify-center overflow-auto print:mx-0 print:pt-0">
+            <div className="absolute top-0 left-0 h-full w-full flex flex-row justify-center gap-20 items-center">
+                <div className="ml-8 mr-4 flex flex-col justify-center pb-10 overflow-auto print:mx-0 print:pt-0">
                     <div className="flex justify-between items-center relative pb-6">
                         <div className="print:hidden">
                             <button
@@ -117,9 +120,12 @@ export default function Finances({ initialMaterials }) {
                         </div>
                     </div>
                     <FinancesTable materials={materials} />
-                    <div>
-{/* line chart */}
-                    </div>
+                </div>
+                <div className="w-fit h-fit">
+                    <h2 className="font-bold text-xl text-center">
+                        Cumulative Spending
+                    </h2>
+                    <FinancesChart spendingByDay={spendingByDay} />
                 </div>
             </div>
             <Navbar activeTab="finances" />
