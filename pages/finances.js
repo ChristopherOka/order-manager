@@ -3,25 +3,49 @@ import FinancesTable from "../components/FinancesTable";
 import FinancesChart from "../components/FinancesChart";
 import Image from "next/image";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as db from "./api/database";
 
 export async function getServerSideProps() {
     const materials = await db.getAllMaterials();
-    const spendingByDay = await db.getSpendingByDay(100);
+
+    const start_date = new Date();
+    start_date.setMonth(start_date.getMonth() - 1);
+    const end_date = new Date();
+    const spendingByDay = await db.getSpendingByDay(start_date, end_date);
 
     return {
         props: {
             initialMaterials: materials,
-            spendingByDay,
+            initialSpendingByDay: spendingByDay,
         },
     };
 }
 
-export default function Finances({ initialMaterials, spendingByDay }) {
+export default function Finances({ initialMaterials, initialSpendingByDay }) {
     const [addMaterialOpen, setAddMaterialOpen] = useState(false);
     const [materialName, setMaterialName] = useState("");
     const [materials, setMaterials] = useState(initialMaterials);
+    const [spendingByDay, setSpendingByDay] = useState(initialSpendingByDay);
+    const rendered = useRef(false);
+
+    let initialStartDate = new Date();
+    initialStartDate.setMonth(initialStartDate.getMonth() - 1);
+    initialStartDate =
+        initialStartDate.getUTCFullYear() +
+        "-" +
+        ("0" + (initialStartDate.getUTCMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + initialStartDate.getUTCDate()).slice(-2);
+    let initialEndDate = new Date();
+    initialEndDate =
+        initialEndDate.getUTCFullYear() +
+        "-" +
+        ("0" + (initialEndDate.getUTCMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + initialEndDate.getUTCDate()).slice(-2);
+    const [startDate, setStartDate] = useState(initialStartDate);
+    const [endDate, setEndDate] = useState(initialEndDate);
 
     const openPrintLayout = () => {
         window.print();
@@ -43,6 +67,31 @@ export default function Finances({ initialMaterials, spendingByDay }) {
         setMaterialName(e.target.value);
         return true;
     };
+
+    const updateStartDate = (e) => {
+        setStartDate(e.target.value);
+        return true;
+    };
+
+    const updateEndDate = (e) => {
+        setEndDate(e.target.value);
+        return true;
+    };
+
+    useEffect(() => {
+        if (!rendered.current) {
+            rendered.current = true;
+            return;
+        }
+        const updateSpendingByDay = async () => {
+            const newSpendingByDay = await db.getSpendingByDay(
+                startDate,
+                endDate
+            );
+            setSpendingByDay(newSpendingByDay);
+        };
+        updateSpendingByDay();
+    }, [startDate, endDate]);
 
     return (
         <div className="w-screen relative h-screen">
@@ -121,11 +170,33 @@ export default function Finances({ initialMaterials, spendingByDay }) {
                     </div>
                     <FinancesTable materials={materials} />
                 </div>
-                <div className="w-fit h-fit">
+                <div className="w-fit h-fit print:hidden">
                     <h2 className="font-bold text-xl text-center">
                         Cumulative Spending
                     </h2>
                     <FinancesChart spendingByDay={spendingByDay} />
+                    <div className="flex justify-between items-center gap-2 pt-3">
+                        <p>Date Range</p>
+                        <input
+                            className={`
+                        rounded bg-zinc-200 px-2 text-lg text-slate-700 h-8
+                        ${"" ? "border-red-400 border-2" : ""}`}
+                            type="date"
+                            max={initialEndDate}
+                            defaultValue={startDate}
+                            onChange={updateStartDate}
+                        />
+                        <div>—</div>
+                        <input
+                            className={`
+                        rounded bg-zinc-200 px-2 text-lg text-slate-700 h-8
+                        ${"" ? "border-red-400 border-2" : ""}`}
+                            type="date"
+                            max={initialEndDate}
+                            defaultValue={endDate}
+                            onChange={updateEndDate}
+                        />
+                    </div>
                 </div>
             </div>
             <Navbar activeTab="finances" />

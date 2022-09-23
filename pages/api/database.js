@@ -252,9 +252,10 @@ export async function setEmailedStatus(order_uid) {
     return true;
 }
 
-export async function getSpendingByDay(num_days) {
+export async function getSpendingByDay(start_date, end_date) {
     const { data, error } = await supabase.rpc("get_spending_by_day", {
-        num_days,
+        start_date,
+        end_date,
     });
 
     if (error) {
