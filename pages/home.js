@@ -160,13 +160,13 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             <div className="print:hidden">
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>
-            <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-between pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
-                <div className="ml-24 mr-4 flex flex-col justify-center overflow-auto sm:ml-28 md:ml-44 print:mx-0 print:pt-0">
+            <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-center sm:gap-5 lg:gap-10 xl:gap-20 pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
+                <div className="md:mr-4 flex flex-col items-center justify-center overflow-hidden md:ml-44 print:mx-0 print:pt-0">
                     <div className="hidden print:flex text-default-900 text-lg flex-col">
                         <div>Start Date: {startDate}</div>
                         <div>End Date: {endDate}</div>
                     </div>
-                    <div className="flex justify-between items-center pb-6">
+                    <div className="flex overflow-hidden justify-center items-center pb-6 pt-40 md:pt-0">
                         <h2 className="text-default-900 font-bold text-3xl text-center">
                             <span className="print:hidden">WEEKLY SUMMARY</span>
                             <span className="hidden print:block">

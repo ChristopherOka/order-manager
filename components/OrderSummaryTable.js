@@ -1,9 +1,9 @@
 export default function OrderSummaryTable(props) {
     return (
-        <div className="overflow-auto print:overflow-hidden">
-            <table className="rounded-md overflow-hidden">
+        <div className="overflow-auto print:overflow-hidden w-full">
+            <table className="rounded-md">
                 <thead>
-                    <tr className="text-slate-600 text-left">
+                    <tr className="text-slate-600 top-0 left-0 z-10 sticky text-left">
                         <th className="font-medium pb-2 pr-12 pl-6 print:pl-0">
                             Product Name
                         </th>
@@ -23,9 +23,9 @@ export default function OrderSummaryTable(props) {
                         return (
                             <tr
                                 key={product.product_id}
-                                className={`text-default-900 text-md print:border-t`}
+                                className={`text-default-900 relative text-md print:border-t`}
                             >
-                                <td className="py-2 pr-10 md:pr-12 pl-6 font-medium print:pl-0">
+                                <td className="py-2 pr-10 top-0 left-0 sticky md:pr-12 pl-6 font-medium print:pl-0">
                                     {product.product_name}
                                 </td>
                                 <td className="pr-12 font-bold text-center print:text-start">

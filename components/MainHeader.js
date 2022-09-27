@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MainNavbar from "./MainNavbar";
+import Link from "next/link";
 
 export default function MainHeader(props) {
     return (
@@ -8,6 +9,11 @@ export default function MainHeader(props) {
             id="main-header"
         >
             <div className="pt-2 flex flex-col">
+                <div className="text-default-100 px-5">
+                    <Link href="/login">
+                        <a>Admin</a>
+                    </Link>
+                </div>
                 <div className="flex justify-center py-4">
                     <Image
                         src="/images/misc/logo.png"
