@@ -4,8 +4,15 @@ import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
 import ImageCarosel from "../components/ImageCarosel";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Home() {
+    const { data: session, status } = useSession();
+
+    if (session && session.user.email !== "marthamrave@gmail.com") {
+        signOut();
+    }
+
     const images = [
         "/images/product_images/custom_products/1.webp",
         "/images/product_images/custom_products/2.webp",

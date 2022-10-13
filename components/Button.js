@@ -12,7 +12,7 @@ export default function Button(props) {
             if (await props.clickHandler(e)) {
                 updateDisabled(false);
             } else {
-                alert("There was an error with your order, please try again.");
+                alert("There was an error, please try again.");
             }
         } else {
             updateDisabled(false);
@@ -31,7 +31,7 @@ export default function Button(props) {
             break;
         case "primary-md":
             buttonStyle =
-                "bg-default-900 text-default-100 text-sm h-8 px-3 my-2 mx-2 float-right gap-2 sm:px-6 sm:mx-5 sm:h-10 sm:text-base sm:gap-3";
+                "bg-default-900 text-xs text-default-100 h-8 px-3 my-2 mx-2 gap-2 float-right sm:px-6 sm:mx-5 sm:h-10 sm:text-base sm:gap-3";
             break;
         case "secondary-md":
             buttonStyle =

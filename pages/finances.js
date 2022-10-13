@@ -5,8 +5,16 @@ import Image from "next/image";
 import Button from "../components/Button";
 import { useState, useEffect, useRef } from "react";
 import * as db from "./api/database";
+import { getSession, signOut } from "next-auth/react";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+
+    if (!session || session.user.email !== "marthamrave@gmail.com") {
+        context.res.writeHead(302, { Location: "/" });
+        context.res.end();
+        return {};
+    }
     const materials = await db.getAllMaterials();
 
     const start_date = new Date();
@@ -107,7 +115,19 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
             <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-5 w-screen items-center justify-center print:hidden xl:flex">
                 FINANCES
             </h1>
-            <div className="absolute top-0 left-0 h-full w-full flex flex-row justify-center gap-20 items-center">
+            <div className="absolute z-10 top-0 left-0 w-screen flex items-center justify-end md:justify-start my-5 pr-2 print:hidden">
+                <Button
+                    type="primary-md"
+                    img="/images/icons/logout.svg"
+                    clickHandler={() => {
+                        signOut();
+                        return true;
+                    }}
+                >
+                    SIGN OUT
+                </Button>
+            </div>
+            <div className="absolute top-0 left-0 h-full w-full flex flex-col md:flex-row justify-center gap-20 items-center">
                 <div className="ml-8 mr-4 flex flex-col justify-center pb-10 overflow-auto print:mx-0 print:pt-0">
                     <div className="flex justify-between items-center relative pb-6">
                         <div className="print:hidden">
@@ -179,7 +199,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                         <p>Date Range</p>
                         <input
                             className={`
-                        rounded bg-zinc-200 px-2 text-lg text-slate-700 h-8
+                        rounded cursor-pointer bg-zinc-200 px-2 text-lg text-slate-700 h-8
                         ${"" ? "border-red-400 border-2" : ""}`}
                             type="date"
                             max={initialEndDate}
@@ -189,7 +209,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                         <div>—</div>
                         <input
                             className={`
-                        rounded bg-zinc-200 px-2 text-lg text-slate-700 h-8
+                        rounded cursor-pointer bg-zinc-200 px-2 text-lg text-slate-700 h-8
                         ${"" ? "border-red-400 border-2" : ""}`}
                             type="date"
                             max={initialEndDate}

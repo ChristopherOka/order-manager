@@ -12,6 +12,11 @@ export const authOptions = {
     jwt: {
         encryption: true,
     },
-    secret: process.env.secret,
+    secret: process.env.JWT_SECRET,
+    callbacks: {
+        redirect: async (url, baseUrl) => {
+            return Promise.resolve("/home");
+        },
+    },
 };
 export default NextAuth(authOptions);

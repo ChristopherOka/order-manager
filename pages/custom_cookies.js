@@ -2,6 +2,7 @@ import MainHeader from "../components/MainHeader";
 import { useState, useEffect } from "react";
 import debounce from "../utils/globals.js";
 import ImageCarosel from "../components/ImageCarosel";
+import MainFooter from "../components/MainFooter";
 
 export default function CustomCookies() {
     const [innerHeight, updateInnerHeight] = useState(0);
@@ -43,6 +44,7 @@ export default function CustomCookies() {
                 </h1>
                 <ImageCarosel images={images} carosel_id="custom_cookies" />
             </div>
+            <MainFooter></MainFooter>
         </>
     );
 }

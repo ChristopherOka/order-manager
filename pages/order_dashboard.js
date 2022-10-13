@@ -6,8 +6,16 @@ import EmailModal from "../components/EmailModal";
 import Image from "next/image";
 import { useState } from "react";
 import * as db from "./api/database";
+import { getSession, signOut } from "next-auth/react";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+
+    if (!session || session.user.email !== "marthamrave@gmail.com") {
+        context.res.writeHead(302, { Location: "/" });
+        context.res.end();
+        return {};
+    }
     const smallestPossibleDate = new Date(0);
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
@@ -134,7 +142,7 @@ export default function OrderDashboard({
                     sendEmailCallback={sendEmailCallback}
                 />
             </div>
-            <h1 className="absolute flex justify-center items-center text-2xl sm:text-4xl font-bold py-6 bg-default-100 w-full print:hidden">
+            <h1 className="absolute flex pl-5 md:pl-0 md:justify-center items-center text-2xl sm:text-4xl font-bold py-6 bg-default-100 w-full print:hidden">
                 ORDER DASHBOARD
                 <div>
                     <Button
@@ -144,8 +152,18 @@ export default function OrderDashboard({
                     />
                 </div>
             </h1>
+            <div className="absolute z-10 top-0 right-0 w-screen flex items-center justify-end sm:my-5 sm:pr-2 print:hidden">
+                <Button
+                    type="primary-md"
+                    img="/images/icons/logout.svg"
+                    clickHandler={() => {
+                        signOut();
+                        return true;
+                    }}
+                ></Button>
+            </div>
             <div className="absolute z-[100] top-0 left-0 w-62 items-center justify-start hidden sm:flex my-2 pl-2 md:pr-5 print:hidden">
-                <div className="rounded-md px-3 py-3 bg-default-900 flex w-[60px] sm:w-[60px] md:w-[80px]">
+                <div className="hidden rounded-md px-3 py-3 bg-default-900 md:flex w-[60px] sm:w-[60px] md:w-[80px]">
                     <Image
                         src="/images/misc/logo.png"
                         width="100"

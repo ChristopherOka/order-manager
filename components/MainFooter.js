@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function MainFooter() {
     return (
         <section className="bg-gray-200 flex justify-between px-10 py-14 text-slate-800 border-t border-gray-300">
@@ -10,6 +12,11 @@ export default function MainFooter() {
                 >
                     Christopher Oka
                 </a>
+                <div className="text-blue-500 text-right font-bold">
+                    <Link href="/login">
+                        <a>Admin Login</a>
+                    </Link>
+                </div>
             </div>
         </section>
     );

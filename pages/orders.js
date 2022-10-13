@@ -4,8 +4,17 @@ import OrderTableData from "../components/OrderTableData";
 import Navbar from "../components/Navbar";
 import DateSidebar from "../components/DateSidebar";
 import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
+import { getSession, signOut } from "next-auth/react";
+import Button from "../components/Button";
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+
+    if (!session || session.user.email !== "marthamrave@gmail.com") {
+        context.res.writeHead(302, { Location: "/" });
+        context.res.end();
+        return {};
+    }
     const smallestPossibleDate = new Date(0);
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
@@ -245,7 +254,19 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                     }}
                 />
             </div>
-            <h1 className="text-center text-4xl font-bold py-6">ALL ORDERS</h1>
+            <div className="absolute z-10 top-0 right-0 w-screen flex items-center justify-end my-5 pr-2 print:hidden">
+                <Button
+                    type="primary-md"
+                    img="/images/icons/logout.svg"
+                    clickHandler={() => {
+                        signOut();
+                        return true;
+                    }}
+                >
+                    SIGN OUT
+                </Button>
+            </div>
+            <h1 className="pl-5 md:pl-0 md:text-center text-4xl font-bold py-6">ALL ORDERS</h1>
             <div>
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>
