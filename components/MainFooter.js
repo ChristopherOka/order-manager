@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function MainFooter() {
     return (
-        <section className="bg-gray-200 flex justify-between px-10 py-14 text-slate-800 border-t border-gray-300">
+        <section className="bg-gray-200 flex justify-between px-10 pt-8 pb-4 text-slate-800 border-t border-gray-300">
             <div>Copyright &copy; 2022 Martha Rave - All Rights Reserved.</div>
             <div>
                 Created By{" "}

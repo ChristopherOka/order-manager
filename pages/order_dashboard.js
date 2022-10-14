@@ -12,7 +12,7 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
 
     if (!session || session.user.email !== "marthamrave@gmail.com") {
-        context.res.writeHead(302, { Location: "/" });
+        context.res.writeHead(302, { Location: "/login" });
         context.res.end();
         return {};
     }
@@ -152,7 +152,7 @@ export default function OrderDashboard({
                     />
                 </div>
             </h1>
-            <div className="absolute z-10 top-0 right-0 w-screen flex items-center justify-end sm:my-5 sm:pr-2 print:hidden">
+            <div className="absolute z-10 top-0 right-0 ml-auto flex items-center justify-end sm:my-5 sm:pr-2 print:hidden">
                 <Button
                     type="primary-md"
                     img="/images/icons/logout.svg"

@@ -1,11 +1,8 @@
 import MainHeader from "../components/MainHeader";
-import { useState, useEffect } from "react";
-import debounce from "../utils/globals.js";
 import ImageCarosel from "../components/ImageCarosel";
 import MainFooter from "../components/MainFooter";
 
 export default function CustomCookies() {
-    const [innerHeight, updateInnerHeight] = useState(0);
 
     const images = [
         "/images/product_images/custom_products/1.webp",
@@ -20,24 +17,11 @@ export default function CustomCookies() {
         "/images/product_images/custom_products/10.webp",
     ];
 
-    useEffect(() => {
-        function detectInnerHeight() {
-            const headerHeight =
-                document.querySelector("#main-header").offsetHeight;
-            const navbarHeight =
-                document.querySelector("#main-navbar").offsetHeight;
-            updateInnerHeight(window.innerHeight - headerHeight - navbarHeight);
-        }
-        detectInnerHeight();
-        window.addEventListener("resize", debounce(detectInnerHeight, 500));
-    }, []);
-
     return (
         <>
             <MainHeader active="custom"></MainHeader>
             <div
                 className="overflow-auto"
-                style={{ height: `${innerHeight + "px" || "100vh"}` }}
             >
                 <h1 className="font-bold text-5xl text-center pb-5 pt-10 md:pb-5">
                     CUSTOM COOKIES

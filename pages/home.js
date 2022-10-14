@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
 
     if (!session || session.user.email !== "marthamrave@gmail.com") {
-        context.res.writeHead(302, { Location: "/" });
+        context.res.writeHead(302, { Location: "/login" });
         context.res.end();
         return {};
     }
@@ -167,7 +167,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     />
                 </div>
             </div>
-            <div className="absolute z-10 top-0 right-0 w-screen flex items-center justify-end my-5 pr-2 print:hidden">
+            <div className="absolute z-10 top-0 right-0 ml-auto flex items-center justify-end my-5 pr-2 print:hidden">
                 <Button
                     type="primary-md"
                     img="/images/icons/logout.svg"
@@ -184,12 +184,12 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             </div>
             <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-center sm:gap-5 lg:gap-10 xl:gap-20 pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
                 <div className="md:mr-4 flex flex-col items-center justify-center overflow-hidden md:ml-44 print:mx-0 print:pt-0">
-                    <div className="hidden print:flex text-default-900 text-lg flex-col">
+                    <div className="hidden print:flex print:mr-auto text-default-900 text-lg flex-col">
                         <div>Start Date: {startDate}</div>
                         <div>End Date: {endDate}</div>
                     </div>
-                    <div className="flex overflow-hidden justify-center items-center pb-6 pt-40 md:pt-0">
-                        <h2 className="text-default-900 font-bold text-3xl text-center">
+                    <div className="flex overflow-hidden justify-center items-center pb-6 pt-40 print:mr-auto print:pt-0 md:pt-0">
+                        <h2 className="text-default-900 font-bold text-3xl text-center print:text-left">
                             <span className="print:hidden">WEEKLY SUMMARY</span>
                             <span className="hidden print:block">
                                 DELIVERY DATE:{" "}

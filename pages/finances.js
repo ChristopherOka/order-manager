@@ -11,7 +11,7 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
 
     if (!session || session.user.email !== "marthamrave@gmail.com") {
-        context.res.writeHead(302, { Location: "/" });
+        context.res.writeHead(302, { Location: "/login" });
         context.res.end();
         return {};
     }
