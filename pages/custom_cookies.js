@@ -3,7 +3,6 @@ import ImageCarosel from "../components/ImageCarosel";
 import MainFooter from "../components/MainFooter";
 
 export default function CustomCookies() {
-
     const images = [
         "/images/product_images/custom_products/1.webp",
         "/images/product_images/custom_products/2.webp",
@@ -20,9 +19,7 @@ export default function CustomCookies() {
     return (
         <>
             <MainHeader active="custom"></MainHeader>
-            <div
-                className="overflow-auto"
-            >
+            <div className="overflow-auto">
                 <h1 className="font-bold text-5xl text-center pb-5 pt-10 md:pb-5">
                     CUSTOM COOKIES
                 </h1>

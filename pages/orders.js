@@ -266,7 +266,9 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                     SIGN OUT
                 </Button>
             </div>
-            <h1 className="pl-5 md:pl-0 md:text-center text-4xl font-bold py-6">ALL ORDERS</h1>
+            <h1 className="pl-5 md:pl-0 md:text-center text-4xl font-bold py-6">
+                ALL ORDERS
+            </h1>
             <div>
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>

@@ -8,7 +8,9 @@ export default function MainNavbar(props) {
 
     useEffect(() => {
         function detectMainHeaderWidth() {
-            setMainHeaderWidth(document.getElementById("main-header").offsetWidth);
+            setMainHeaderWidth(
+                document.getElementById("main-header").offsetWidth
+            );
         }
         detectMainHeaderWidth();
         window.addEventListener("resize", debounce(detectMainHeaderWidth, 500));
@@ -47,7 +49,8 @@ export default function MainNavbar(props) {
                 <div className="relative cookies-dropdown">
                     <a
                         className={`${
-                            props.active == "christmas" || props.active == "custom"
+                            props.active == "christmas" ||
+                            props.active == "custom"
                                 ? "font-bold"
                                 : ""
                         } pl-3 cursor-pointer`}
