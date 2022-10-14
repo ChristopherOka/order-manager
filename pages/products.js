@@ -150,7 +150,7 @@ export default function Products({ products }) {
         );
         const currentQty = parseInt(targetInput.value);
         const newQty = currentQty + qtyChange;
-        if (newQty > 15) return;
+        if (newQty > 15) newQty = 15;
         if (newQty < 1) {
             document
                 .querySelector(`#cartModal [data-product_id="${productId}"]`)
