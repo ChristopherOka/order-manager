@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function MainHeader(props) {
     return (
         <div
-            className="sticky top-0 z-10 w-full bg-default-900 flex justify-center items-center"
+            className="z-10 w-full bg-default-900 flex justify-center items-center"
             id="main-header"
         >
             <div className="pt-2 flex flex-col">

@@ -8,8 +8,8 @@ export default function CartModal(props) {
         <div
             id="cartModal"
             className={`
-            bg-default-100 absolute right-0 top-0 rounded-md shadow-3xl 
-             mx-5 my-10 max-w-96 sm:w-96 h-[30rem] origin-top-right z-20 sm:mx-16
+            bg-default-100 absolute -right-20 lg:right-0 top-0 rounded-md shadow-3xl 
+            w-80 sm:w-96 h-[30rem] origin-top lg:origin-top-right z-50 sm:m-0
             ${
                 props.cartModalState == "open"
                     ? "animate-modalAppear"
