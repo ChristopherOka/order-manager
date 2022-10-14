@@ -8,7 +8,7 @@ export default function MainHeader(props) {
             className="z-10 w-full bg-default-900 flex justify-center items-center"
             id="main-header"
         >
-            <div className="pt-2 flex flex-col">
+            <div className="pt-2 w-full flex flex-col">
                 <div className="flex justify-center py-4">
                     <Image
                         src="/images/misc/logo.png"

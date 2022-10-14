@@ -29,7 +29,7 @@ export default function MainNavbar(props) {
         <div
             className="bg-black flex justify-center w-full items-center"
             id="main-navbar"
-            style={{ width: `${mainHeaderWidth + "px" || "100vw"}` }}
+            // style={{ width: `${mainHeaderWidth + "px" || "100vw"}` }}
         >
             <nav className="text-lg text-default-100 flex  justify-center items-center py-4">
                 <div>
