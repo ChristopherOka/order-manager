@@ -7,7 +7,7 @@ export default function AtAGlanceRow(props) {
                 <span><Image src={props.src} width="35" height="35"/></span>
                 <span>{props.text}</span>
             </div>
-            <span>{props.number}</span>
+            <span>{props.number || '0'}</span>
         </div>
     )
 }
