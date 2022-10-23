@@ -18,6 +18,7 @@ export default function ProductCard(props) {
 
     const flipCard = (e, flipState) => {
         e.preventDefault();
+        if (!props.product_description) return;
         if (flipState === "toggle") {
             flipped === "flipped"
                 ? setFlipped("unflipped")
@@ -62,21 +63,23 @@ export default function ProductCard(props) {
                     {props.imgPath ? (
                         <BlurImage alt={props.text} imgPath={props.imgPath} />
                     ) : null}
-                    <div className="absolute bottom-0 right-0">
-                        <div className="bg-default-900 relative rounded-br-md rounded-tl-md flex items-center gap-2 px-4 py-1">
-                            <div className="absolute -left-[28.9px] bottom-0 w-0 h-0 border-l-[1.9rem] border-l-transparent border-r-[1.9rem] border-r-transparent border-b-[34px] border-b-default-900"></div>
-                            <h4 className="text-default-100 text-xl">
-                                &nbsp; Click for Details
-                            </h4>
-                            <div className="rotate-180 flex">
-                                <Image
-                                    src="/images/icons/back_arrow.svg"
-                                    width="25"
-                                    height="25"
-                                />
+                    {props.product_description ? (
+                        <div className="absolute bottom-0 right-0">
+                            <div className="bg-default-900 relative rounded-br-md rounded-tl-md flex items-center gap-2 px-4 py-1">
+                                <div className="absolute -left-[28.9px] bottom-0 w-0 h-0 border-l-[1.9rem] border-l-transparent border-r-[1.9rem] border-r-transparent border-b-[34px] border-b-default-900"></div>
+                                <h4 className="text-default-100 text-xl">
+                                    &nbsp; Click for Details
+                                </h4>
+                                <div className="rotate-180 flex">
+                                    <Image
+                                        src="/images/icons/back_arrow.svg"
+                                        width="25"
+                                        height="25"
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : null}
                 </div>
                 <div
                     className={`group absolute top-0 ${
