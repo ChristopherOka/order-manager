@@ -26,7 +26,7 @@ export default function FinancesTable(props) {
         );
         const quantity = quantityInput.value;
         const costInput = document.getElementById(`${material_uid}-cost`);
-        const cost = costInput.value;
+        const cost = parseFloat(costInput.value) * parseFloat(quantity) || 0;
 
         if (!cost) {
             costInput.style.border = "1px solid red";
@@ -78,7 +78,7 @@ export default function FinancesTable(props) {
                             Quantity
                         </th>
                         <th className="font-medium pb-2 pr-12 text-center">
-                            Cost
+                            Total Cost
                         </th>
                         <th></th>
                     </tr>
@@ -196,9 +196,11 @@ export default function FinancesTable(props) {
                                 id="totals-quantity-text"
                                 className="rounded-xl bg-teal-100 px-3 w-fit print:mr-5 print:px-0"
                             >
-                                {props.materials.reduce((total, material) => {
-                                    return total + material.quantity;
-                                }, 0)}
+                                {props.materials
+                                    .reduce((total, material) => {
+                                        return total + material.quantity;
+                                    }, 0)
+                                    .toFixed(2)}
                             </span>
                             <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                         </td>
@@ -208,9 +210,11 @@ export default function FinancesTable(props) {
                                 className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0"
                             >
                                 $
-                                {props.materials.reduce((total, material) => {
-                                    return total + material.cost;
-                                }, 0)}
+                                {props.materials
+                                    .reduce((total, material) => {
+                                        return total + material.cost;
+                                    }, 0)
+                                    .toFixed(2)}
                             </span>
                             <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                         </td>

@@ -22,8 +22,15 @@ export default async function sendOrderEmail(req, res) {
             <div style="width: fit-content; margin: auto;">
                 <img style="height: 8rem; width: 8rem;" src="https://wefopjbwswtxrkbsmzvn.supabase.co/storage/v1/object/public/public/mrave_logo.png"/>
             </div>
-        </div>
-        <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin-top: 2rem; margin-bottom: 0.75rem">
+        </div>`;
+    if (order_details.additional_information) {
+        messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 1rem;">
+                                <div style="padding: 2rem;">
+                                    <p style="margin: 0;font-size: 1.3rem"><b>Additional Information: </b>${order_details.additional_information}</p>
+                                </div>
+                            </div>`;
+    }
+    messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin-top: 2rem; margin-bottom: 0.75rem">
             <h1 style="margin: 0;text-align: center; font-size: 2.5rem; font-weight: bold">Your Cookie Order</h1>
         </div>
         <table style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);max-width: 60%; margin: auto;">
@@ -55,7 +62,7 @@ export default async function sendOrderEmail(req, res) {
                         ${cart[item]}x
                     </p>
                 </div>
-                <div style="display: inline-block; background-color: rgb(22, 22, 22); border-radius: 0.375rem; height: 2rem; width: 3.5rem;">
+                <div style="display: inline-block; background-color: rgb(22, 22, 22); border-radius: 0.375rem; height: 2rem; min-width: 3.8rem;">
                     <p style="margin: 0;color: rgb(250, 250, 250); font-weight: bold; text-align: center; font-size: 1.5rem; line-height: 2rem">
                         $${
                             parseFloat(product.product_price) *
@@ -89,6 +96,11 @@ export default async function sendOrderEmail(req, res) {
                     }</p>
                 </div>
                 <div style="margin-top: 0.1rem;">
+                    <p style="margin: 0;text-align: center; font-size: 1.5rem;">Phone Number: ${
+                        order_details.phone
+                    }</p>
+                 </div>
+                <div style="margin-top: 0.1rem;">
                     <p style="margin: 0;text-align: center; font-size: 1.5rem;">Delivery Date: ${
                         order_details.delivery_date
                     }</p>
@@ -107,13 +119,6 @@ export default async function sendOrderEmail(req, res) {
                 </div>
              </div>
              `;
-    if (order_details.additional_information) {
-        messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 1rem;">
-                            <div style="padding: 2rem;">
-                                <p style="margin: 0;font-size: 1.3rem"><b>Additional Information: </b>${order_details.additional_information}</p>
-                            </div>
-                        </div>`;
-    }
     messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 3rem;">
                         <div style="padding: 2rem;">
                             <p style="margin: 0;font-size: 1.3rem">Please feel free to email me if you have any questions at <a href="mailto:martharave@yahoo.com">martharave@yahoo.com</a><br><br>I look forward to baking holiday treats for you!<br><br>Sincerely,<br>Martha</p>

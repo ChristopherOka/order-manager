@@ -1,5 +1,5 @@
 export default function DateSidebar(props) {
-    const dates = ["All", "1st", "8th", "15th", "22nd", "29th"];
+    const dates = ["All", "1st", "8th", "15th", "22nd"];
 
     return (
         <div className="absolute top-0 left-0 px-3 w-full h-20 md:px-0 md:h-full md:w-28 flex flex-row justify-center md:flex-col">

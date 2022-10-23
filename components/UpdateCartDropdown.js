@@ -17,7 +17,7 @@ export default function UpdateCartDropdown(props) {
                     name={props.name}
                     defaultValue={props.productQty}
                 >
-                    {Array.from(Array(16).keys()).map((option, index) => {
+                    {Array.from(Array(21).keys()).map((option, index) => {
                         return (
                             <option value={index} key={index}>
                                 {index}

@@ -61,10 +61,6 @@ export default function Orders({ initialOrderData, initialProductNames }) {
             start_date: new Date("2022-12-15"),
             end_date: new Date("2022-12-22"),
         },
-        "29th": {
-            start_date: new Date("2022-12-22"),
-            end_date: new Date("2022-12-29"),
-        },
     };
 
     const changeDate = async (date) => {
@@ -177,7 +173,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         ];
         if (orders_columns.includes(col_name) && col_name !== "is_verified") {
             document.getElementById(`${uid}-is_verified-text`).innerText = "No";
-            if ((col_name = "misc_fees")) {
+            if (col_name == "misc_fees") {
                 const order_cost = document.getElementById(
                     `${uid}-order_cost-text`
                 ).innerText;

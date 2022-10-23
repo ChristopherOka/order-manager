@@ -15,7 +15,6 @@ export default function OrderSummaryCard(props) {
         "Thu Dec 08 2022",
         "Thu Dec 15 2022",
         "Thu Dec 22 2022",
-        "Thu Dec 29 2022",
     ];
 
     const isIrregularDeliveryDate = !deliveryDates.includes(

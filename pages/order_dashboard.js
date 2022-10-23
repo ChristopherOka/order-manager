@@ -71,10 +71,6 @@ export default function OrderDashboard({
             start_date: new Date("2022-12-15"),
             end_date: new Date("2022-12-22"),
         },
-        "29th": {
-            start_date: new Date("2022-12-22"),
-            end_date: new Date("2022-12-29"),
-        },
     };
 
     const changeDate = async (date) => {

@@ -3,6 +3,7 @@ import { setEmailedStatus } from "./database";
 export default async function sendDeferredOrderEmail(req, res) {
     const { body } = req;
     const { order_data, products } = body;
+    console.log(order_data);
     let { email_body } = body;
 
     email_body = email_body.replace(/(?:\r\n|\r|\n)/g, "<br>");
@@ -24,8 +25,16 @@ export default async function sendDeferredOrderEmail(req, res) {
             <div style="width: fit-content; margin: auto;">
                 <img style="height: 8rem; width: 8rem;" src="https://wefopjbwswtxrkbsmzvn.supabase.co/storage/v1/object/public/public/mrave_logo.png"/>
             </div>
-        </div>
-        <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin-top: 2rem; margin-bottom: 0.75rem">
+        </div>`;
+    if (email_body) {
+        messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22); width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin: 1rem auto;">
+                                <div style="padding: 2rem;">
+                                    <p style="margin: 0;font-size: 1.3rem">${email_body}</p>
+                                </div>
+                            </div>`;
+    }
+
+    messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin-top: 2rem; margin-bottom: 0.75rem">
             <h1 style="margin: 0;text-align: center; font-size: 2.5rem; font-weight: bold">Your Cookie Order</h1>
         </div>
         <table style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);max-width: 60%; margin: auto;">
@@ -55,8 +64,8 @@ export default async function sendDeferredOrderEmail(req, res) {
                         ${order_data.order_items[item]}x
                     </p>
                 </div>
-                <div style="display: inline-block; background-color: rgb(22, 22, 22); border-radius: 0.375rem; height: 2rem; width: 3.5rem;">
-                    <p style="margin: 0;color: rgb(250, 250, 250); font-weight: bold; text-align: center; font-size: 1.5rem; line-height: 2rem">
+                <div style="display: inline-block; background-color: rgb(22, 22, 22); border-radius: 0.375rem; height: 2rem; min-width: 3.8rem;">
+                    <p style="margin: 0 0.5rem;color: rgb(250, 250, 250); font-weight: bold; text-align: center; font-size: 1.5rem; line-height: 2rem">
                         $${
                             parseFloat(product.product_price) *
                             parseFloat(order_data.order_items[item])
@@ -98,6 +107,11 @@ export default async function sendDeferredOrderEmail(req, res) {
                     }</p>
                 </div>
                 <div style="margin-top: 0.1rem;">
+                    <p style="margin: 0;text-align: center; font-size: 1.5rem;">Phone Number: ${
+                        order_data.phone
+                    }</p>
+                </div>
+                <div style="margin-top: 0.1rem;">
                     <p style="margin: 0;text-align: center; font-size: 1.5rem;">Delivery Date: ${new Date(
                         order_data.delivery_date
                     ).toDateString()}</p>
@@ -120,13 +134,6 @@ export default async function sendDeferredOrderEmail(req, res) {
         messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 1rem;">
                             <div style="padding: 2rem;">
                                 <p style="margin: 0;font-size: 1.3rem"><b>Additional Information: </b>${order_data.additional_information}</p>
-                            </div>
-                        </div>`;
-    }
-    if (email_body) {
-        messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22); width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin: 1rem auto;">
-                            <div style="padding: 2rem;">
-                                <p style="margin: 0;font-size: 1.3rem">${email_body}</p>
                             </div>
                         </div>`;
     }

@@ -258,7 +258,6 @@ export default function Checkout({ products }) {
             return true;
         }
         const itemCost = e.currentTarget.dataset.price;
-        debugger;
         updateCart({
             ...cart,
             [productId]: parseFloat(itemQuantity),
@@ -306,8 +305,8 @@ export default function Checkout({ products }) {
             fieldStyle: "select",
             options: [
                 {
-                    value: "Mississauga",
-                    text: "Mississauga",
+                    value: "South Mississauga",
+                    text: "South Mississauga",
                 },
                 {
                     value: "Etobicoke",
@@ -315,7 +314,7 @@ export default function Checkout({ products }) {
                 },
                 {
                     value: "Other",
-                    text: "Other",
+                    text: "Request Meeting Spot",
                 },
             ],
             required: true,
@@ -329,7 +328,7 @@ export default function Checkout({ products }) {
             hidden: true,
             required: true,
             description:
-                "Local deliveries only, but some exceptions can be made. Please leave a note in additional information at to why!",
+                "Local deliveries only, but a meeting spot may be possible. Please leave your address AND leave a note in additional information and I will try to find an appropriate meeting spot",
         },
         {
             type: "text",
@@ -381,11 +380,6 @@ export default function Checkout({ products }) {
                     value: "2022-12-22",
                     text: "December 22nd",
                     disabled: new Date() > new Date("2022-12-22"),
-                },
-                {
-                    value: "2022-12-29",
-                    text: "December 29th",
-                    disabled: new Date() > new Date("2022-12-29"),
                 },
                 {
                     value: "Other",

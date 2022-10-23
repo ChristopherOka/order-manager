@@ -31,8 +31,8 @@ export async function getServerSideProps(context) {
         db.getOrderCounts(dates),
         db.getAllProductsData(),
     ]);
+    console.log(products);
     const productsWithQty = processProducts(products, productsData);
-
     return {
         props: {
             productsWithQty,
@@ -126,10 +126,6 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             start_date: new Date("2022-12-15 00:00:00"),
             end_date: new Date("2022-12-22 00:00:00"),
         },
-        "29th": {
-            start_date: new Date("2022-12-22 00:00:00"),
-            end_date: new Date("2022-12-29 00:00:00"),
-        },
     };
 
     const changeDate = async (date) => {
@@ -190,7 +186,10 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     </div>
                     <div className="flex overflow-hidden justify-center items-center pb-6 pt-40 print:mr-auto print:pt-0 md:pt-0">
                         <h2 className="text-default-900 font-bold text-3xl text-center print:text-left">
-                            <span className="print:hidden">WEEKLY SUMMARY</span>
+                            <span className="print:hidden">
+                                Week of:{" "}
+                                {endDate == "End of Time" ? "All" : endDate}
+                            </span>
                             <span className="hidden print:block">
                                 DELIVERY DATE:{" "}
                                 {endDate == "End of Time" ? "All" : endDate}
@@ -213,14 +212,14 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                         </h2>
                         <div className="text-default-900 px-3 py-5 pt-0 text-lg lg:text-2xl lg:px-12 ">
                             <AtAGlanceRow
-                                text="Total Orders:"
-                                src="/images/icons/edit_icon.svg"
-                                number={orderCounts[0].total_orders}
-                            />
-                            <AtAGlanceRow
                                 text="Unverified Orders:"
                                 src="/images/icons/red_exclamation.svg"
                                 number={orderCounts[0].unverified_orders}
+                            />
+                            <AtAGlanceRow
+                                text="Total Orders:"
+                                src="/images/icons/edit_icon.svg"
+                                number={orderCounts[0].total_orders}
                             />
                             <AtAGlanceRow
                                 text="Unpaid Orders:"
