@@ -3,11 +3,14 @@ import { useEffect, useRef } from "react";
 
 export default function ImageCarosel(props) {
     const selected = useRef(props.images[0]);
-    const THREE_HALVES_IMAGE_WIDTH = 900;
+    let THREE_HALVES_IMAGE_WIDTH = 900;
     const mounted = useRef(false);
     let loop;
 
     function swapImages(direction) {
+        if(window.innerWidth < 768) {
+            translation_width = 204;
+        }
         const caroselStart = Math.abs(
             THREE_HALVES_IMAGE_WIDTH -
                 document.getElementById(`carosel-${props.carosel_id}`)
@@ -21,9 +24,11 @@ export default function ImageCarosel(props) {
         } else if (imageIdx + direction >= props.images.length) {
             newIdx = 0;
         }
+        let translation_width = 604;
+
         const caroselImages = document.querySelector(".carosel-images");
         caroselImages.style.transform = `translateX(-${
-            caroselStart + newIdx * 604
+            caroselStart + newIdx * translation_width
         }px)`;
         selected.current = props.images[newIdx];
         document.querySelectorAll(".carosel-image.selected").forEach((el) => {
@@ -69,12 +74,12 @@ export default function ImageCarosel(props) {
     return (
         <section className="flex justify-center items-center py-16">
             <div
-                className="flex w-[66vw] overflow-hidden relative group"
+                className="flex w-[80vw] md:w-[66vw] overflow-hidden relative group"
                 id={`carosel-${props.carosel_id}`}
             >
                 <div className="flex gap-1 carosel-images transition ease duration-700">
                     <div
-                        className={`w-[600px] h-[600px] carosel-image opacity-50`}
+                        className={`w-[200px] h-[200px] md:w-[600px] md:h-[600px] carosel-image opacity-50`}
                     >
                         <Image
                             src={props.images[props.images.length - 1]}
@@ -87,7 +92,7 @@ export default function ImageCarosel(props) {
                     {props.images.map((image, index) => {
                         return (
                             <div
-                                className={`w-[600px] h-[600px] carosel-image transition ease duration-700 ${
+                                className={`w-[200px] h-[200px] md:w-[600px] md:h-[600px] carosel-image transition ease duration-700 ${
                                     index === 0 ? "selected" : "opacity-50"
                                 }`}
                                 key={image}
@@ -104,7 +109,7 @@ export default function ImageCarosel(props) {
                         );
                     })}
                     <div
-                        className={`w-[600px] h-[600px] carosel-image opacity-50`}
+                        className={`w-[200px] h-[200px] md:w-[600px] md:h-[600px] carosel-image opacity-50`}
                     >
                         <Image
                             src={props.images[0]}

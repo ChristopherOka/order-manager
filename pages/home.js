@@ -31,7 +31,6 @@ export async function getServerSideProps(context) {
         db.getOrderCounts(dates),
         db.getAllProductsData(),
     ]);
-    console.log(products);
     const productsWithQty = processProducts(products, productsData);
     return {
         props: {

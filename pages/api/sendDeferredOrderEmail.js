@@ -3,7 +3,6 @@ import { setEmailedStatus } from "./database";
 export default async function sendDeferredOrderEmail(req, res) {
     const { body } = req;
     const { order_data, products } = body;
-    console.log(order_data);
     let { email_body } = body;
 
     email_body = email_body.replace(/(?:\r\n|\r|\n)/g, "<br>");
