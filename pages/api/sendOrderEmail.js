@@ -58,12 +58,12 @@ export default async function sendOrderEmail(req, res) {
             </div>
             <div style="width: fit-content; margin: auto; padding-top: 0.4rem;">
                 <div style="display: inline-block; background-color: rgb(22, 22, 22); border-radius: 0.375rem; height: 2rem; width: 3.5rem; margin-right: 0.2rem;">
-                    <p style="margin: 0; color: rgb(250, 250, 250); font-weight: bold; text-align: center; font-size: 1.5rem; line-height: 2rem">
+                    <p style="margin: 0; color: rgb(250, 250, 250); font-weight: bold; text-align: center; font-size: 1.25rem; line-height: 2rem">
                         ${cart[item]}x
                     </p>
                 </div>
                 <div style="display: inline-block; background-color: rgb(22, 22, 22); border-radius: 0.375rem; height: 2rem; min-width: 3.8rem;">
-                    <p style="margin: 0;color: rgb(250, 250, 250); font-weight: bold; text-align: center; font-size: 1.5rem; line-height: 2rem">
+                    <p style="margin: 0;color: rgb(250, 250, 250); font-weight: bold; text-align: center; font-size: 1.25rem; line-height: 2rem">
                         $${
                             parseFloat(product.product_price) *
                             parseFloat(cart[item])
@@ -79,34 +79,34 @@ export default async function sendOrderEmail(req, res) {
     });
     messageBody += `</tbody></table>
              <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: 1rem 0;">
-                <p style="margin: 0;text-align: center; font-size: 2rem; font-weight: bold;">Total Cost: $${order_cost}</p>
+                <p style="margin: 0;text-align: center; font-size: 1.6rem; font-weight: bold;">Total Cost: $${order_cost}</p>
              </div>
-             <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);border-radius: 5px; border: 2px solid rgb(230, 230, 230); padding: 2rem; max-width: 40%; margin: auto;">
+             <div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);border-radius: 5px; border: 2px solid rgb(230, 230, 230); padding: 2rem; width:fit-content;margin: auto;">
                 <div>
-                    <h2 style="margin: 0;text-align: center; font-size: 1.5rem; font-weight: bold;">Order Details</h2>
+                    <h2 style="margin: 0;text-align: center; font-size: 1.25rem; font-weight: bold;">Order Details</h2>
                 </div>
                 <div style="margin-top: 0.3rem;">
-                    <p style="margin: 0;text-align: center; font-size: 1.5rem;">Name: ${
+                    <p style="margin: 0;text-align: center; font-size: 1.25rem;">Name: ${
                         order_details.customer_name
                     }</p>
                 </div>
                 <div style="margin-top: 0.1rem;">
-                    <p style="margin: 0;text-align: center; font-size: 1.5rem;">Address: ${
+                    <p style="margin: 0;text-align: center; font-size: 1.25rem;">Address: ${
                         order_details.address + ", " + order_details.city
                     }</p>
                 </div>
                 <div style="margin-top: 0.1rem;">
-                    <p style="margin: 0;text-align: center; font-size: 1.5rem;">Phone Number: ${
+                    <p style="margin: 0;text-align: center; font-size: 1.25rem;">Phone Number: ${
                         order_details.phone
                     }</p>
                  </div>
                 <div style="margin-top: 0.1rem;">
-                    <p style="margin: 0;text-align: center; font-size: 1.5rem;">Delivery Date: ${
+                    <p style="margin: 0;text-align: center; font-size: 1.25rem;">Delivery Date: ${
                         order_details.delivery_date
                     }</p>
                 </div>
                 <div style="margin-top: 0.1rem;">
-                    <p style="margin: 0;text-align: center; font-size: 1.5rem;">Payment Method: ${
+                    <p style="margin: 0;text-align: center; font-size: 1.25rem;">Payment Method: ${
                         order_details.payment_type
                     }</p>
                 </div>
@@ -120,8 +120,8 @@ export default async function sendOrderEmail(req, res) {
              </div>
              `;
     messageBody += `<div style="font-family: 'Google Sans', Verdana, sans-serif; color: rgb(22, 22, 22);margin: auto; width: fit-content;border-radius: 5px; border: 2px solid rgb(230, 230, 230); margin-top: 1rem; margin-bottom: 3rem;">
-                        <div style="padding: 2rem;">
-                            <p style="margin: 0;font-size: 1.3rem">Please feel free to email me if you have any questions at <a href="mailto:martharave@yahoo.com">martharave@yahoo.com</a><br><br>I look forward to baking holiday treats for you!<br><br>Sincerely,<br>Martha</p>
+                        <div style="padding: 1.6rem;">
+                            <p style="margin: 0;font-size: 1.3rem">Please feel free to email me if you have any questions or if your order details are incorrect at <a href="mailto:martharave@yahoo.com">martharave@yahoo.com</a><br><br>I look forward to baking holiday treats for you!<br><br>Sincerely,<br>Martha</p>
                         </div>
                     </div>
                 </div>

@@ -55,7 +55,7 @@ export default function ProductCard(props) {
                 >
                     <div className="bg-default-900 relative rounded-t-md py-3 w-72 flex flex-col text-default-100 text-center">
                         <h3 className="text-xl font-bold">{props.text}</h3>
-                        <p className="italic">
+                        <p className="italic text-lg">
                             ${props.price} per{" "}
                             {props.measured_per_text.toLowerCase()}{" "}
                         </p>

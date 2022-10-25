@@ -381,10 +381,10 @@ export default function Checkout({ products }) {
                     text: "December 22nd",
                     disabled: new Date() > new Date("2022-12-22"),
                 },
-                {
-                    value: "Other",
-                    text: "Other",
-                },
+                // {
+                //     value: "Other",
+                //     text: "Other",
+                // },
             ],
             required: true,
             customChangeHandler: handleDeliveryDateChange,
