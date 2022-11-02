@@ -7,6 +7,7 @@ export default function ProductCard(props) {
     const [inputFocus, setInputFocus] = useState(false);
     const [flipped, setFlipped] = useState(false);
     const [toggleAddedToCart, setToggleAddedToCart] = useState("hidden");
+    const [unconfirmedQty, setUnconfirmedQty] = useState(false);
     const clickedCount = useRef(0);
     const handleFocus = (e) => {
         setInputFocus(true);
@@ -34,7 +35,14 @@ export default function ProductCard(props) {
         if (props.addToCart(e)) {
             setToggleAddedToCart(!toggleAddedToCart);
             clickedCount.current = clickedCount.current + 1;
+            setUnconfirmedQty(false);
         }
+    };
+
+    const preHandleInputChange = (e) => {
+        e.preventDefault();
+        setUnconfirmedQty(true);
+        props.handleInputChange(e);
     };
 
     return (
@@ -109,7 +117,7 @@ export default function ProductCard(props) {
             </div>
 
             <UpdateCartDropdown
-                handleInputChange={props.handleInputChange}
+                handleInputChange={preHandleInputChange}
                 error={props.error}
                 name={props.name}
                 measured_per_text={props.measured_per_text}
@@ -119,6 +127,7 @@ export default function ProductCard(props) {
                 handleBlur={handleBlur}
                 addingToCart={addingToCart}
                 productQty={props.productQty}
+                unconfirmedQty={unconfirmedQty}
             ></UpdateCartDropdown>
             <div className="text-lg font-bold text-center text-green-500 pt-2 h-2">
                 {toggleAddedToCart !== "hidden" ? (

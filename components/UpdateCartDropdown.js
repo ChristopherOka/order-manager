@@ -1,14 +1,13 @@
-import Image from "next/image";
 export default function UpdateCartDropdown(props) {
     return (
-        <div className="flex gap-4 pt-4 justify-center w-72 relative">
+        <div className="flex gap-4 pt-4 justify-between w-72 relative">
             <div>
                 <select
                     onChange={props.handleInputChange}
                     onFocus={props.handleFocus}
                     onBlur={props.handleBlur}
                     className={
-                        `bg-default-900 rounded px-2 w-32 h-10 appearance-none bg-dropdown-arrow-white bg-no-repeat bg-right bg-origin-content border-none text-default-100 text-xl py-1 text-center placeholder:italic
+                        `bg-default-900 rounded px-3 w-24 h-10 appearance-none bg-dropdown-arrow-white bg-no-repeat bg-right bg-origin-content border-none text-default-100 text-xl py-1 text-center placeholder:italic
                             focus:rounded-b-none transition-border duration-500 focus-visible:outline-none
                             ` +
                         " " +
@@ -34,18 +33,24 @@ export default function UpdateCartDropdown(props) {
                 </div>
             </div>
             <button
-                className="bg-default-900 rounded-md px-5 p-1 flex hover:bg-zinc-700 active:bg-zinc-600"
+                className={`${
+                    props.unconfirmedQty
+                        ? "bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-300 animate-buttonAttention"
+                        : "bg-default-900 hover:bg-zinc-700 active:bg-zinc-600"
+                } rounded-md px-5 p-1 `}
                 onClick={props.addingToCart}
                 name={props.name}
                 data-price={props.price}
             >
-                <span className="text-default-100 text-xl font-bold">+</span>
-                <Image
-                    className=""
-                    src="/images/icons/shopping_cart.png"
-                    width="28"
-                    height="28"
-                />
+                <span
+                    className={`${
+                        props.unconfirmedQty
+                            ? "text-default-900 "
+                            : "text-default-100"
+                    } text-xl font-bold`}
+                >
+                    + ADD TO CART
+                </span>
             </button>
         </div>
     );

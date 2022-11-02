@@ -106,6 +106,12 @@ module.exports = {
                     "0%": { transform: "scaleY(1)" },
                     "100%": { transform: "scaleY(0)" },
                 },
+                buttonAttention: {
+                    "0%": { transform: "scale(1)" },
+                    "10%": { transform: "scale(1.1)" },
+                    "30%": { transform: "scale(1)" },
+                    "100%": { transform: "scale(1)" },
+                },
             },
             animation: {
                 slideOut: "slideOut 0.3s ease",
@@ -125,6 +131,7 @@ module.exports = {
                 fadeOut: "fadeOut 0.3s ease-in-out forwards",
                 dropDown: "dropDown 0.3s ease forwards",
                 dropUp: "dropUp 0.3s ease forwards",
+                buttonAttention: "buttonAttention 2.5s ease-in-out infinite",
             },
             boxShadow: {
                 "3xl": "0 0 12px 0px rgba(0, 0, 0, 0.3)",
