@@ -75,7 +75,7 @@ export default function FormField(props) {
             </h4>
             {props.imgPath ? <img src={props.imgPath}></img> : null}
             {formField}
-            <p className="text-red-500s">{props.description}</p>
+            <p className="text-red-600">{props.description}</p>
         </div>
     );
 }

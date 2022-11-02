@@ -45,6 +45,7 @@ export default function CheckoutProductCard(props) {
                 price={props.productPrice}
                 addingToCart={addingToCart}
                 productQty={props.productQty}
+                isCheckoutCard={true}
             ></UpdateCartDropdown>
         </div>
     );

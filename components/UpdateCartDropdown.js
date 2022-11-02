@@ -1,6 +1,6 @@
 export default function UpdateCartDropdown(props) {
     return (
-        <div className="flex gap-4 pt-4 justify-between w-72 relative">
+        <div className={`${props.isCheckoutCard ? 'justify-center' : 'justify-between'} flex gap-4 pt-4 w-72 relative`}>
             <div>
                 <select
                     onChange={props.handleInputChange}
@@ -49,7 +49,7 @@ export default function UpdateCartDropdown(props) {
                             : "text-default-100"
                     } text-xl font-bold`}
                 >
-                    + ADD TO CART
+                    {props.isCheckoutCard ? 'UPDATE' : '+ ADD TO CART'}
                 </span>
             </button>
         </div>
