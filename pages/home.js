@@ -73,17 +73,27 @@ const processProducts = (products, productsData) => {
                     (assoc_product) => assoc_product.product_id == product_id
                 );
                 if (associated_product) {
-                    associated_product.total_dozens +=
-                        parseFloat(quantity) * parseFloat(product.quantity);
-                    associated_product.total_quantity +=
-                        parseFloat(quantity) *
-                        parseFloat(product.quantity) *
-                        parseInt(associated_product.measured_per);
+                    associated_product.additional_total_dozens
+                        ? (associated_product.additional_total_dozens +=
+                              parseFloat(quantity) *
+                              parseFloat(product.quantity))
+                        : (associated_product.additional_total_dozens =
+                              parseFloat(quantity) *
+                              parseFloat(product.quantity));
+                    associated_product.additional_total_quantity
+                        ? (associated_product.additional_total_quantity +=
+                              parseFloat(quantity) *
+                              parseFloat(product.quantity) *
+                              parseInt(associated_product.measured_per))
+                        : (associated_product.additional_total_quantity =
+                              parseFloat(quantity) *
+                              parseFloat(product.quantity) *
+                              parseInt(associated_product.measured_per));
                 }
             }
         }
     });
-
+    console.log(productsWithQty);
     return productsWithQty;
 };
 
