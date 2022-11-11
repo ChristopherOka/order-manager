@@ -93,7 +93,6 @@ const processProducts = (products, productsData) => {
             }
         }
     });
-    console.log(productsWithQty);
     return productsWithQty;
 };
 
