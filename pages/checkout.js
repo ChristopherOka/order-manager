@@ -364,7 +364,8 @@ export default function Checkout({ products }) {
                 {
                     value: "2022-12-01",
                     text: "December 1st",
-                    disabled: new Date() > new Date("2022-12-01"),
+                    disabled: true, 
+//new Date() > new Date("2022-12-01"),
                 },
                 {
                     value: "2022-12-08",

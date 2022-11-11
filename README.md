@@ -30,4 +30,5 @@ Business-owner-facing:
 - All-orders page where the business owner can look at granular order details and make any edits they see fit to any of the columns
 - Finances page where the business owner can record their expenditures, track their predicted spend, actual spend, as well as their profits calculated from each order
 - Customers dashboard where the business owner can view all their customers, with the ability to modify their data or reach out to customers through email
+- Google OAuth2, which allows only my aunt to sign into the business dashboard
 
