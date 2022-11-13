@@ -50,22 +50,34 @@ export default function CartModal(props) {
                 key={props.cartKey}
             >
                 {Object.keys(props.cart).length ? (
-                    Object.keys(props.cart).map((productId) => {
-                        return (
-                            <div key={productId}>
-                                <CartModalProduct
-                                    products={props.products}
-                                    productId={productId}
-                                    changeCartItemQty={props.changeCartItemQty}
-                                    removeItemFromCart={
-                                        props.removeItemFromCart
-                                    }
-                                    cart={props.cart}
-                                    editCartItem={props.editCartItem}
-                                />
-                            </div>
-                        );
-                    })
+                    <>
+                        {Object.keys(props.cart).map((productId) => {
+                            return (
+                                <div key={productId}>
+                                    <CartModalProduct
+                                        products={props.products}
+                                        productId={productId}
+                                        changeCartItemQty={
+                                            props.changeCartItemQty
+                                        }
+                                        removeItemFromCart={
+                                            props.removeItemFromCart
+                                        }
+                                        cart={props.cart}
+                                        editCartItem={props.editCartItem}
+                                    />
+                                </div>
+                            );
+                        })}
+                        <Button
+                            type="secondary-md"
+                            img="/images/icons/trash.svg"
+                            uninvertImg={true}
+                            clickHandler={props.clearCart}
+                        >
+                            CLEAR CART
+                        </Button>
+                    </>
                 ) : (
                     <div className="text-base px-4 py-4 text-center sm:text-xl">
                         Your cart is empty

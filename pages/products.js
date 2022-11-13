@@ -202,6 +202,13 @@ export default function Products({ products }) {
         updateItemCosts({ ...itemCosts, [productId]: 0 });
     };
 
+    const clearCart = () => {
+        updateCart({});
+        updateEditCart({});
+        updateItemCosts({});
+        return true;
+    }
+
     return (
         <>
             <MainHeader active="christmas"></MainHeader>
@@ -243,6 +250,7 @@ export default function Products({ products }) {
                             cartKey={cartKey}
                             cart={cart}
                             products={products}
+                            clearCart={clearCart}
                         />
                     </div>
                 </div>
@@ -251,11 +259,13 @@ export default function Products({ products }) {
                         <h1 className="font-bold text-5xl text-center pb-2 px-16 pt-16 lg:pt-2">
                             CHRISTMAS COOKIES
                         </h1>
-                        <p className="text-lg px-4 text-center sm:mx-auto">*special requests can be made in the additional information box at checkout</p>
-
+                        <p className="text-lg px-4 text-center sm:mx-auto">
+                            *special requests can be made in the additional
+                            information box at checkout
+                        </p>
                     </div>
                     <form>
-                        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5 2xl:gap-x-1">
+                        <div className="grid grid-cols-1 pb-10 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5 2xl:gap-x-1">
                             {!isBusy &&
                                 products.map((product) => (
                                     <ProductCard

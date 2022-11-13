@@ -1,19 +1,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import debounce from "../utils/globals.js";
 
 export default function MainNavbar(props) {
     const [cookiesDropdownState, setCookiesDropdownState] = useState(null);
-    const [mainHeaderWidth, setMainHeaderWidth] = useState(null);
 
     useEffect(() => {
-        function detectMainHeaderWidth() {
-            setMainHeaderWidth(
-                document.getElementById("main-header").offsetWidth
-            );
-        }
-        detectMainHeaderWidth();
-        window.addEventListener("resize", debounce(detectMainHeaderWidth, 500));
         if (cookiesDropdownState) {
             document.addEventListener(
                 "mousedown",
@@ -29,9 +20,8 @@ export default function MainNavbar(props) {
 
     return (
         <div
-            className="bg-black flex justify-center w-full items-center"
+            className="bg-black flex justify-center w-full z-20 items-center"
             id="main-navbar"
-            // style={{ width: `${mainHeaderWidth + "px" || "100vw"}` }}
         >
             <nav className="text-lg text-default-100 flex  justify-center items-center py-4">
                 <div>

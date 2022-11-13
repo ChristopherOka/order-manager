@@ -3,16 +3,17 @@ import { useEffect, useRef } from "react";
 
 export default function ImageCarosel(props) {
     const selected = useRef(props.images[0]);
-    let THREE_HALVES_IMAGE_WIDTH = 900;
+    let TRANSLATION_WIDTH = 604;
     const mounted = useRef(false);
     let loop;
 
     function swapImages(direction) {
-        if(window.innerWidth < 768) {
-            translation_width = 204;
-        }
+        const caroselImageWidth = document.getElementsByClassName('carosel-image')[0].offsetWidth;
+        const threeHalvesImageWidth = caroselImageWidth/2*3;
+        const imageGap = 4;
+        const translationAmount = caroselImageWidth + imageGap;
         const caroselStart = Math.abs(
-            THREE_HALVES_IMAGE_WIDTH -
+            threeHalvesImageWidth -
                 document.getElementById(`carosel-${props.carosel_id}`)
                     .offsetWidth /
                     2
@@ -24,11 +25,10 @@ export default function ImageCarosel(props) {
         } else if (imageIdx + direction >= props.images.length) {
             newIdx = 0;
         }
-        let translation_width = 604;
 
         const caroselImages = document.querySelector(".carosel-images");
         caroselImages.style.transform = `translateX(-${
-            caroselStart + newIdx * translation_width
+            caroselStart + newIdx * translationAmount
         }px)`;
         selected.current = props.images[newIdx];
         document.querySelectorAll(".carosel-image.selected").forEach((el) => {
@@ -44,8 +44,10 @@ export default function ImageCarosel(props) {
 
     useEffect(() => {
         if (mounted.current) return;
+        const caroselImageWidth = document.getElementsByClassName('carosel-image')[0].offsetWidth;
+        const threeHalvesImageWidth = caroselImageWidth/2*3;
         const caroselStart = Math.abs(
-            THREE_HALVES_IMAGE_WIDTH -
+            threeHalvesImageWidth -
                 document.getElementById(`carosel-${props.carosel_id}`)
                     .offsetWidth /
                     2

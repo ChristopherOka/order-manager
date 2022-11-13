@@ -6,7 +6,6 @@ import * as db from "./api/database";
 import Button from "../components/Button";
 import CheckoutProductCard from "../components/CheckoutProductCard";
 import MainHeader from "../components/MainHeader";
-import debounce from "../utils/globals.js";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
@@ -50,7 +49,6 @@ export default function Checkout({ products }) {
     const [emptyFields, updateEmptyFields] = useState({});
     const [cart, updateCart] = useState({});
     const [itemCosts, updateItemCosts] = useState({});
-    const [innerHeight, updateInnerHeight] = useState(0);
     const [cookieFormData, updateCookieFormData] = useState({});
     const initiallyRendered = useRef(false);
     const router = useRouter();
@@ -66,13 +64,6 @@ export default function Checkout({ products }) {
         if (receiveditemCosts) {
             updateItemCosts(receiveditemCosts);
         }
-        function detectInnerHeight() {
-            const headerHeight =
-                document.querySelector("#main-header").offsetHeight;
-            updateInnerHeight(window.innerHeight - headerHeight);
-        }
-        detectInnerHeight();
-        window.addEventListener("resize", debounce(detectInnerHeight, 500));
     }, []);
 
     const handleFocus = (e) => {
@@ -249,10 +240,11 @@ export default function Checkout({ products }) {
         });
     };
 
-    const updateCartItems = (e) => {
+    const updateCartItems = (e) => {            
         e.preventDefault();
         const productId = e.currentTarget.name;
         const itemQuantity = cookieFormData[productId];
+        if (itemQuantity == undefined) return true;
         if (itemQuantity < 1) {
             removeItemFromCart(productId);
             return true;
@@ -416,7 +408,6 @@ export default function Checkout({ products }) {
             <MainHeader active="christmas" />
             <div
                 className="overflow-auto"
-                style={{ height: `${innerHeight + "px" || "100vh"}` }}
             >
                 <div className="w-full pt-10 pb-8 flex flex-col md:flex-row relative justify-center md:justify-start">
                     <h1 className="text-5xl text-default-900 font-bold text-center w-full relative md:absolute">

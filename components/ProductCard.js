@@ -129,7 +129,7 @@ export default function ProductCard(props) {
                 productQty={props.productQty}
                 unconfirmedQty={unconfirmedQty}
             ></UpdateCartDropdown>
-            <div className="text-lg font-bold text-center text-green-500 pt-2 h-2">
+            <div className="text-lg font-bold text-center text-green-500 mt-2 w-1/2 float-right pr-5 h-2">
                 {toggleAddedToCart !== "hidden" ? (
                     <div
                         key={toggleAddedToCart}

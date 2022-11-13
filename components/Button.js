@@ -102,7 +102,7 @@ export default function Button(props) {
                             className={
                                 ["secondary", "secondary-md"].includes(
                                     props.type
-                                )
+                                ) && !props.uninvertImg
                                     ? "invert"
                                     : null
                             }

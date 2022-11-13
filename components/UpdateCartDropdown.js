@@ -35,9 +35,7 @@ export default function UpdateCartDropdown(props) {
                 <div
                     className={`text-center absolute ${
                         props.isCheckoutCard ? "w-24" : "w-28"
-                    } rounded-b-md shadow-xl text-lg font-bold animate-slideOut -z-10 ${
-                        props.inputFocus ? null : "hidden"
-                    } `}
+                    } rounded-b-md shadow-xl text-lg font-bold -z-10 `}
                 >
                     {props.measured_per_text}s
                 </div>

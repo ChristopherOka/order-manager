@@ -36,8 +36,8 @@ export default function Home() {
             </Head>
             <main>
                 <section className="w-full h-96 relative bg-[url('/images/product_images/home_banner.webp')] bg-cover"></section>
-                <section className="w-full flex justify-center items-center gap-10 mt-16 bg-gray-100 py-10">
-                    <div className="w-96 h-96 rounded-md overflow-hidden">
+                <section className="w-full flex flex-col text-center px-8 justify-center items-center gap-10 mt-16 bg-gray-100 py-10 sm:flex-row sm:px-0 sm:text-left">
+                    <div className="max-w-96 max-h-96 rounded-md overflow-hidden">
                         <Image
                             src="/images/product_images/christmas_products/santa_assortment.jpg"
                             objectFit="cover"
@@ -45,7 +45,7 @@ export default function Home() {
                             width="384"
                         />
                     </div>
-                    <div className="flex flex-col flex-end gap-6">
+                    <div className="flex flex-col flex-end items-center gap-6 sm:items-start">
                         <h2 className="text-default-900 text-5xl font-fjalla-one">
                             CHRISTMAS COOKIES
                         </h2>

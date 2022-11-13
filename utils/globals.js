@@ -6,6 +6,7 @@ export default function debounce(fn, delay) {
         clearTimeout(timer);
         timer = setTimeout(() => {
             fn.apply(context, args);
+            clearTimeout(timer);
         }, delay);
     };
 }
