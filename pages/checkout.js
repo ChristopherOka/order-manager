@@ -91,6 +91,11 @@ export default function Checkout({ products }) {
             alert("Please fill in all required fields");
             return true;
         }
+        if (!validateEmail(formData.email)) {
+            alert("Please enter a valid email address");
+            updateEmptyFields({ ...emptyFields, email: true });
+            return true;
+        }
 
         if (
             formData["delivery_date"] == "Other" &&
@@ -193,6 +198,11 @@ export default function Checkout({ products }) {
         return isValid;
     };
 
+    const validateEmail = (email) => {
+        const re = /.*@.*\.[a-zA-Z0-9]{2,}/;
+        return re.test(email);
+    };
+
     const handleDeliveryDateChange = (e) => {
         const value = e.target.value;
         if (value == "Other") {
@@ -240,7 +250,7 @@ export default function Checkout({ products }) {
         });
     };
 
-    const updateCartItems = (e) => {            
+    const updateCartItems = (e) => {
         e.preventDefault();
         const productId = e.currentTarget.name;
         const itemQuantity = cookieFormData[productId];
@@ -356,8 +366,8 @@ export default function Checkout({ products }) {
                 {
                     value: "2022-12-01",
                     text: "December 1st",
-                    disabled: true, 
-//new Date() > new Date("2022-12-01"),
+                    disabled: true,
+                    //new Date() > new Date("2022-12-01"),
                 },
                 {
                     value: "2022-12-08",
@@ -406,9 +416,7 @@ export default function Checkout({ products }) {
     return (
         <>
             <MainHeader active="christmas" />
-            <div
-                className="overflow-auto"
-            >
+            <div className="overflow-auto">
                 <div className="w-full pt-10 pb-8 flex flex-col md:flex-row relative justify-center md:justify-start">
                     <h1 className="text-5xl text-default-900 font-bold text-center w-full relative md:absolute">
                         CHECKOUT
