@@ -32,7 +32,7 @@ export default function OrderSummaryTable(props) {
                                     {product.measured_per != 1 ? (
                                         <>
                                             <span className="rounded-xl bg-teal-100 px-3 w-fit print:mr-5 print:px-0">
-                                                {parseFloat(product.total_dozens) + parseFloat(product.additional_total_dozens) || "-"}
+                                                {(parseFloat(product.total_dozens) || 0) + (parseFloat(product.additional_total_dozens) || 0) || "-"}
                                             </span>
                                             <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                                         </>
@@ -40,7 +40,7 @@ export default function OrderSummaryTable(props) {
                                 </td>
                                 <td className="pr-12 font-bold text-center print:text-start">
                                     <span className="rounded-xl bg-yellow-100 px-3 w-fit print:mr-5 print:px-0">
-                                        {parseFloat(product.total_quantity) + parseFloat(product.additional_total_dozens) || "-"}
+                                        {(parseFloat(product.total_quantity) || 0) + (parseFloat(product.additional_total_dozens || 0)) || "-"}
                                     </span>
                                     <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                                 </td>
