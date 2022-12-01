@@ -37,15 +37,15 @@ export default function FormField(props) {
                     }`}
                 >
                     <option value=""></option>
-                    {props.options.map((option) => (
-                        <option
-                            key={option.value}
-                            value={option.value}
-                            disabled={option.disabled}
-                        >
-                            {option.text}
-                        </option>
-                    ))}
+                    {props.options.map((option) =>
+                        option.disabled ? (
+                            <></>
+                        ) : (
+                            <option key={option.value} value={option.value}>
+                                {option.text}
+                            </option>
+                        )
+                    )}
                 </select>
             );
             break;
