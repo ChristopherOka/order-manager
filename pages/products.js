@@ -3,7 +3,7 @@ import ProductCard from "../components/ProductCard";
 import CartModal from "../components/CartModal";
 import MainHeader from "../components/MainHeader";
 import { useState, useEffect, useRef } from "react";
-import debounce from "../utils/globals.js";
+import Image from "next/image";
 import * as db from "./api/database";
 
 export async function getStaticProps() {
@@ -207,24 +207,49 @@ export default function Products({ products }) {
         updateEditCart({});
         updateItemCosts({});
         return true;
-    }
+    };
 
     return (
         <>
             <MainHeader active="christmas"></MainHeader>
-            <div className={`font-source-sans-pro flex h-full flex-col`}>
-                <div className="sticky w-full right-0 top-8 pt-4 flex justify-center lg:justify-end md:px-16 z-10">
-                    <div className="absolute">
-                        <Button
-                            type="secondary"
-                            img="/images/icons/shopping_cart.png"
-                            clickHandler={openCartModal}
-                        >
-                            View Cart
-                        </Button>
-                        {Object.keys(cart).length ? (
-                            <div
-                                className={`bg-default-900 outline outline-2 text-default-100 font-bold text-center 
+            {true ? (
+                <section className="w-full flex flex-col text-center px-8 justify-center items-center gap-10 mt-16 bg-gray-100 py-10 sm:flex-row sm:px-0 sm:text-left">
+                    <div className="max-w-96 max-h-96 rounded-md overflow-hidden">
+                        <Image
+                            src="/images/product_images/christmas_products/santa_assortment.jpg"
+                            objectFit="cover"
+                            height="384"
+                            width="384"
+                        />
+                    </div>
+                    <div className="flex flex-col flex-end items-center gap-6 sm:items-start">
+                        <h2 className="text-default-900 text-5xl font-fjalla-one">
+                            CHRISTMAS COOKIES
+                        </h2>
+                        <p className="text-slate-600 text-2xl">
+                            Orders are now closed for the 2022 season
+                        </p>
+                        {/* <Link href="/products">
+                            <a className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
+                                ORDER NOW
+                            </a>
+                        </Link> */}
+                    </div>
+                </section>
+            ) : (
+                <div className={`font-source-sans-pro flex h-full flex-col`}>
+                    <div className="sticky w-full right-0 top-8 pt-4 flex justify-center lg:justify-end md:px-16 z-10">
+                        <div className="absolute">
+                            <Button
+                                type="secondary"
+                                img="/images/icons/shopping_cart.png"
+                                clickHandler={openCartModal}
+                            >
+                                View Cart
+                            </Button>
+                            {Object.keys(cart).length ? (
+                                <div
+                                    className={`bg-default-900 outline outline-2 text-default-100 font-bold text-center 
                             rounded-full absolute px-[0.4rem] h-5 top-0 right-0 
                             translate-x-2 -translate-y-2 animate-popIn ${
                                 cartModalState === "open"
@@ -232,100 +257,110 @@ export default function Products({ products }) {
                                     : "animate-popIn"
                             }
                             `}
-                            >
-                                <p className="-translate-y-0.5 animate-delayAppear">
-                                    {Object.keys(cart).length}
-                                </p>
-                            </div>
-                        ) : null}
-                        <CartModal
-                            cartModalState={cartModalState}
-                            closeCartModal={closeCartModal}
-                            editCartItem={editCartItem}
-                            updateCartFormEdit={updateCartFormEdit}
-                            changeCartItemQty={changeCartItemQty}
-                            removeItemFromCart={removeItemFromCart}
-                            cartIsUpdated={cartIsUpdated}
-                            itemCosts={itemCosts}
-                            cartKey={cartKey}
-                            cart={cart}
-                            products={products}
-                            clearCart={clearCart}
-                        />
-                    </div>
-                </div>
-                <div className="flex flex-1 flex-col overflow-auto">
-                    <div>
-                        <h1 className="font-bold text-5xl text-center pb-2 px-16 pt-16 lg:pt-2">
-                            CHRISTMAS COOKIES
-                        </h1>
-                        <p className="text-lg px-4 text-center sm:mx-auto">
-                            *special requests can be made in the additional
-                            information box at checkout
-                        </p>
-                    </div>
-                    <form>
-                        <div className="grid grid-cols-1 pb-10 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5 2xl:gap-x-1">
-                            {!isBusy &&
-                                products.map((product) => (
-                                    <ProductCard
-                                        addToCart={addToCart}
-                                        handleInputChange={handleInputChange}
-                                        type="number"
-                                        fieldStyle="productInput"
-                                        measured_per_text={
-                                            product.measured_per_text
-                                        }
-                                        price={product.product_price}
-                                        imgPath={product.product_img_filename}
-                                        text={product.product_name}
-                                        product_description={
-                                            product.product_description
-                                        }
-                                        placeholder="How many?"
-                                        name={"product_" + product.product_id}
-                                        key={product.product_id}
-                                        productQty={
-                                            cart[
-                                                "product_" + product.product_id
-                                            ]
-                                        }
-                                        cart={cart}
-                                    />
-                                ))}
+                                >
+                                    <p className="-translate-y-0.5 animate-delayAppear">
+                                        {Object.keys(cart).length}
+                                    </p>
+                                </div>
+                            ) : null}
+                            <CartModal
+                                cartModalState={cartModalState}
+                                closeCartModal={closeCartModal}
+                                editCartItem={editCartItem}
+                                updateCartFormEdit={updateCartFormEdit}
+                                changeCartItemQty={changeCartItemQty}
+                                removeItemFromCart={removeItemFromCart}
+                                cartIsUpdated={cartIsUpdated}
+                                itemCosts={itemCosts}
+                                cartKey={cartKey}
+                                cart={cart}
+                                products={products}
+                                clearCart={clearCart}
+                            />
                         </div>
-                    </form>
-                </div>
-                <footer className="bg-default-100 sticky bottom-0 left-0 z-10 flex flex-row justify-between items-center h-24 shadow-3xl">
-                    <p className="font-bold text-xl sm:text-2xl md:text-3xl px-4 sm:px-8 md:px-12">
-                        Total Cost: $
-                        {(Object.values(itemCosts).length
-                            ? Object.values(itemCosts).reduce((a, b) => a + b)
-                            : 0
-                        ).toFixed(2)}
-                    </p>
-                    <div className="px-12">
-                        <Button
-                            type="primary"
-                            img="/images/icons/shopping_cart.png"
-                            link={true}
-                            path="/checkout"
-                            as="/checkout"
-                            query={{
-                                ...cart,
-                                orderCost: (Object.values(itemCosts).length
-                                    ? Object.values(itemCosts).reduce(
-                                          (a, b) => a + b
-                                      )
-                                    : 0
-                                ).toFixed(2),
-                            }}
-                        >
-                            CHECKOUT
-                        </Button>
                     </div>
-                </footer>
-            </div>
+                    <div className="flex flex-1 flex-col overflow-auto">
+                        <div>
+                            <h1 className="font-bold text-5xl text-center pb-2 px-16 pt-16 lg:pt-2">
+                                CHRISTMAS COOKIES
+                            </h1>
+                            <p className="text-lg px-4 text-center sm:mx-auto">
+                                *special requests can be made in the additional
+                                information box at checkout
+                            </p>
+                        </div>
+                        <form>
+                            <div className="grid grid-cols-1 pb-10 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 2xl:grid-cols-5 2xl:gap-x-1">
+                                {!isBusy &&
+                                    products.map((product) => (
+                                        <ProductCard
+                                            addToCart={addToCart}
+                                            handleInputChange={
+                                                handleInputChange
+                                            }
+                                            type="number"
+                                            fieldStyle="productInput"
+                                            measured_per_text={
+                                                product.measured_per_text
+                                            }
+                                            price={product.product_price}
+                                            imgPath={
+                                                product.product_img_filename
+                                            }
+                                            text={product.product_name}
+                                            product_description={
+                                                product.product_description
+                                            }
+                                            placeholder="How many?"
+                                            name={
+                                                "product_" + product.product_id
+                                            }
+                                            key={product.product_id}
+                                            productQty={
+                                                cart[
+                                                    "product_" +
+                                                        product.product_id
+                                                ]
+                                            }
+                                            cart={cart}
+                                        />
+                                    ))}
+                            </div>
+                        </form>
+                    </div>
+                    <footer className="bg-default-100 sticky bottom-0 left-0 z-10 flex flex-row justify-between items-center h-24 shadow-3xl">
+                        <p className="font-bold text-xl sm:text-2xl md:text-3xl px-4 sm:px-8 md:px-12">
+                            Total Cost: $
+                            {(Object.values(itemCosts).length
+                                ? Object.values(itemCosts).reduce(
+                                      (a, b) => a + b
+                                  )
+                                : 0
+                            ).toFixed(2)}
+                        </p>
+                        <div className="px-12">
+                            <Button
+                                type="primary"
+                                img="/images/icons/shopping_cart.png"
+                                link={true}
+                                path="/checkout"
+                                as="/checkout"
+                                query={{
+                                    ...cart,
+                                    orderCost: (Object.values(itemCosts).length
+                                        ? Object.values(itemCosts).reduce(
+                                              (a, b) => a + b
+                                          )
+                                        : 0
+                                    ).toFixed(2),
+                                }}
+                            >
+                                CHECKOUT
+                            </Button>
+                        </div>
+                    </footer>
+                </div>
+            )}
         </>
     );
 }
