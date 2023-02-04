@@ -1,14 +1,14 @@
 {
     "rewrites": [
       {
-        "source": "/:path*",
+        "source": "/",
         "has": [
           {
             "type": "host",
             "value": "shop.martharave.com"
           }
         ],
-        "destination": "/shop/:path*"
+        "destination": "/shop"
       }
     ],
     "redirects": [
