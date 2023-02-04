@@ -10,5 +10,8 @@
         ],
         "destination": "/shop/:path*"
       }
+    ],
+    "redirects": [
+        { "source": "/shop", "destination": "[https://shop.martharave.com](https://shop.martharave.com)" }
     ]
   }
