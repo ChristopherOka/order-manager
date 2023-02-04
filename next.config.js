@@ -5,6 +5,18 @@ const nextConfig = {
     images: {
         domains: [],
     },
+    rewrites: [
+        {
+            source: "/:path*",
+            has: [
+                {
+                    type: "host",
+                    value: "shop.martharave.com",
+                },
+            ],
+            destination: "/shop/:path*",
+        },
+    ],
 };
 
 module.exports = nextConfig;

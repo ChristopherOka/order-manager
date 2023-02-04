@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 
 export default function ImageCarosel(props) {
     const selected = useRef(props.images[0]);
-    let TRANSLATION_WIDTH = 604;
     const mounted = useRef(false);
     let loop;
 
