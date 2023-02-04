@@ -12,6 +12,6 @@
       }
     ],
     "redirects": [
-        { "source": "/shop", "destination": "[https://shop.martharave.com](https://shop.martharave.com)" }
+        { "source": "/shop", "destination": "https://shop.martharave.com" }
     ]
   }
