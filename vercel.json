@@ -1,17 +1,17 @@
 {
     "rewrites": [
-      {
-        "source": "/",
-        "has": [
-          {
-            "type": "host",
-            "value": "shop.martharave.com"
-          }
-        ],
-        "destination": "/shop"
-      }
-    ],
+        {
+          "source": "/:path*",
+          "has": [
+            {
+              "type": "host",
+              "value": "shop.martharave.com"
+            }
+          ],
+          "destination": "/shop/:path*"
+        }
+      ],
     "redirects": [
-        { "source": "/shop", "destination": "https://creature-world.vercel.app/" }
+        { "source": "/store", "destination": "https://creature-world.vercel.app/" }
     ]
   }
