@@ -1,4 +1,4 @@
-## Order Management System
+## POS and Order Management System
 
 This is the second iteration of an order processing and management system for a small bakery business ([Martha Rave Cookies](https://martharave.com)).
 
