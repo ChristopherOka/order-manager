@@ -1,6 +1,6 @@
 ## Order Management System
 
-This is the second iteration of an order processing and management system for a small bakery business (MarthaRaveCookies).
+This is the second iteration of an order processing and management system for a small bakery business ([Martha Rave Cookies](https://martharave.com)).
 
 Built using: 
 - Next.js
