@@ -26,6 +26,10 @@ Customer-facing:
 - Checkout page where personal and order details are inputted
 - Thank you page, providing helpful info and allowing a new order creation
 
+![image](https://user-images.githubusercontent.com/70914858/232916431-765771a7-bbc5-49d1-a231-54c75b3dd08b.png)
+![image](https://user-images.githubusercontent.com/70914858/232916620-a987ee0c-5de9-4c58-84f8-d2a65f583728.png)
+
+
 Business-owner-facing:
 - Dashboard displaying a list of products broken down into total dozens and individual items. This list can be sorted by week, so the business owner knows exactly what needs to be baked for that timeframe
 - Orders dashboard showing a summary of each order, with relevant information such as: customer name, items in the order, if the order has been verified, if the customer has paid, and if the order has been delivered
