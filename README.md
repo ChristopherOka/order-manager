@@ -31,4 +31,9 @@ Business-owner-facing:
 - Finances page where the business owner can record their expenditures, track their predicted spend, actual spend, as well as their profits calculated from each order
 - Customers dashboard where the business owner can view all their customers, with the ability to modify their data or reach out to customers through email
 - Google OAuth2, which allows only my aunt to sign into the business dashboard
+![image](https://user-images.githubusercontent.com/70914858/232915125-9ad8a7c5-f69e-49de-8bb0-3fd4e5b8e3b4.png)
+![image](https://user-images.githubusercontent.com/70914858/232915373-a30745f2-4fb2-4a14-b467-259eb6e32c55.png)
+![image](https://user-images.githubusercontent.com/70914858/232915577-16b44b7b-4a78-44df-8e7e-96193c86edb5.png)
+![image](https://user-images.githubusercontent.com/70914858/232915621-34ec1432-9e61-456e-ba59-dce122568d6a.png)
+
 
