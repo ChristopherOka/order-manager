@@ -1,5 +1,7 @@
 ## POS and Order Management System
 
+![image](https://user-images.githubusercontent.com/70914858/232916431-765771a7-bbc5-49d1-a231-54c75b3dd08b.png)
+
 This is the second iteration of an order processing and management system for a small bakery business ([Martha Rave Cookies](https://martharave.com)).
 
 Built using: 
