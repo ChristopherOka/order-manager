@@ -1,7 +1,9 @@
-import { signIn, signOut, useSession } from "next-auth/react";
-import Button from "../components/Button";
-import { useRouter } from "next/router";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import Button from "../components/Button";
+
+export const allowedEmails = ["chriskroka@gmail.com", "marthamrave@gmail.com"];
 
 export default function Login() {
     const { data: session, status } = useSession();
@@ -11,7 +13,7 @@ export default function Login() {
         return <div>Loading...</div>;
     }
 
-    if (session && session.user.email == "marthamrave@gmail.com") {
+    if (session && allowedEmails.includes(session.user.email)) {
         router.push("/home");
         return;
     }
