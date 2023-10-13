@@ -1,15 +1,16 @@
+import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
-import MainHeader from "../components/MainHeader";
-import MainFooter from "../components/MainFooter";
-import ImageCarosel from "../components/ImageCarosel";
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import ImageCarosel from "../components/ImageCarosel";
+import MainFooter from "../components/MainFooter";
+import MainHeader from "../components/MainHeader";
+import { allowedEmails } from "./login";
 
 export default function Home() {
     const { data: session, status } = useSession();
 
-    if (session && session.user.email !== "marthamrave@gmail.com") {
+    if (session && !allowedEmails.includes(session.user.email)) {
         signOut();
     }
 
