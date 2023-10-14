@@ -190,8 +190,8 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
             <div className="print:hidden">
                 <DateSidebar activeDate={activeDate} changeDate={changeDate} />
             </div>
-            <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-center sm:gap-5 lg:gap-10 xl:gap-20 pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
-                <div className="md:mr-4 flex flex-col items-center justify-center overflow-hidden md:ml-44 print:mx-0 print:pt-0">
+            <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-center sm:gap-5 lg:gap-4 xl:gap-20 pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
+                <div className="md:mr-4 flex flex-col items-center justify-center overflow-hidden md:ml-36 print:mx-0 print:pt-0">
                     <div className="hidden print:flex print:mr-auto text-default-900 text-lg flex-col">
                         <div>Start Date: {startDate}</div>
                         <div>End Date: {endDate}</div>
@@ -217,48 +217,48 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                     </div>
                     <OrderSummaryTable products={products} />
                 </div>
-                <div className="hidden items-center mr-10 xl:mr-28 2xl:mr-72 md:flex print:hidden">
+                <div className="hidden items-center mr-10 xl:mr-28 2xl:mr-72 lg:flex print:hidden">
                     <div className="bg-default-100 shadow-box flex flex-col rounded-md">
-                        <h2 className="text-default-900 font-bold text-3xl py-8 px-12">
+                        <h2 className="text-default-900 font-bold text-xl lg:text-3xl px-2 py-2 lg:py-4 lg:px-6">
                             AT A GLANCE
                         </h2>
-                        <div className="text-default-900 px-3 py-5 pt-0 text-lg lg:text-2xl lg:px-12 ">
+                        <div className="text-default-900 px-3 py-5 pt-0 lg:text-2xl lg:px-6 ">
                             <AtAGlanceRow
-                                text="Unverified Orders:"
+                                text="Unverified:"
                                 src="/images/icons/red_exclamation.svg"
                                 number={orderCounts[0].unverified_orders}
                             />
                             <AtAGlanceRow
-                                text="Total Orders:"
+                                text="Total:"
                                 src="/images/icons/edit_icon.svg"
                                 number={orderCounts[0].total_orders}
                             />
                             <AtAGlanceRow
-                                text="Unpaid Orders:"
+                                text="Unpaid:"
                                 src="/images/icons/yellow_unpaid.svg"
                                 number={orderCounts[0].unpaid_orders}
                             />
                             <AtAGlanceRow
-                                text="Verified Orders:"
+                                text="Verified:"
                                 src="/images/icons/green_checkmark.svg"
                                 number={orderCounts[0].verified_orders}
                             />
                             <div className="pb-6">
                                 <AtAGlanceRow
-                                    text="Paid Orders:"
+                                    text="Paid:"
                                     src="/images/icons/green_money.svg"
                                     number={orderCounts[0].paid_orders}
                                 />
                             </div>
                             <AtAGlanceRow
-                                text="Total Dozens:"
+                                text="Dozens:"
                                 src="/images/icons/multiple_cookies.png"
                                 number={products.reduce((total, product) => {
                                     return total + product.total_dozens;
                                 }, 0)}
                             />
                             <AtAGlanceRow
-                                text="Total Items:"
+                                text="Items:"
                                 src="/images/icons/black_box.png"
                                 number={products.reduce((total, product) => {
                                     return total + product.total_quantity;
