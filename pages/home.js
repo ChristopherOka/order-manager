@@ -13,7 +13,10 @@ import { allowedEmails } from "./login";
 export async function getServerSideProps(context) {
     const session = await getSession(context);
 
-    if (!session || !allowedEmails.includes(session.user.email)) {
+    if (
+        process.env.NODE_ENV !== "development" &&
+        (!session || !allowedEmails.includes(session.user.email))
+    ) {
         context.res.writeHead(302, { Location: "/login" });
         context.res.end();
         return {};
@@ -38,7 +41,7 @@ export async function getServerSideProps(context) {
             productsWithQty,
             initialOrderCounts,
             productsData,
-            user: session.user,
+            user: session?.user || "",
         },
     };
 }

@@ -19,7 +19,7 @@ export function showThrobber() {
     spinner.src = "/images/misc/logo.png";
     const spinnerDiv = document.createElement("div");
     throbber.style =
-        "display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5); z-index: 1000;";
+        "display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; animation: fade-in 0.5s ease-in-out 0.5s both;";
     spinnerDiv.style =
         "display: flex; justify-content: center; align-items: center; width: 120px; height: 120px; background-color: #161616; border-radius: 10px; opacity: 50%; overflow: hidden; animation: throbber 2s cubic-bezier(0.65, 0, 0.35, 0.98) infinite;";
     spinner.style = "width: 100px; height: 100px;";

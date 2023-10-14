@@ -1,9 +1,9 @@
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
-import ProductCard from "../components/ProductCard";
 import CartModal from "../components/CartModal";
 import MainHeader from "../components/MainHeader";
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import ProductCard from "../components/ProductCard";
 import * as db from "./api/database";
 
 export async function getStaticProps() {

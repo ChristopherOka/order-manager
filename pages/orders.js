@@ -31,7 +31,6 @@ export async function getServerSideProps(context) {
         db.getAllData(dates),
         db.getProductNames(),
     ]);
-
     return {
         props: {
             initialOrderData: orderData,

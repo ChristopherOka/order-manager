@@ -1,11 +1,11 @@
-import FormField from "../components/FormField";
-import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import * as db from "./api/database";
 import Button from "../components/Button";
 import CheckoutProductCard from "../components/CheckoutProductCard";
+import FormField from "../components/FormField";
 import MainHeader from "../components/MainHeader";
+import * as db from "./api/database";
 
 export async function getStaticProps() {
     const products = await db.getAllProductsData();
@@ -35,7 +35,7 @@ async function sendFormData(data) {
             order_item_uid: uuidv4(),
         });
     }
-
+    data.is_verified = !data.additional_information;
     delete data.order_data;
     if (!(await db.insertCustomerAndOrder(data))) {
         alert("Order not processed. Please try again.");
@@ -364,25 +364,25 @@ export default function Checkout({ products }) {
             fieldStyle: "select",
             options: [
                 {
-                    value: "2022-12-01",
+                    value: "2023-12-01",
                     text: "December 1st",
-                    disabled: true,
+                    disabled: false,
                     //new Date() > new Date("2022-12-01"),
                 },
                 {
-                    value: "2022-12-08",
+                    value: "2023-12-08",
                     text: "December 8th",
-                    disabled: true,
+                    disabled: false,
                 },
                 {
-                    value: "2022-12-15",
+                    value: "2023-12-15",
                     text: "December 15th",
-                    disabled: true,
+                    disabled: false,
                 },
                 {
-                    value: "2022-12-22",
+                    value: "2023-12-22",
                     text: "December 22nd",
-                    disabled: true,
+                    disabled: false,
                 },
                 // {
                 //     value: "Other",

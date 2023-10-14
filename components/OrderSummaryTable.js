@@ -14,6 +14,9 @@ export default function OrderSummaryTable(props) {
                             Total Items
                         </th>
                         <th className="font-medium pb-2 pr-12 text-center">
+                            Number of Bags
+                        </th>
+                        <th className="font-medium pb-2 pr-12 text-center">
                             Cost
                         </th>
                     </tr>
@@ -32,7 +35,13 @@ export default function OrderSummaryTable(props) {
                                     {product.measured_per != 1 ? (
                                         <>
                                             <span className="rounded-xl bg-teal-100 px-3 w-fit print:mr-5 print:px-0">
-                                                {parseFloat(product.total_dozens || 0) + parseFloat(product.additional_total_dozens || 0) || "-"}
+                                                {parseFloat(
+                                                    product.total_dozens || 0
+                                                ) +
+                                                    parseFloat(
+                                                        product.additional_total_dozens ||
+                                                            0
+                                                    ) || "-"}
                                             </span>
                                             <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                                         </>
@@ -40,8 +49,25 @@ export default function OrderSummaryTable(props) {
                                 </td>
                                 <td className="pr-12 font-bold text-center print:text-start">
                                     <span className="rounded-xl bg-yellow-100 px-3 w-fit print:mr-5 print:px-0">
-                                        {parseFloat(product.total_quantity || 0) + parseFloat(product.additional_total_quantity || 0) || "-"}
+                                        {parseFloat(
+                                            product.total_quantity || 0
+                                        ) +
+                                            parseFloat(
+                                                product.additional_total_quantity ||
+                                                    0
+                                            ) || "-"}
                                     </span>
+                                    <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
+                                </td>
+                                <td className="pr-12 font-bold text-center print:text-start">
+                                    {product.measured_per != 1 ? (
+                                        <span className="rounded-xl bg-yellow-100 px-3 w-fit print:mr-5 print:px-0">
+                                            {parseFloat(
+                                                product.total_dozens || 0
+                                            )}
+                                        </span>
+                                    ) : null}
+
                                     <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                                 </td>
                                 <td className="pr-12 font-bold text-center print:text-start">
@@ -72,6 +98,20 @@ export default function OrderSummaryTable(props) {
                             <span className="rounded-xl bg-yellow-100 px-3 w-fit print:mr-5 print:px-0">
                                 {props.products.reduce((total, product) => {
                                     return total + product.total_quantity;
+                                }, 0)}
+                            </span>
+                            <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
+                        </td>
+                        <td className="pr-12 font-bold text-center print:text-start">
+                            <span className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0">
+                                $
+                                {props.products.reduce((total, product) => {
+                                    return (
+                                        total +
+                                        product.cost *
+                                            (product.total_dozens ||
+                                                product.total_quantity)
+                                    );
                                 }, 0)}
                             </span>
                             <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
