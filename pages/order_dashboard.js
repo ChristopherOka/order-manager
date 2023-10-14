@@ -1,17 +1,21 @@
-import Navbar from "../components/Navbar";
-import DateSidebar from "../components/DateSidebar";
-import OrderSummaryCard from "../components/OrderSummaryCard";
-import Button from "../components/Button";
-import EmailModal from "../components/EmailModal";
+import { getSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
+import Button from "../components/Button";
+import DateSidebar from "../components/DateSidebar";
+import EmailModal from "../components/EmailModal";
+import Navbar from "../components/Navbar";
+import OrderSummaryCard from "../components/OrderSummaryCard";
 import * as db from "./api/database";
-import { getSession, signOut } from "next-auth/react";
+import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);
 
-    if (!session || session.user.email !== "marthamrave@gmail.com") {
+    if (
+        process.env.NODE_ENV !== "development" &&
+        (!session || !allowedEmails.includes(session.user.email))
+    ) {
         context.res.writeHead(302, { Location: "/login" });
         context.res.end();
         return {};

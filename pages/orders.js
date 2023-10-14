@@ -1,16 +1,20 @@
-import { useState } from "react";
-import * as db from "./api/database";
-import OrderTableData from "../components/OrderTableData";
-import Navbar from "../components/Navbar";
-import DateSidebar from "../components/DateSidebar";
-import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
 import { getSession, signOut } from "next-auth/react";
+import { useState } from "react";
 import Button from "../components/Button";
+import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
+import DateSidebar from "../components/DateSidebar";
+import Navbar from "../components/Navbar";
+import OrderTableData from "../components/OrderTableData";
+import * as db from "./api/database";
+import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);
 
-    if (!session || session.user.email !== "marthamrave@gmail.com") {
+    if (
+        process.env.NODE_ENV !== "development" &&
+        (!session || !allowedEmails.includes(session.user.email))
+    ) {
         context.res.writeHead(302, { Location: "/login" });
         context.res.end();
         return {};

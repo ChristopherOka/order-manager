@@ -1,16 +1,17 @@
-import Navbar from "../components/Navbar";
-import FinancesTable from "../components/FinancesTable";
-import FinancesChart from "../components/FinancesChart";
-import Image from "next/image";
-import Button from "../components/Button";
-import { useState, useEffect, useRef } from "react";
-import * as db from "./api/database";
 import { getSession, signOut } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import Button from "../components/Button";
+import FinancesChart from "../components/FinancesChart";
+import FinancesTable from "../components/FinancesTable";
+import Navbar from "../components/Navbar";
+import * as db from "./api/database";
+import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);
 
-    if (!session || session.user.email !== "marthamrave@gmail.com") {
+    if (!session || !allowedEmails.includes(session.user.email)) {
         context.res.writeHead(302, { Location: "/login" });
         context.res.end();
         return {};
