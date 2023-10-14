@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
-import { showThrobber, hideThrobber } from "../utils/globals.js";
+import { hideThrobber, showThrobber } from "../utils/globals.js";
 
 export default function Navbar(props) {
     const router = useRouter();
@@ -21,7 +21,7 @@ export default function Navbar(props) {
     };
 
     return (
-        <div className="w-full absolute bottom-0">
+        <div className="w-full fixed bottom-0">
             <div className="flex items-center justify-around text-md font-bold mb-5 bg-default-900 text-default-100 p-3 rounded mx-2 text-center md:rounded-full md:text-left md:text-xl md:mx-32 lg:mx-56 xl:mx-72 2xl:mx-96">
                 <div className="relative cursor-pointer">
                     <a
