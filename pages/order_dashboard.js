@@ -1,6 +1,6 @@
 import { getSession, signOut } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "../components/Button";
 import DateSidebar from "../components/DateSidebar";
 import EmailModal from "../components/EmailModal";
@@ -51,7 +51,7 @@ export default function OrderDashboard({
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalBody, setModalBody] = useState("");
     const [modalOrderUid, setModalOrderUid] = useState("");
-
+    const orderScrollContainerRef = useRef(null);
     const dateRanges = {
         All: {
             start_date: new Date(0),
@@ -91,6 +91,7 @@ export default function OrderDashboard({
         await document.querySelectorAll(".flip-override").forEach((el) => {
             el.click();
         });
+        orderScrollContainerRef.current.scrollLeft = 0;
         window.print();
         return true;
     };
@@ -176,6 +177,7 @@ export default function OrderDashboard({
             </div>
             <div className="flex h-screen sm:items-center">
                 <div
+                    ref={orderScrollContainerRef}
                     className={`grid grid-cols-1 gap-y-3 gap-x-3 overflow-auto
             px-8 pt-2 max-h-[65vh] sm:max-h-full sm:pl-5 sm:pr-5 mt-44 sm:mt-0 sm:pt-20 md:pt-20 md:pb-2 md:mb-20 md:mt-0 justify-start md:ml-40 sm:grid-rows-2 sm:grid-cols-none 
             sm:grid-flow-col md:gap-x-10 sm:gap-y-3 print:max-h-full print:top-0 
