@@ -178,7 +178,7 @@ export default function OrderDashboard({
             <div className="flex h-screen sm:items-center">
                 <div
                     ref={orderScrollContainerRef}
-                    className={`grid grid-cols-1 gap-y-3 gap-x-3 overflow-auto
+                    className={`grid grid-cols-1 gap-y-3 gap-x-3 overflow-auto pb-10
             px-8 pt-2 max-h-[65vh] sm:max-h-full sm:pl-5 sm:pr-5 mt-44 sm:mt-0 sm:pt-20 md:pt-20 md:pb-2 md:mb-20 md:mt-0 justify-start md:ml-40 sm:grid-rows-2 sm:grid-cols-none 
             sm:grid-flow-col md:gap-x-10 sm:gap-y-3 print:max-h-full print:top-0 
             print:left-0 print:table print:m-0 print:p-0 print:gap-0 print:overflow-hidden print:absolute`}
