@@ -200,11 +200,11 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                         <h2 className="text-default-900 font-bold text-3xl text-center print:text-left">
                             <span className="print:hidden">
                                 Week of:{" "}
-                                {endDate == "End of Time" ? "All" : endDate}
+                                {endDate == "Present" ? "All" : endDate}
                             </span>
                             <span className="hidden print:block">
                                 DELIVERY DATE:{" "}
-                                {endDate == "End of Time" ? "All" : endDate}
+                                {endDate == "Present" ? "All" : endDate}
                             </span>
                         </h2>
                         <div className="print:hidden">
