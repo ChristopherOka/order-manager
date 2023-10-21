@@ -1,8 +1,23 @@
-import { Chart as ChartJS } from "chart.js/auto";
-import { Line } from "react-chartjs-2";
+import {
+    CategoryScale,
+    Chart as ChartJS,
+    Legend,
+    LineElement,
+    LinearScale,
+    PointElement,
+    TimeScale,
+    Title,
+    Tooltip,
+} from "chart.js";
 import "chartjs-adapter-date-fns";
+import { useLayoutEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 
 export default function FinancesChart(props) {
+    const [dimensions, setDimensions] = useState({
+        width: 0,
+        height: 0,
+    });
     let labels = [];
     let chartData = [];
     props.spendingByDay.forEach((day) => {
@@ -55,9 +70,34 @@ export default function FinancesChart(props) {
         },
     };
 
+    ChartJS.register(
+        TimeScale,
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Legend
+    );
+
+    useLayoutEffect(() => {
+        setDimensions({
+            width: window.innerWidth > 640 ? 640 : window.innerWidth - 30,
+            height: window.innerWidth > 640 ? 640 : window.innerWidth - 30,
+        });
+    }, []);
+
     return (
         <>
-            <Line data={data} options={options} width={400} height={400} />
+            {dimensions.width && (
+                <Line
+                    data={data}
+                    options={options}
+                    width={dimensions.width}
+                    height={dimensions.height}
+                />
+            )}
         </>
     );
 }

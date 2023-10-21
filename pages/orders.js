@@ -258,7 +258,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                         return true;
                     }}
                 >
-                    SIGN OUT
+                    <span className="hidden lg:inline">SIGN OUT</span>
                 </Button>
             </div>
             <h1 className="pl-5 md:pl-0 md:text-center text-4xl font-bold py-6">

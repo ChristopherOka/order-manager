@@ -107,7 +107,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
 
     return (
         <div className="w-screen relative h-screen">
-            <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:justify-end md:pr-5 print:hidden">
+            <div className="absolute top-0 left-0 w-screen flex items-center justify-start my-5 pl-2 md:pr-5 print:hidden">
                 <div className="rounded-md bg-default-900 p-3 flex w-[70px] md:w-[100px]">
                     <Image
                         src="/images/misc/logo.png"
@@ -116,10 +116,10 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                     />
                 </div>
             </div>
-            <h1 className="hidden text-default-900 font-bold text-4xl absolute top-0 left-0 my-5 w-screen items-center justify-center print:hidden xl:flex">
+            <h1 className="flex text-default-900 font-bold text-4xl absolute top-0 left-0 my-5 w-screen items-center justify-center print:hidden">
                 FINANCES
             </h1>
-            <div className="absolute z-10 top-0 left-0 w-screen flex items-center justify-end md:justify-start my-5 pr-2 print:hidden">
+            <div className="absolute z-10 top-0 right-0 w-screen flex items-center justify-end my-5 pr-2 print:hidden">
                 <Button
                     type="primary-md"
                     img="/images/icons/logout.svg"
@@ -128,10 +128,10 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                         return true;
                     }}
                 >
-                    SIGN OUT
+                    <span className="hidden lg:inline">SIGN OUT</span>
                 </Button>
             </div>
-            <div className="absolute top-0 left-0 h-full w-full flex flex-col md:flex-row justify-center gap-20 items-center">
+            <div className="absolute top-0 left-0 h-full overflow-auto mt-24 pb-32 w-full flex flex-col md:flex-row justify-center gap-5 lg:gap-20 items-center lg:mt-0 lg:pb-0">
                 <div className="ml-8 mr-4 flex flex-col justify-center pb-10 overflow-auto print:mx-0 print:pt-0">
                     <div className="flex justify-between items-center relative pb-6">
                         <div className="print:hidden">
@@ -194,7 +194,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                     </div>
                     <FinancesTable materials={materials} />
                 </div>
-                <div className="w-fit h-fit print:hidden">
+                <div className="w-fit h-fit mx-2 print:hidden">
                     <h2 className="font-bold text-xl text-center">
                         Cumulative Spending
                     </h2>

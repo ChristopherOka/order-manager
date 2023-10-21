@@ -71,13 +71,13 @@ export default function FinancesTable(props) {
             <table className="rounded-md overflow-hidden">
                 <thead>
                     <tr className="text-slate-600 text-left">
-                        <th className="font-medium pb-2 pr-12 pl-6 print:pl-0">
+                        <th className="font-medium pb-2 pr-4 lg:pr-12 pl-6 print:pl-0">
                             Material
                         </th>
-                        <th className="font-medium pb-2 pr-12 text-center">
+                        <th className="font-medium pb-2 pr-4 lg:pr-12 text-center">
                             Quantity
                         </th>
-                        <th className="font-medium pb-2 pr-12 text-center">
+                        <th className="font-medium pb-2 pr-4 lg:pr-12 text-center">
                             Total Cost
                         </th>
                         <th></th>
@@ -90,10 +90,10 @@ export default function FinancesTable(props) {
                                 key={material.material_uid}
                                 className={`text-default-900 text-md print:border-t group`}
                             >
-                                <td className="py-2 pr-10 md:pr-12 pl-6 font-medium truncate print:pl-0">
+                                <td className="py-2 pr-10 md:pr-4 lg:pr-12 pl-6 font-medium truncate print:pl-0">
                                     {material.material_name}
                                 </td>
-                                <td className="pr-12 font-bold text-center print:text-start">
+                                <td className="pr-4 lg:pr-12 font-bold text-center print:text-start">
                                     <span
                                         id={`${material.material_uid}-quantity-text`}
                                         className="rounded-xl bg-teal-100 px-3 w-fit print:mr-5 print:px-0"
@@ -102,7 +102,7 @@ export default function FinancesTable(props) {
                                     </span>
                                     <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                                 </td>
-                                <td className="pr-12 font-bold text-center print:text-start">
+                                <td className="pr-4 lg:pr-12 font-bold text-center print:text-start">
                                     <span
                                         id={`${material.material_uid}-cost-text`}
                                         className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0"
@@ -188,10 +188,10 @@ export default function FinancesTable(props) {
                         );
                     })}
                     <tr className={`text-default-900 text-md print:border-t`}>
-                        <td className="font-bold py-2 pr-10 md:pr-12 pl-6 print:pl-0">
+                        <td className="font-bold py-2 pr-10 md:pr-4 lg:pr-12 pl-6 print:pl-0">
                             Totals
                         </td>
-                        <td className="pr-12 font-bold text-center print:text-start">
+                        <td className="pr-4 lg:pr-12 font-bold text-center print:text-start">
                             <span
                                 id="totals-quantity-text"
                                 className="rounded-xl bg-teal-100 px-3 w-fit print:mr-5 print:px-0"
@@ -204,7 +204,7 @@ export default function FinancesTable(props) {
                             </span>
                             <span className="hidden rounded-xl px-5 py-3 border-slate-400 border float-right print:inline"></span>
                         </td>
-                        <td className="pr-12 font-bold text-center print:text-start">
+                        <td className="pr-4 lg:pr-12 font-bold text-center print:text-start">
                             <span
                                 id="totals-cost-text"
                                 className="rounded-xl bg-green-100 px-3 w-fit print:mr-5 print:px-0"

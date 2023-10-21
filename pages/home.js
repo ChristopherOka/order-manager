@@ -180,7 +180,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                         return true;
                     }}
                 >
-                    SIGN OUT
+                    <span className="hidden lg:inline">SIGN OUT</span>
                 </Button>
             </div>
             <div className="print:hidden">
