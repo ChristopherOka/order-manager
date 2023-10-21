@@ -22,12 +22,12 @@ export async function getServerSideProps(context) {
         return {};
     }
 
-    const smallestPossibleDate = new Date(0);
+    const currentSeason = new Date("2023-09-01 00:00:00");
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
     );
     const dates = {
-        start_date: smallestPossibleDate,
+        start_date: currentSeason,
         end_date: oneYearFromNow,
     };
     const [products, initialOrderCounts, productsData] = await Promise.all([
@@ -101,8 +101,8 @@ const processProducts = (products, productsData) => {
 };
 
 export default function Home({ productsWithQty, initialOrderCounts }) {
-    const [startDate, setStartDate] = useState("Beginning of Time");
-    const [endDate, setEndDate] = useState("End of Time");
+    const [startDate, setStartDate] = useState("September 1st, 2023");
+    const [endDate, setEndDate] = useState("Present");
     const [activeDate, setActiveDate] = useState("All");
     const [products, setProducts] = useState(productsWithQty);
     const [orderCounts, setOrderCounts] = useState(initialOrderCounts);
@@ -122,28 +122,24 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     };
 
     const dateRanges = {
-        "1st": {
-            start_date: new Date("2022-11-24 00:00:00"),
-            end_date: new Date("2022-12-01 00:00:00"),
+        "7st": {
+            start_date: new Date("2023-11-24 00:00:00"),
+            end_date: new Date("2023-12-07 00:00:00"),
         },
-        "8th": {
-            start_date: new Date("2022-12-01 00:00:00"),
-            end_date: new Date("2022-12-08 00:00:00"),
+        "14th": {
+            start_date: new Date("2023-12-07 00:00:00"),
+            end_date: new Date("2023-12-14 00:00:00"),
         },
-        "15th": {
-            start_date: new Date("2022-12-08 00:00:00"),
-            end_date: new Date("2022-12-15 00:00:00"),
-        },
-        "22nd": {
-            start_date: new Date("2022-12-15 00:00:00"),
-            end_date: new Date("2022-12-22 00:00:00"),
+        "21th": {
+            start_date: new Date("2023-12-14 00:00:00"),
+            end_date: new Date("2023-12-21 00:00:00"),
         },
     };
 
     const changeDate = async (date) => {
         if (date == "All") {
-            setStartDate("Beginning of Time");
-            setEndDate("End of Time");
+            setStartDate("September 1st, 2023");
+            setEndDate("Present");
             setProducts(productsWithQty);
             setOrderCounts(initialOrderCounts);
         } else {
@@ -188,7 +184,11 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                 </Button>
             </div>
             <div className="print:hidden">
-                <DateSidebar activeDate={activeDate} changeDate={changeDate} />
+                <DateSidebar
+                    activeDate={activeDate}
+                    changeDate={changeDate}
+                    dateRanges={dateRanges}
+                />
             </div>
             <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-center sm:gap-5 lg:gap-4 xl:gap-20 pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
                 <div className="md:mr-4 flex flex-col items-center justify-center overflow-hidden md:ml-36 print:mx-0 print:pt-0">

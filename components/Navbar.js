@@ -93,6 +93,25 @@ export default function Navbar(props) {
                         ""
                     )}
                 </div>
+                <div className="relative cursor-pointer">
+                    <a
+                        className={
+                            props.activeTab == "historical-orders"
+                                ? "text-pink-300"
+                                : ""
+                        }
+                        onClick={() => {
+                            navigate("/historical-orders");
+                        }}
+                    >
+                        HISTORICAL ORDERS
+                    </a>
+                    {props.activeTab == "historical-orders" ? (
+                        <div className="absolute -bottom-3 left-0 bg-pink-300 w-full h-1"></div>
+                    ) : (
+                        ""
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -212,7 +212,7 @@ export default function Products({ products }) {
     return (
         <>
             <MainHeader active="christmas"></MainHeader>
-            {true ? (
+            {false ? (
                 <section className="w-full flex flex-col text-center px-8 justify-center items-center gap-10 mt-16 bg-gray-100 py-10 sm:flex-row sm:px-0 sm:text-left">
                     <div className="max-w-96 max-h-96 rounded-md overflow-hidden">
                         <Image

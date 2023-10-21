@@ -1,5 +1,6 @@
 import { getSession, signOut } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import Button from "../components/Button";
 import DateSidebar from "../components/DateSidebar";
@@ -11,7 +12,6 @@ import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);
-
     if (
         process.env.NODE_ENV !== "development" &&
         (!session || !allowedEmails.includes(session.user.email))
@@ -20,12 +20,12 @@ export async function getServerSideProps(context) {
         context.res.end();
         return {};
     }
-    const smallestPossibleDate = new Date(0);
+    const currentSeason = new Date("2023-09-01 00:00:00");
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
     );
     const dates = {
-        start_date: smallestPossibleDate,
+        start_date: currentSeason,
         end_date: oneYearFromNow,
     };
     const [orderData, products] = await Promise.all([
@@ -53,38 +53,34 @@ export default function OrderDashboard({
     const [modalOrderUid, setModalOrderUid] = useState("");
     const orderScrollContainerRef = useRef(null);
     const dateRanges = {
-        All: {
-            start_date: new Date(0),
-            end_date: new Date(
-                new Date().setFullYear(new Date().getFullYear() + 1)
-            ),
+        "7st": {
+            start_date: new Date("2023-11-24 00:00:00"),
+            end_date: new Date("2023-12-07 00:00:00"),
         },
-        "1st": {
-            start_date: new Date("2022-11-24"),
-            end_date: new Date("2022-12-01"),
+        "14th": {
+            start_date: new Date("2023-12-07 00:00:00"),
+            end_date: new Date("2023-12-14 00:00:00"),
         },
-        "8th": {
-            start_date: new Date("2022-12-01"),
-            end_date: new Date("2022-12-08"),
-        },
-        "15th": {
-            start_date: new Date("2022-12-08"),
-            end_date: new Date("2022-12-15"),
-        },
-        "22nd": {
-            start_date: new Date("2022-12-15"),
-            end_date: new Date("2022-12-22"),
+        "21th": {
+            start_date: new Date("2023-12-14 00:00:00"),
+            end_date: new Date("2023-12-21 00:00:00"),
         },
     };
 
     const changeDate = async (date) => {
-        const [newOrderData, newProductNames] = await Promise.all([
-            db.getAllData(dateRanges[date]),
-            db.getProductNames(),
-        ]);
-        setOrderData(newOrderData);
-        setProductNames(newProductNames);
-        setActiveDate(date);
+        if (date == "All") {
+            setOrderData(initialOrderData);
+            setProductNames(initialProductNames);
+            setActiveDate(date);
+        } else {
+            const [newOrderData, newProductNames] = await Promise.all([
+                db.getAllData(dateRanges[date]),
+                db.getProductNames(),
+            ]);
+            setOrderData(newOrderData);
+            setProductNames(newProductNames);
+            setActiveDate(date);
+        }
     };
 
     const openPrintLayout = async () => {
@@ -108,7 +104,7 @@ export default function OrderDashboard({
         setModalBody("");
         setModalIsOpen(false);
     };
-
+    const router = useRouter();
     const sendEmailCallback = async () => {
         const email_body = document.getElementById("email-body-textarea").value;
         const order_data = orderData.find(
@@ -124,9 +120,7 @@ export default function OrderDashboard({
             }),
         });
         if (response.status === 200) {
-            document.getElementById(
-                `${modalOrderUid}-email-sent-message`
-            ).innerText = "Sent";
+            router.reload();
         }
         closeEmailModal();
     };
@@ -173,7 +167,11 @@ export default function OrderDashboard({
                 </div>
             </div>
             <div className="print:hidden">
-                <DateSidebar activeDate={activeDate} changeDate={changeDate} />
+                <DateSidebar
+                    activeDate={activeDate}
+                    changeDate={changeDate}
+                    dateRanges={dateRanges}
+                />
             </div>
             <div className="flex h-screen sm:items-center">
                 <div

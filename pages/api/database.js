@@ -243,6 +243,7 @@ export async function setEmailedStatus(order_uid) {
         .from("orders")
         .update({
             email_sent: true,
+            is_verified: true,
         })
         .match({ order_uid });
     if (error) {

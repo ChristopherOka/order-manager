@@ -1,7 +1,7 @@
-import Popover from "./Popover";
 import { useState } from "react";
-import Checkbox from "./Checkbox";
 import * as db from "../pages/api/database";
+import Checkbox from "./Checkbox";
+import Popover from "./Popover";
 
 export default function OrderSummaryCard(props) {
     const [flipped, setFlipped] = useState(false);
@@ -11,10 +11,9 @@ export default function OrderSummaryCard(props) {
     const [paymentStatus, setPaymentStatus] = useState(props.order.has_paid);
 
     const deliveryDates = [
-        "Thu Dec 01 2022",
-        "Thu Dec 08 2022",
-        "Thu Dec 15 2022",
-        "Thu Dec 22 2022",
+        "Thu Dec 07 2023",
+        "Thu Dec 14 2023",
+        "Thu Dec 21 2023",
     ];
 
     const isIrregularDeliveryDate = !deliveryDates.includes(

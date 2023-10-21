@@ -364,30 +364,20 @@ export default function Checkout({ products }) {
             fieldStyle: "select",
             options: [
                 {
-                    value: "2023-12-01",
-                    text: "December 1st",
-                    disabled: false,
-                    //new Date() > new Date("2022-12-01"),
-                },
-                {
-                    value: "2023-12-08",
-                    text: "December 8th",
+                    value: "2023-12-07",
+                    text: "December 7th",
                     disabled: false,
                 },
                 {
-                    value: "2023-12-15",
-                    text: "December 15th",
+                    value: "2023-12-14",
+                    text: "December 14th",
                     disabled: false,
                 },
                 {
-                    value: "2023-12-22",
-                    text: "December 22nd",
+                    value: "2023-12-21",
+                    text: "December 21st",
                     disabled: false,
                 },
-                // {
-                //     value: "Other",
-                //     text: "Other",
-                // },
             ],
             required: true,
             customChangeHandler: handleDeliveryDateChange,
@@ -397,8 +387,8 @@ export default function Checkout({ products }) {
             text: "Alternative Delivery Date",
             fieldStyle: "input",
             type: "date",
-            min: "2022-11-01",
-            max: "2023-01-31",
+            min: "2023-11-01",
+            max: "2024-01-31",
             hidden: true,
             required: true,
             description:

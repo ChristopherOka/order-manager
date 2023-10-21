@@ -2,7 +2,6 @@ import { getSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import Button from "../components/Button";
 import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
-import DateSidebar from "../components/DateSidebar";
 import Navbar from "../components/Navbar";
 import OrderTableData from "../components/OrderTableData";
 import * as db from "./api/database";
@@ -19,7 +18,7 @@ export async function getServerSideProps(context) {
         context.res.end();
         return {};
     }
-    const currentSeason = new Date("2023-09-01 00:00:00");
+    const currentSeason = new Date(0);
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
     );
@@ -40,41 +39,11 @@ export async function getServerSideProps(context) {
 }
 
 export default function Orders({ initialOrderData, initialProductNames }) {
-    const [activeDate, setActiveDate] = useState("All");
     const [orderData, setOrderData] = useState(initialOrderData);
     const [productNames, setProductNames] = useState(initialProductNames);
     const [deletedOrderUid, setDeletedOrderUid] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalBody, setModalBody] = useState("");
-
-    const dateRanges = {
-        "7st": {
-            start_date: new Date("2023-11-24 00:00:00"),
-            end_date: new Date("2023-12-07 00:00:00"),
-        },
-        "14th": {
-            start_date: new Date("2023-12-07 00:00:00"),
-            end_date: new Date("2023-12-14 00:00:00"),
-        },
-        "21th": {
-            start_date: new Date("2023-12-14 00:00:00"),
-            end_date: new Date("2023-12-21 00:00:00"),
-        },
-    };
-
-    const changeDate = async (date) => {
-        if (date == "All") {
-            setOrderData(initialOrderData);
-        } else {
-            const [newOrderData, newProductNames] = await Promise.all([
-                db.getAllData(dateRanges[date]),
-                db.getProductNames(),
-            ]);
-            setOrderData(newOrderData);
-            setProductNames(newProductNames);
-        }
-        setActiveDate(date);
-    };
 
     const editTableData = (e) => {
         const button = e.currentTarget;
@@ -262,17 +231,10 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                 </Button>
             </div>
             <h1 className="pl-5 md:pl-0 md:text-center text-4xl font-bold py-6">
-                ALL ORDERS
+                HISTORICAL ORDERS
             </h1>
-            <div>
-                <DateSidebar
-                    activeDate={activeDate}
-                    changeDate={changeDate}
-                    dateRanges={dateRanges}
-                />
-            </div>
             <div className="flex w-full justify-center absolute top-0 left-0 mt-44 md:my-20 ">
-                <div className="overflow-auto h-[58vh] shadow-box w-[95vw] md:mr-10 md:h-[80vh] md:w-[82vw] md:ml-36 xl:w-[88vw]">
+                <div className="overflow-auto h-[58vh] shadow-box w-[95vw]  md:h-[80vh] md:w-[82vw] xl:w-[88vw]">
                     <table
                         className="bg-default-100 rounded-md w-screen"
                         id="orders-table"
@@ -586,7 +548,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
                     </table>
                 </div>
             </div>
-            <Navbar activeTab="orders" />
+            <Navbar activeTab="historical-orders" />
         </div>
     );
 }
