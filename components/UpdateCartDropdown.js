@@ -8,7 +8,7 @@ export default function UpdateCartDropdown(props) {
             } flex pt-4 w-72 relative`}
         >
             <div>
-                <select
+                {/* <select
                     onChange={props.handleInputChange}
                     onFocus={props.handleFocus}
                     onBlur={props.handleBlur}
@@ -31,7 +31,37 @@ export default function UpdateCartDropdown(props) {
                             </option>
                         );
                     })}
-                </select>
+                </select> */}
+                <div
+                    className={
+                        `bg-default-900 rounded ${
+                            props.isCheckoutCard ? "w-24" : "w-28"
+                        } h-10 border-none text-default-100 text-xl py-1 text-center
+                            focus:rounded-b-none transition-border duration-500 justify-between focus-visible:outline-none flex items-center
+                            ` +
+                        " " +
+                        (props.error ? "border-red" : "")
+                    }
+                >
+                    <button className="px-3" onClick={props.decreaseProductQty}>
+                        -
+                    </button>
+                    <input
+                        className={`bg-default-900 ${
+                            props.isCheckoutCard ? "w-8" : "w-8"
+                        } h-10 appearance-none border-none py-1 text-center
+                        `}
+                        onChange={props.handleInputChange}
+                        onFocus={props.handleFocus}
+                        onBlur={props.handleBlur}
+                        name={props.name}
+                        defaultValue={props.productQty}
+                        placeholder="0"
+                    />
+                    <button className="px-3" onClick={props.increaseProductQty}>
+                        +
+                    </button>
+                </div>
                 <div
                     className={`text-center absolute ${
                         props.isCheckoutCard ? "w-24" : "w-28"

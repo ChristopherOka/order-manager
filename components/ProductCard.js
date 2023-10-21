@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { useRef, useState } from "react";
 import BlurImage from "./BlurImage";
-import { useState, useRef } from "react";
 import UpdateCartDropdown from "./UpdateCartDropdown";
 
 export default function ProductCard(props) {
@@ -43,6 +43,18 @@ export default function ProductCard(props) {
         e.preventDefault();
         setUnconfirmedQty(true);
         props.handleInputChange(e);
+    };
+
+    const increaseProductQty = (e) => {
+        e.preventDefault();
+        setUnconfirmedQty(true);
+        props.increaseProductQty(e);
+    };
+
+    const decreaseProductQty = (e) => {
+        e.preventDefault();
+        setUnconfirmedQty(true);
+        props.decreaseProductQty(e);
     };
 
     return (
@@ -128,6 +140,8 @@ export default function ProductCard(props) {
                 addingToCart={addingToCart}
                 productQty={props.productQty}
                 unconfirmedQty={unconfirmedQty}
+                increaseProductQty={increaseProductQty}
+                decreaseProductQty={decreaseProductQty}
             ></UpdateCartDropdown>
             <div className="text-lg font-bold text-center text-green-500 mt-2 w-1/2 float-right pr-5 h-2">
                 {toggleAddedToCart !== "hidden" ? (
@@ -141,6 +155,13 @@ export default function ProductCard(props) {
                     </div>
                 ) : null}
             </div>
+            {props.productQty > 20 && (
+                <div className="pt-10 -mb-10 text-yellow-600 font-bold text-center max-w-[250px] mx-auto leading-5">
+                    Orders above 20 dozen need aditional lead time. Please leave
+                    an explanation in the "additional information" section at
+                    checkout.
+                </div>
+            )}
         </div>
     );
 }

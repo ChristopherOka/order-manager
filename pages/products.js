@@ -63,6 +63,35 @@ export default function Products({ products }) {
             [e.target.name]: e.target.value.trim(),
         });
     };
+    const decreaseProductQty = (e) => {
+        const inputName = e.target.parentNode.querySelector("input").name;
+        const inputValue = e.target.parentNode
+            .querySelector("input")
+            .value.trim();
+        e.target.parentNode.querySelector("input").value =
+            parseInt(inputValue) > 1 ? parseInt(inputValue) - 1 : 0;
+
+        updateFormData({
+            ...formData,
+            [inputName]:
+                parseInt(inputValue) > 1 ? parseInt(inputValue) - 1 : 0,
+        });
+    };
+
+    const increaseProductQty = (e) => {
+        const inputName = e.target.parentNode.querySelector("input").name;
+        const inputValue = e.target.parentNode
+            .querySelector("input")
+            .value.trim();
+        e.target.parentNode.querySelector("input").value = parseInt(inputValue)
+            ? parseInt(inputValue) + 1
+            : 1;
+
+        updateFormData({
+            ...formData,
+            [inputName]: parseInt(inputValue) ? parseInt(inputValue) + 1 : 1,
+        });
+    };
 
     const addToCart = (e) => {
         e.preventDefault();
@@ -150,7 +179,6 @@ export default function Products({ products }) {
         );
         const currentQty = parseInt(targetInput.value);
         const newQty = currentQty + qtyChange;
-        if (newQty > 15) newQty = 15;
         if (newQty < 1) {
             document
                 .querySelector(`#cartModal [data-product_id="${productId}"]`)
@@ -323,6 +351,12 @@ export default function Products({ products }) {
                                                 ]
                                             }
                                             cart={cart}
+                                            increaseProductQty={
+                                                increaseProductQty
+                                            }
+                                            decreaseProductQty={
+                                                decreaseProductQty
+                                            }
                                         />
                                     ))}
                             </div>
