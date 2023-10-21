@@ -158,7 +158,7 @@ export default function ProductCard(props) {
             {props.productQty > 20 && (
                 <div className="pt-10 -mb-10 text-yellow-600 font-bold text-center max-w-[250px] mx-auto leading-5">
                     Orders above 20 dozen need aditional lead time. Please leave
-                    an explanation in the "additional information" section at
+                    an explanation in the &quot;additional information&quot; section at
                     checkout.
                 </div>
             )}
