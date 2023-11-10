@@ -366,7 +366,7 @@ export default function Checkout({ products }) {
                 {
                     value: "2023-12-07",
                     text: "December 7th",
-                    disabled: false,
+                    disabled: true,
                 },
                 {
                     value: "2023-12-14",
