@@ -50,14 +50,14 @@ export default function Home() {
                         <h2 className="text-default-900 text-5xl font-fjalla-one">
                             CHRISTMAS COOKIES
                         </h2>
-                        {/* <p className="text-slate-600 text-2xl">
+                        <p className="text-slate-600 text-2xl">
                             Orders are now closed for the 2023 season
-                        </p> */}
-                        <Link href="/products">
+                        </p>
+                        {/* <Link href="/products">
                             <a className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
                                 ORDER NOW
                             </a>
-                        </Link>
+                        </Link> */}
                     </div>
                 </section>
                 <ImageCarosel images={images} carosel_id="index"></ImageCarosel>
