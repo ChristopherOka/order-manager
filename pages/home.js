@@ -17,6 +17,7 @@ export async function getServerSideProps(context) {
     process.env.NODE_ENV !== "development" &&
     (!session || !allowedEmails.includes(session.user.email))
   ) {
+    console.log({ session });
     console.error("NOT LOGGED IN");
     context.res.writeHead(302, { Location: "/login" });
     context.res.end();
