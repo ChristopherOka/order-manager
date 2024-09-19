@@ -44,7 +44,7 @@ export default function OrderSummaryCard(props) {
     };
 
     return (
-        <div className="relative print:inline-block print:w-[33vw]">
+        <div className="relative print:inline-block print:w-[33vw] [perspective:1500px]">
             <div className="hidden">
                 <button
                     className="flip-override"
@@ -58,7 +58,7 @@ export default function OrderSummaryCard(props) {
                     flipped == "flipped"
                         ? "animate-frontTileFlip print:animate-backTileFlip"
                         : flipped == "unflipped"
-                        ? "animate-backTileFlip animation-delay-400 "
+                        ? "animate-backTileFlip [animation-delay:0.25s]"
                         : null
                 } print:border print:rounded-none print:block print:shadow-none print:w-full print:h-full print:border-b-0 `}
             >

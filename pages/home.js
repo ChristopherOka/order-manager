@@ -22,7 +22,7 @@ export async function getServerSideProps(context) {
         return {};
     }
 
-    const currentSeason = new Date("2023-09-01 00:00:00");
+    const currentSeason = new Date("2024-09-01 00:00:00");
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
     );
