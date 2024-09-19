@@ -1,3 +1,4 @@
+import { getServerSession } from "next-auth";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ import * as db from "./api/database.js";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
-  const session = await getServerSessionSession(context);
+  const session = await getServerSession(context);
 
   if (
     process.env.NODE_ENV !== "development" &&
