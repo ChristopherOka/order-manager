@@ -163,8 +163,8 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     return <div>Loading...</div>;
   }
 
-  if (session && allowedEmails.includes(session.user.email)) {
-    router.push("/home");
+  if (!session || !allowedEmails.includes(session.user.email)) {
+    router.push("/login");
     return null;
   }
   return (

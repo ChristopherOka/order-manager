@@ -1,4 +1,4 @@
-import { getSession, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -11,15 +11,15 @@ import * as db from "./api/database";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  if (
-    process.env.NODE_ENV !== "development" &&
-    (!session || !allowedEmails.includes(session.user.email))
-  ) {
-    context.res.writeHead(302, { Location: "/login" });
-    context.res.end();
-    return {};
-  }
+  // const session = await getSession(context);
+  // if (
+  //   process.env.NODE_ENV !== "development" &&
+  //   (!session || !allowedEmails.includes(session.user.email))
+  // ) {
+  //   context.res.writeHead(302, { Location: "/login" });
+  //   context.res.end();
+  //   return {};
+  // }
   const currentSeason = new Date("2023-09-01 00:00:00");
   const oneYearFromNow = new Date(
     new Date().setFullYear(new Date().getFullYear() + 1),
@@ -131,8 +131,8 @@ export default function OrderDashboard({
     return <div>Loading...</div>;
   }
 
-  if (session && allowedEmails.includes(session.user.email)) {
-    router.push("/home");
+  if (!session || !allowedEmails.includes(session.user.email)) {
+    router.push("/login");
     return null;
   }
 
