@@ -1,4 +1,4 @@
-import { getSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import AtAGlanceRow from "../components/AtAGlanceRow";
@@ -11,8 +11,7 @@ import * as db from "./api/database.js";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
-  console.log(context);
-  const session = await getSession(context);
+  const session = await getServerSessionSession(context);
 
   if (
     process.env.NODE_ENV !== "development" &&
