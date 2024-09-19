@@ -1,5 +1,6 @@
-import { getSession, signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router.js";
 import { useEffect, useState } from "react";
 import AtAGlanceRow from "../components/AtAGlanceRow";
 import Button from "../components/Button";
@@ -11,18 +12,18 @@ import * as db from "./api/database.js";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (
-    process.env.NODE_ENV !== "development" &&
-    (!session || !allowedEmails.includes(session.user.email))
-  ) {
-    console.log({ session });
-    console.error("NOT LOGGED IN");
-    context.res.writeHead(302, { Location: "/login" });
-    context.res.end();
-    return {};
-  }
+  // const session = await getSession(context);
+  //
+  // if (
+  //   process.env.NODE_ENV !== "development" &&
+  //   (!session || !allowedEmails.includes(session.user.email))
+  // ) {
+  //   console.log({ session });
+  //   console.error("NOT LOGGED IN");
+  //   context.res.writeHead(302, { Location: "/login" });
+  //   context.res.end();
+  //   return {};
+  // }
 
   const currentSeason = new Date("2023-09-01 00:00:00");
   const oneYearFromNow = new Date(
@@ -44,7 +45,7 @@ export async function getServerSideProps(context) {
       productsWithQty,
       initialOrderCounts,
       productsData,
-      user: session?.user || "",
+      // user: session?.user || "",
     },
   };
 }
@@ -155,6 +156,17 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     setActiveDate(date);
   };
 
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (session && allowedEmails.includes(session.user.email)) {
+    router.push("/home");
+    return null;
+  }
   return (
     <div
       className="w-screen relative"

@@ -1,4 +1,4 @@
-import { getSession, signOut } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -124,6 +124,17 @@ export default function OrderDashboard({
     }
     closeEmailModal();
   };
+
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (session && allowedEmails.includes(session.user.email)) {
+    router.push("/home");
+    return null;
+  }
 
   return (
     <div className="overflow-hidden print:overflow-visible">

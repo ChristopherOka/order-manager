@@ -1,41 +1,26 @@
-import { getSession, signIn, useSession } from "next-auth/next";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Button from "../components/Button";
 
 export const allowedEmails = ["chriskroka@gmail.com", "marthamrave@gmail.com"];
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (
-    process.env.NODE_ENV !== "development" &&
-    session &&
-    allowedEmails.includes(session.user.email)
-  ) {
-    console.log({ session });
-    console.error("LOGGED IN");
-    context.res.writeHead(302, { Location: "/home" });
-    context.res.end();
-  }
-  return { props: {} };
-}
-
 export default function Login() {
   const { data: session, status } = useSession();
-  // const router = useRouter();
+  const router = useRouter();
 
-  // if (status === "loading") {
-  //   return <div>Loading...</div>;
-  // }
-  //
-  // if (session && allowedEmails.includes(session.user.email)) {
-  //   router.push("/home");
-  //   return null;
-  // }
-  // if (session) {
-  //   router.push("/");
-  //   return null;
-  // }
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (session && allowedEmails.includes(session.user.email)) {
+    router.push("/home");
+    return null;
+  }
+  if (session) {
+    router.push("/");
+    return null;
+  }
   return (
     <div className="flex items-center justify-center h-screen">
       {!session && (
@@ -46,7 +31,7 @@ export default function Login() {
               type="primary"
               img="/images/icons/login.svg"
               clickHandler={() => {
-                signIn("google");
+                signIn();
                 return true;
               }}
             >
