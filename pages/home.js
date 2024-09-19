@@ -11,6 +11,7 @@ import * as db from "./api/database.js";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
+  console.log(context);
   const session = await getSession(context);
 
   if (

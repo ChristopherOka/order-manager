@@ -13,7 +13,6 @@ export default function Login() {
     return <div>Loading...</div>;
   }
 
-  console.log(session);
   if (session && allowedEmails.includes(session.user.email)) {
     router.push("/home");
     return;
