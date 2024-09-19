@@ -1,4 +1,4 @@
-import { getSession, signIn, useSession } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/next";
 import Link from "next/link";
 import Button from "../components/Button";
 
