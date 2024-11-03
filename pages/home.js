@@ -1,4 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router.js";
 import { useEffect, useState } from "react";
@@ -9,23 +9,24 @@ import Navbar from "../components/Navbar";
 import OrderSummaryTable from "../components/OrderSummaryTable";
 import debounce from "../utils/globals";
 import * as db from "./api/database.js";
+import { CURRENT_SEASON, DATE_RANGES } from "./constants.js";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
-  // const session = await getSession(context);
-  //
-  // if (
-  //   process.env.NODE_ENV !== "development" &&
-  //   (!session || !allowedEmails.includes(session.user.email))
-  // ) {
-  //   console.log({ session });
-  //   console.error("NOT LOGGED IN");
-  //   context.res.writeHead(302, { Location: "/login" });
-  //   context.res.end();
-  //   return {};
-  // }
+  const session = await getSession(context);
 
-  const currentSeason = new Date("2023-09-01 00:00:00");
+  if (
+    process.env.NODE_ENV !== "development" &&
+    (!session || !allowedEmails.includes(session.user.email))
+  ) {
+    console.log({ session });
+    console.error("NOT LOGGED IN");
+    context.res.writeHead(302, { Location: "/login" });
+    context.res.end();
+    return {};
+  }
+
+  const currentSeason = new Date(`${CURRENT_SEASON}-09-01 00:00:00`);
   const oneYearFromNow = new Date(
     new Date().setFullYear(new Date().getFullYear() + 1),
   );
@@ -39,7 +40,7 @@ export async function getServerSideProps(context) {
     db.getAllProductsData(),
   ]);
   const productsWithQty = processProducts(products, productsData);
-  console.log("RETURNING PRODUCTS");
+
   return {
     props: {
       productsWithQty,
@@ -101,7 +102,7 @@ const processProducts = (products, productsData) => {
 };
 
 export default function Home({ productsWithQty, initialOrderCounts }) {
-  const [startDate, setStartDate] = useState("September 1st, 2023");
+  const [startDate, setStartDate] = useState("September 1st, 2024");
   const [endDate, setEndDate] = useState("Present");
   const [activeDate, setActiveDate] = useState("All");
   const [products, setProducts] = useState(productsWithQty);
@@ -121,36 +122,21 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     return true;
   };
 
-  const dateRanges = {
-    "7st": {
-      start_date: new Date("2023-11-24 00:00:00"),
-      end_date: new Date("2023-12-07 00:00:00"),
-    },
-    "14th": {
-      start_date: new Date("2023-12-07 00:00:00"),
-      end_date: new Date("2023-12-14 00:00:00"),
-    },
-    "21th": {
-      start_date: new Date("2023-12-14 00:00:00"),
-      end_date: new Date("2023-12-21 00:00:00"),
-    },
-  };
-
   const changeDate = async (date) => {
     if (date == "All") {
-      setStartDate("September 1st, 2023");
+      setStartDate("September 1st, 2024");
       setEndDate("Present");
       setProducts(productsWithQty);
       setOrderCounts(initialOrderCounts);
     } else {
       const [products, newOrderCounts, newProductsData] = await Promise.all([
-        db.getTotalProductQtyByDate(dateRanges[date]),
-        db.getOrderCounts(dateRanges[date]),
+        db.getTotalProductQtyByDate(DATE_RANGES[date]),
+        db.getOrderCounts(DATE_RANGES[date]),
         db.getAllProductsData(),
       ]);
       setProducts(processProducts(products, newProductsData));
-      setStartDate(dateRanges[date].start_date.toDateString());
-      setEndDate(dateRanges[date].end_date.toDateString());
+      setStartDate(DATE_RANGES[date].start_date.toDateString());
+      setEndDate(DATE_RANGES[date].end_date.toDateString());
       setOrderCounts(newOrderCounts);
     }
     setActiveDate(date);
@@ -163,7 +149,10 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
     return <div>Loading...</div>;
   }
 
-  if (!session || !allowedEmails.includes(session.user.email)) {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    (!session || !allowedEmails.includes(session.user.email))
+  ) {
     router.push("/login");
     return null;
   }
@@ -190,11 +179,7 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
         </Button>
       </div>
       <div className="print:hidden">
-        <DateSidebar
-          activeDate={activeDate}
-          changeDate={changeDate}
-          dateRanges={dateRanges}
-        />
+        <DateSidebar activeDate={activeDate} changeDate={changeDate} />
       </div>
       <div className="absolute top-0 left-0 h-full w-full flex flex-col justify-center sm:gap-5 lg:gap-4 xl:gap-20 pt-8 pb-24 md:flex-row print:py-0 print:h-[100vh]">
         <div className="md:mr-4 flex flex-col items-center justify-center overflow-hidden md:ml-36 print:mx-0 print:pt-0">

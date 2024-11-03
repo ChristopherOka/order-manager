@@ -1,4 +1,5 @@
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import Button from "../components/Button";
 import ConfirmDeletionModal from "../components/ConfirmDeletionModal";
@@ -6,6 +7,7 @@ import DateSidebar from "../components/DateSidebar";
 import Navbar from "../components/Navbar";
 import OrderTableData from "../components/OrderTableData";
 import * as db from "./api/database";
+import { CURRENT_SEASON, DATE_RANGES } from "./constants";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
@@ -19,7 +21,7 @@ export async function getServerSideProps(context) {
   //     context.res.end();
   //     return {};
   // }
-  const currentSeason = new Date("2023-09-01 00:00:00");
+  const currentSeason = new Date(`${CURRENT_SEASON}-09-01 00:00:00`);
   const oneYearFromNow = new Date(
     new Date().setFullYear(new Date().getFullYear() + 1),
   );
@@ -47,27 +49,12 @@ export default function Orders({ initialOrderData, initialProductNames }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalBody, setModalBody] = useState("");
 
-  const dateRanges = {
-    "7st": {
-      start_date: new Date("2023-11-24 00:00:00"),
-      end_date: new Date("2023-12-07 00:00:00"),
-    },
-    "14th": {
-      start_date: new Date("2023-12-07 00:00:00"),
-      end_date: new Date("2023-12-14 00:00:00"),
-    },
-    "21th": {
-      start_date: new Date("2023-12-14 00:00:00"),
-      end_date: new Date("2023-12-21 00:00:00"),
-    },
-  };
-
   const changeDate = async (date) => {
     if (date == "All") {
       setOrderData(initialOrderData);
     } else {
       const [newOrderData, newProductNames] = await Promise.all([
-        db.getAllData(dateRanges[date]),
+        db.getAllData(DATE_RANGES[date]),
         db.getProductNames(),
       ]);
       setOrderData(newOrderData);
@@ -229,12 +216,16 @@ export default function Orders({ initialOrderData, initialProductNames }) {
   };
 
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   if (status === "loading") {
     return <div>Loading...</div>;
   }
 
-  if (!session || !allowedEmails.includes(session.user.email)) {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    (!session || !allowedEmails.includes(session.user.email))
+  ) {
     router.push("/login");
     return null;
   }
@@ -268,11 +259,7 @@ export default function Orders({ initialOrderData, initialProductNames }) {
         ALL ORDERS
       </h1>
       <div>
-        <DateSidebar
-          activeDate={activeDate}
-          changeDate={changeDate}
-          dateRanges={dateRanges}
-        />
+        <DateSidebar activeDate={activeDate} changeDate={changeDate} />
       </div>
       <div className="flex w-full justify-center absolute top-0 left-0 mt-44 md:my-20 ">
         <div className="overflow-auto h-[58vh] shadow-box w-[95vw] md:mr-10 md:h-[80vh] md:w-[82vw] md:ml-36 xl:w-[88vw]">

@@ -1,4 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -8,19 +8,20 @@ import EmailModal from "../components/EmailModal";
 import Navbar from "../components/Navbar";
 import OrderSummaryCard from "../components/OrderSummaryCard";
 import * as db from "./api/database";
+import { CURRENT_SEASON, DATE_RANGES } from "./constants";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
-  // const session = await getSession(context);
-  // if (
-  //   process.env.NODE_ENV !== "development" &&
-  //   (!session || !allowedEmails.includes(session.user.email))
-  // ) {
-  //   context.res.writeHead(302, { Location: "/login" });
-  //   context.res.end();
-  //   return {};
-  // }
-  const currentSeason = new Date("2023-09-01 00:00:00");
+  const session = await getSession(context);
+  if (
+    process.env.NODE_ENV !== "development" &&
+    (!session || !allowedEmails.includes(session.user.email))
+  ) {
+    context.res.writeHead(302, { Location: "/login" });
+    context.res.end();
+    return {};
+  }
+  const currentSeason = new Date(`${CURRENT_SEASON}-09-01 00:00:00`);
   const oneYearFromNow = new Date(
     new Date().setFullYear(new Date().getFullYear() + 1),
   );
@@ -52,21 +53,6 @@ export default function OrderDashboard({
   const [modalBody, setModalBody] = useState("");
   const [modalOrderUid, setModalOrderUid] = useState("");
   const orderScrollContainerRef = useRef(null);
-  const dateRanges = {
-    "7st": {
-      start_date: new Date("2023-11-24 00:00:00"),
-      end_date: new Date("2023-12-07 00:00:00"),
-    },
-    "14th": {
-      start_date: new Date("2023-12-07 00:00:00"),
-      end_date: new Date("2023-12-14 00:00:00"),
-    },
-    "21th": {
-      start_date: new Date("2023-12-14 00:00:00"),
-      end_date: new Date("2023-12-21 00:00:00"),
-    },
-  };
-
   const changeDate = async (date) => {
     if (date == "All") {
       setOrderData(initialOrderData);
@@ -74,7 +60,7 @@ export default function OrderDashboard({
       setActiveDate(date);
     } else {
       const [newOrderData, newProductNames] = await Promise.all([
-        db.getAllData(dateRanges[date]),
+        db.getAllData(DATE_RANGES[date]),
         db.getProductNames(),
       ]);
       setOrderData(newOrderData);
@@ -131,7 +117,10 @@ export default function OrderDashboard({
     return <div>Loading...</div>;
   }
 
-  if (!session || !allowedEmails.includes(session.user.email)) {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    (!session || !allowedEmails.includes(session.user.email))
+  ) {
     router.push("/login");
     return null;
   }
@@ -174,11 +163,7 @@ export default function OrderDashboard({
         </div>
       </div>
       <div className="print:hidden">
-        <DateSidebar
-          activeDate={activeDate}
-          changeDate={changeDate}
-          dateRanges={dateRanges}
-        />
+        <DateSidebar activeDate={activeDate} changeDate={changeDate} />
       </div>
       <div className="flex h-screen sm:items-center">
         <div
