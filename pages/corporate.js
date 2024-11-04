@@ -9,16 +9,16 @@ import * as db from './api/database'
 import { allowedEmails } from './login'
 
 export async function getServerSideProps(context) {
-    const session = await getSession(context)
-
-    if (
-        process.env.NODE_ENV !== 'development' &&
-        (!session || !allowedEmails.includes(session.user.email))
-    ) {
-        context.res.writeHead(302, { Location: '/login' })
-        context.res.end()
-        return {}
-    }
+    // const session = await getSession(context)
+    //
+    // if (
+    //     process.env.NODE_ENV !== 'development' &&
+    //     (!session || !allowedEmails.includes(session.user.email))
+    // ) {
+    //     context.res.writeHead(302, { Location: '/login' })
+    //     context.res.end()
+    //     return {}
+    // }
     const materials = await db.getAllMaterials()
 
     const start_date = new Date()

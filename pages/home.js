@@ -13,18 +13,18 @@ import * as db from './api/database.js'
 import { allowedEmails } from './login'
 
 export async function getServerSideProps(context) {
-    const session = await getSession(context)
+    // const session = await getSession(context)
 
-    if (
-        process.env.NODE_ENV !== 'development' &&
-        (!session || !allowedEmails.includes(session.user.email))
-    ) {
-        console.log({ session })
-        console.error('NOT LOGGED IN')
-        context.res.writeHead(302, { Location: '/login' })
-        context.res.end()
-        return {}
-    }
+    // if (
+    //     process.env.NODE_ENV !== 'development' &&
+    //     (!session || !allowedEmails.includes(session.user.email))
+    // ) {
+    //     console.log({ session })
+    //     console.error('NOT LOGGED IN')
+    //     context.res.writeHead(302, { Location: '/login' })
+    //     context.res.end()
+    //     return {}
+    // }
 
     const currentSeason = new Date(`${CURRENT_SEASON}-09-01 00:00:00`)
     const oneYearFromNow = new Date(

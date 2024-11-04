@@ -8,16 +8,16 @@ import * as db from "./api/database";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {
-    const session = await getSession(context);
-
-    if (
-        process.env.NODE_ENV !== "development" &&
-        (!session || !allowedEmails.includes(session.user.email))
-    ) {
-        context.res.writeHead(302, { Location: "/login" });
-        context.res.end();
-        return {};
-    }
+    // const session = await getSession(context);
+    //
+    // if (
+    //     process.env.NODE_ENV !== "development" &&
+    //     (!session || !allowedEmails.includes(session.user.email))
+    // ) {
+    //     context.res.writeHead(302, { Location: "/login" });
+    //     context.res.end();
+    //     return {};
+    // }
     const currentSeason = new Date(0);
     const oneYearFromNow = new Date(
         new Date().setFullYear(new Date().getFullYear() + 1)
