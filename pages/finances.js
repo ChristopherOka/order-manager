@@ -192,13 +192,13 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                             </div>
                         </div>
                     </div>
-                    {/* <FinancesTable materials={materials} /> */}
+                    <FinancesTable materials={materials} />
                 </div>
                 <div className="w-fit h-fit mx-2 print:hidden">
                     <h2 className="font-bold text-xl text-center">
                         Cumulative Spending
                     </h2>
-                    <FinancesChart spendingByDay={spendingByDay} />
+                    {/* <FinancesChart spendingByDay={spendingByDay} /> */}
                     <div className="flex justify-between items-center gap-2 pt-3">
                         <p>Date Range</p>
                         <input
