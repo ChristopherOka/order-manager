@@ -1,12 +1,11 @@
-import { getSession, signOut } from "next-auth/react";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import Button from "../components/Button";
-import FinancesChart from "../components/FinancesChart";
-import FinancesTable from "../components/FinancesTable";
-import Navbar from "../components/Navbar";
-import * as db from "./api/database";
-import { allowedEmails } from "./login";
+import { signOut } from 'next-auth/react'
+import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+import Button from '../components/Button'
+import FinancesChart from '../components/FinancesChart'
+import FinancesTable from '../components/FinancesTable'
+import Navbar from '../components/Navbar'
+import * as db from './api/database'
 
 export async function getServerSideProps(context) {
     // const session = await getSession(context);
@@ -19,91 +18,92 @@ export async function getServerSideProps(context) {
     //     context.res.end();
     //     return {};
     // }
-    const materials = await db.getAllMaterials();
+    const materials = await db.getAllMaterials()
 
-    const start_date = new Date();
-    start_date.setMonth(start_date.getMonth() - 1);
-    const end_date = new Date();
-    const spendingByDay = await db.getSpendingByDay(start_date, end_date);
+    const start_date = new Date()
+    start_date.setMonth(start_date.getMonth() - 1)
+    const end_date = new Date()
+    const spendingByDay = await db.getSpendingByDay(start_date, end_date)
+    console.log({ materials, spendingByDay })
 
     return {
         props: {
             initialMaterials: materials,
             initialSpendingByDay: spendingByDay,
         },
-    };
+    }
 }
 
 export default function Finances({ initialMaterials, initialSpendingByDay }) {
-    const [addMaterialOpen, setAddMaterialOpen] = useState(false);
-    const [materialName, setMaterialName] = useState("");
-    const [materials, setMaterials] = useState(initialMaterials);
-    const [spendingByDay, setSpendingByDay] = useState(initialSpendingByDay);
-    const rendered = useRef(false);
+    const [addMaterialOpen, setAddMaterialOpen] = useState(false)
+    const [materialName, setMaterialName] = useState('')
+    const [materials, setMaterials] = useState(initialMaterials)
+    const [spendingByDay, setSpendingByDay] = useState(initialSpendingByDay)
+    const rendered = useRef(false)
 
-    let initialStartDate = new Date();
-    initialStartDate.setMonth(initialStartDate.getMonth() - 1);
+    let initialStartDate = new Date()
+    initialStartDate.setMonth(initialStartDate.getMonth() - 1)
     initialStartDate =
         initialStartDate.getUTCFullYear() +
-        "-" +
-        ("0" + (initialStartDate.getUTCMonth() + 1)).slice(-2) +
-        "-" +
-        ("0" + initialStartDate.getUTCDate()).slice(-2);
-    let initialEndDate = new Date();
+        '-' +
+        ('0' + (initialStartDate.getUTCMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + initialStartDate.getUTCDate()).slice(-2)
+    let initialEndDate = new Date()
     initialEndDate =
         initialEndDate.getUTCFullYear() +
-        "-" +
-        ("0" + (initialEndDate.getUTCMonth() + 1)).slice(-2) +
-        "-" +
-        ("0" + initialEndDate.getUTCDate()).slice(-2);
-    const [startDate, setStartDate] = useState(initialStartDate);
-    const [endDate, setEndDate] = useState(initialEndDate);
+        '-' +
+        ('0' + (initialEndDate.getUTCMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + initialEndDate.getUTCDate()).slice(-2)
+    const [startDate, setStartDate] = useState(initialStartDate)
+    const [endDate, setEndDate] = useState(initialEndDate)
 
     const openPrintLayout = () => {
-        window.print();
-        return true;
-    };
+        window.print()
+        return true
+    }
 
     const toggleAddMaterialOpen = () => {
-        setAddMaterialOpen(!addMaterialOpen);
-        return true;
-    };
+        setAddMaterialOpen(!addMaterialOpen)
+        return true
+    }
 
     const addMaterial = async () => {
-        await db.addMaterial(materialName);
-        setMaterials(await db.getAllMaterials());
-        toggleAddMaterialOpen();
-    };
+        await db.addMaterial(materialName)
+        setMaterials(await db.getAllMaterials())
+        toggleAddMaterialOpen()
+    }
 
     const updateMaterialName = (e) => {
-        setMaterialName(e.target.value);
-        return true;
-    };
+        setMaterialName(e.target.value)
+        return true
+    }
 
     const updateStartDate = (e) => {
-        setStartDate(e.target.value);
-        return true;
-    };
+        setStartDate(e.target.value)
+        return true
+    }
 
     const updateEndDate = (e) => {
-        setEndDate(e.target.value);
-        return true;
-    };
+        setEndDate(e.target.value)
+        return true
+    }
 
     useEffect(() => {
         if (!rendered.current) {
-            rendered.current = true;
-            return;
+            rendered.current = true
+            return
         }
         const updateSpendingByDay = async () => {
             const newSpendingByDay = await db.getSpendingByDay(
                 startDate,
                 endDate
-            );
-            setSpendingByDay(newSpendingByDay);
-        };
-        updateSpendingByDay();
-    }, [startDate, endDate]);
+            )
+            setSpendingByDay(newSpendingByDay)
+        }
+        updateSpendingByDay()
+    }, [startDate, endDate])
 
     return (
         <div className="w-screen relative h-screen">
@@ -124,8 +124,8 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                     type="primary-md"
                     img="/images/icons/logout.svg"
                     clickHandler={() => {
-                        signOut();
-                        return true;
+                        signOut()
+                        return true
                     }}
                 >
                     <span className="hidden lg:inline">SIGN OUT</span>
@@ -156,7 +156,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                         </div>
                         <div
                             className={`${
-                                addMaterialOpen ? "absolute" : "hidden"
+                                addMaterialOpen ? 'absolute' : 'hidden'
                             } top-0 left-0 h-12 w-full shadow-md bg-default-100 rounded-md flex items-center justify-between`}
                         >
                             <div className="flex justify-start items-center pl-2 gap-2">
@@ -204,7 +204,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                         <input
                             className={`
                         rounded cursor-pointer bg-zinc-200 px-2 text-lg text-slate-700 h-8
-                        ${"" ? "border-red-400 border-2" : ""}`}
+                        ${'' ? 'border-red-400 border-2' : ''}`}
                             type="date"
                             max={initialEndDate}
                             defaultValue={startDate}
@@ -214,7 +214,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                         <input
                             className={`
                         rounded cursor-pointer bg-zinc-200 px-2 text-lg text-slate-700 h-8
-                        ${"" ? "border-red-400 border-2" : ""}`}
+                        ${'' ? 'border-red-400 border-2' : ''}`}
                             type="date"
                             max={initialEndDate}
                             defaultValue={endDate}
@@ -225,5 +225,5 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
             </div>
             <Navbar activeTab="finances" />
         </div>
-    );
+    )
 }
