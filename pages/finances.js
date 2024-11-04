@@ -192,7 +192,7 @@ export default function Finances({ initialMaterials, initialSpendingByDay }) {
                             </div>
                         </div>
                     </div>
-                    <FinancesTable materials={materials} />
+                    {/* <FinancesTable materials={materials} /> */}
                 </div>
                 <div className="w-fit h-fit mx-2 print:hidden">
                     <h2 className="font-bold text-xl text-center">
