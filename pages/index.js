@@ -47,9 +47,9 @@ export default function Home() {
                         />
                     </div>
                     <div className="flex flex-col flex-end items-center gap-6 sm:items-start">
-                        {/* <h2 className="text-default-900 text-5xl font-fjalla-one"> */}
-                        {/*     CHRISTMAS COOKIES */}
-                        {/* </h2> */}
+                        <h2 className="text-default-900 text-5xl font-fjalla-one">
+                            CHRISTMAS COOKIES
+                        </h2>
                         {/* <p className="text-slate-600 text-2xl"> */}
                         {/*     Orders are now closed for the 2024 season */}
                         {/* </p> */}
