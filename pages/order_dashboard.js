@@ -8,7 +8,7 @@ import EmailModal from "../components/EmailModal";
 import Navbar from "../components/Navbar";
 import OrderSummaryCard from "../components/OrderSummaryCard";
 import * as db from "./api/database";
-import { CURRENT_SEASON, DATE_RANGES } from "./constants";
+import { CURRENT_SEASON, DATE_RANGES } from "../utils/constants";
 import { allowedEmails } from "./login";
 
 export async function getServerSideProps(context) {

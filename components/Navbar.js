@@ -1,24 +1,24 @@
-import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
-import { hideThrobber, showThrobber } from "../utils/globals.js";
+import { useRouter } from 'next/router'
+import { useEffect, useRef } from 'react'
+import { hideThrobber, showThrobber } from '../utils/globals.js'
 
 export default function Navbar(props) {
-    const router = useRouter();
-    const rendered = useRef(false);
+    const router = useRouter()
+    const rendered = useRef(false)
     useEffect(() => {
-        if (rendered.current) return;
-        router.prefetch("/");
-        router.prefetch("/orders");
-        router.prefetch("/order_dashboard");
-        router.prefetch("/finances");
-        rendered.current = true;
-    }, []);
+        if (rendered.current) return
+        router.prefetch('/')
+        router.prefetch('/orders')
+        router.prefetch('/order_dashboard')
+        router.prefetch('/finances')
+        rendered.current = true
+    }, [])
 
     const navigate = (path) => {
-        router.events.on("routeChangeStart", showThrobber);
-        router.events.on("routeChangeComplete", hideThrobber);
-        router.push(path);
-    };
+        router.events.on('routeChangeStart', showThrobber)
+        router.events.on('routeChangeComplete', hideThrobber)
+        router.push(path)
+    }
 
     return (
         <div className="w-full fixed bottom-0">
@@ -26,93 +26,112 @@ export default function Navbar(props) {
                 <div className="relative cursor-pointer">
                     <a
                         className={
-                            props.activeTab == "home" ? "text-pink-300" : ""
+                            props.activeTab == 'home' ? 'text-pink-300' : ''
                         }
                         onClick={() => {
-                            navigate("/home");
+                            navigate('/home')
                         }}
                     >
                         HOME
                     </a>
-                    {props.activeTab == "home" ? (
+                    {props.activeTab == 'home' ? (
                         <div className="absolute -bottom-3 left-0 bg-pink-300 w-full h-1"></div>
                     ) : (
-                        ""
+                        ''
                     )}
                 </div>
                 <div className="relative cursor-pointer">
                     <a
                         className={
-                            props.activeTab == "order_dashboard"
-                                ? "text-pink-300"
-                                : ""
+                            props.activeTab == 'order_dashboard'
+                                ? 'text-pink-300'
+                                : ''
                         }
                         onClick={() => {
-                            navigate("/order_dashboard");
+                            navigate('/order_dashboard')
                         }}
                     >
                         ORDER DASHBOARD
                     </a>
-                    {props.activeTab == "order_dashboard" ? (
+                    {props.activeTab == 'order_dashboard' ? (
                         <div className="absolute -bottom-3 left-0 bg-pink-300 w-full h-1"></div>
                     ) : (
-                        ""
+                        ''
                     )}
                 </div>
                 <div className="relative cursor-pointer">
                     <a
                         className={
-                            props.activeTab == "orders" ? "text-pink-300" : ""
+                            props.activeTab == 'orders' ? 'text-pink-300' : ''
                         }
                         onClick={() => {
-                            navigate("/orders");
+                            navigate('/orders')
                         }}
                     >
                         ALL ORDERS
                     </a>
-                    {props.activeTab == "orders" ? (
+                    {props.activeTab == 'orders' ? (
                         <div className="absolute -bottom-3 left-0 bg-pink-300 w-full h-1"></div>
                     ) : (
-                        ""
+                        ''
                     )}
                 </div>
                 <div className="relative cursor-pointer">
                     <a
                         className={
-                            props.activeTab == "finances" ? "text-pink-300" : ""
+                            props.activeTab == 'finances' ? 'text-pink-300' : ''
                         }
                         onClick={() => {
-                            navigate("/finances");
+                            navigate('/finances')
                         }}
                     >
                         FINANCES
                     </a>
-                    {props.activeTab == "finances" ? (
+                    {props.activeTab == 'finances' ? (
                         <div className="absolute -bottom-3 left-0 bg-pink-300 w-full h-1"></div>
                     ) : (
-                        ""
+                        ''
                     )}
                 </div>
                 <div className="relative cursor-pointer">
                     <a
                         className={
-                            props.activeTab == "historical-orders"
-                                ? "text-pink-300"
-                                : ""
+                            props.activeTab == 'historical-orders'
+                                ? 'text-pink-300'
+                                : ''
                         }
                         onClick={() => {
-                            navigate("/historical-orders");
+                            navigate('/historical-orders')
                         }}
                     >
                         HISTORICAL ORDERS
                     </a>
-                    {props.activeTab == "historical-orders" ? (
+                    {props.activeTab == 'historical-orders' ? (
                         <div className="absolute -bottom-3 left-0 bg-pink-300 w-full h-1"></div>
                     ) : (
-                        ""
+                        ''
+                    )}
+                </div>
+                <div className="relative cursor-pointer">
+                    <a
+                        className={
+                            props.activeTab == 'corporate'
+                                ? 'text-pink-300'
+                                : ''
+                        }
+                        onClick={() => {
+                            navigate('/corporate')
+                        }}
+                    >
+                        CORPORATE
+                    </a>
+                    {props.activeTab == 'corporate' ? (
+                        <div className="absolute -bottom-3 left-0 bg-pink-300 w-full h-1"></div>
+                    ) : (
+                        ''
                     )}
                 </div>
             </div>
         </div>
-    );
+    )
 }
