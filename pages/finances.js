@@ -2,7 +2,6 @@ import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../components/Button'
-import FinancesChart from '../components/FinancesChart'
 import FinancesTable from '../components/FinancesTable'
 import Navbar from '../components/Navbar'
 import * as db from './api/database'
@@ -24,7 +23,6 @@ export async function getServerSideProps(context) {
     start_date.setMonth(start_date.getMonth() - 1)
     const end_date = new Date()
     const spendingByDay = await db.getSpendingByDay(start_date, end_date)
-    console.log({ materials, spendingByDay })
 
     return {
         props: {

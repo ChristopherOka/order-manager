@@ -1,31 +1,31 @@
-import { signOut, useSession } from "next-auth/react";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import ImageCarosel from "../components/ImageCarosel";
-import MainFooter from "../components/MainFooter";
-import MainHeader from "../components/MainHeader";
-import { allowedEmails } from "./login";
+import { signOut, useSession } from 'next-auth/react'
+import Head from 'next/head'
+import Image from 'next/image'
+import Link from 'next/link'
+import ImageCarosel from '../components/ImageCarosel'
+import MainFooter from '../components/MainFooter'
+import MainHeader from '../components/MainHeader'
+import { allowedEmails } from './login'
 
 export default function Home() {
-    const { data: session, status } = useSession();
+    const { data: session, status } = useSession()
 
     if (session && !allowedEmails.includes(session.user.email)) {
-        signOut();
+        signOut()
     }
 
     const images = [
-        "/images/product_images/custom_products/1.webp",
-        "/images/product_images/custom_products/2.webp",
-        "/images/product_images/custom_products/3.webp",
-        "/images/product_images/custom_products/4.webp",
-        "/images/product_images/custom_products/5.webp",
-        "/images/product_images/custom_products/6.webp",
-        "/images/product_images/custom_products/7.webp",
-        "/images/product_images/custom_products/8.webp",
-        "/images/product_images/custom_products/9.webp",
-        "/images/product_images/custom_products/10.webp",
-    ];
+        '/images/product_images/custom_products/1.webp',
+        '/images/product_images/custom_products/2.webp',
+        '/images/product_images/custom_products/3.webp',
+        '/images/product_images/custom_products/4.webp',
+        '/images/product_images/custom_products/5.webp',
+        '/images/product_images/custom_products/6.webp',
+        '/images/product_images/custom_products/7.webp',
+        '/images/product_images/custom_products/8.webp',
+        '/images/product_images/custom_products/9.webp',
+        '/images/product_images/custom_products/10.webp',
+    ]
 
     return (
         <div className="overflow-auto">
@@ -47,17 +47,17 @@ export default function Home() {
                         />
                     </div>
                     <div className="flex flex-col flex-end items-center gap-6 sm:items-start">
-                        <h2 className="text-default-900 text-5xl font-fjalla-one">
-                            CHRISTMAS COOKIES
-                        </h2>
-                        <p className="text-slate-600 text-2xl">
-                            Orders are now closed for the 2023 season
-                        </p>
-                        {/* <Link href="/products">
+                        {/* <h2 className="text-default-900 text-5xl font-fjalla-one"> */}
+                        {/*     CHRISTMAS COOKIES */}
+                        {/* </h2> */}
+                        {/* <p className="text-slate-600 text-2xl"> */}
+                        {/*     Orders are now closed for the 2024 season */}
+                        {/* </p> */}
+                        <Link href="/products">
                             <a className="flex bg-default-900 rounded-md font-bold text-xl text-default-100 px-5 py-4 w-fit">
                                 ORDER NOW
                             </a>
-                        </Link> */}
+                        </Link>
                     </div>
                 </section>
                 <ImageCarosel images={images} carosel_id="index"></ImageCarosel>
@@ -77,5 +77,5 @@ export default function Home() {
                 <MainFooter></MainFooter>
             </main>
         </div>
-    );
+    )
 }

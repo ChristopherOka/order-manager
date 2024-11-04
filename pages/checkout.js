@@ -401,7 +401,7 @@ export default function Checkout({ products }) {
             text: 'Alternative Delivery Date',
             fieldStyle: 'input',
             type: 'date',
-            min: '2023-11-01',
+            min: '2024-11-01',
             max: '2024-01-31',
             hidden: true,
             required: true,

@@ -11,9 +11,9 @@ export default function OrderSummaryCard(props) {
     const [paymentStatus, setPaymentStatus] = useState(props.order.has_paid);
 
     const deliveryDates = [
-        "Thu Dec 07 2023",
-        "Thu Dec 14 2023",
-        "Thu Dec 21 2023",
+        "Sat Dec 07 2024",
+        "Thu Dec 12 2024",
+        "Thu Dec 19 2024",
     ];
 
     const isIrregularDeliveryDate = !deliveryDates.includes(
