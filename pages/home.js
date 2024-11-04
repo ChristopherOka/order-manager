@@ -39,6 +39,7 @@ export async function getServerSideProps(context) {
         db.getOrderCounts(dates),
         db.getAllProductsData(),
     ])
+    console.log(products, initialOrderCounts, productsData)
     const productsWithQty = processProducts(products, productsData)
 
     return {
@@ -226,28 +227,28 @@ export default function Home({ productsWithQty, initialOrderCounts }) {
                             <AtAGlanceRow
                                 text="Unverified:"
                                 src="/images/icons/red_exclamation.svg"
-                                number={orderCounts[0].unverified_orders}
+                                number={orderCounts?.[0].unverified_orders}
                             />
                             <AtAGlanceRow
                                 text="Total:"
                                 src="/images/icons/edit_icon.svg"
-                                number={orderCounts[0].total_orders}
+                                number={orderCounts?.[0].total_orders}
                             />
                             <AtAGlanceRow
                                 text="Unpaid:"
                                 src="/images/icons/yellow_unpaid.svg"
-                                number={orderCounts[0].unpaid_orders}
+                                number={orderCounts?.[0].unpaid_orders}
                             />
                             <AtAGlanceRow
                                 text="Verified:"
                                 src="/images/icons/green_checkmark.svg"
-                                number={orderCounts[0].verified_orders}
+                                number={orderCounts?.[0].verified_orders}
                             />
                             <div className="pb-6">
                                 <AtAGlanceRow
                                     text="Paid:"
                                     src="/images/icons/green_money.svg"
-                                    number={orderCounts[0].paid_orders}
+                                    number={orderCounts?.[0].paid_orders}
                                 />
                             </div>
                             <AtAGlanceRow
