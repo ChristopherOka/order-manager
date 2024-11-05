@@ -5,7 +5,7 @@ export default async function sendOrderEmail(req, res) {
     const messageVersions = [
         {
             to: [{ email: "marthamrave@gmail.com", name: "Martha Rave" }],
-            subject: "You've received a new order!",
+            subject: `You've received a new order from ${order_details.customer_name}!`,
         },
     ];
     email_addresses.forEach((email) => {

@@ -10,7 +10,7 @@ export default async function sendDeferredOrderEmail(req, res) {
     const messageVersions = [
         {
             to: [{ email: "marthamrave@gmail.com", name: "Martha Rave" }],
-            subject: "You sent an email order!",
+            subject: `You sent an email order to ${order_data.customer_name}!`,
         },
         {
             to: [{ email: order_data.email, name: order_data.customer_name }],
