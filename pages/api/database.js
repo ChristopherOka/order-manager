@@ -198,6 +198,20 @@ export async function updatePaymentStatus(order_uid, isChecked) {
     return true;
 }
 
+export async function updateEmailSentStatus(order_uid, isChecked) {
+    const { data, error } = await supabase
+        .from("orders")
+        .update({
+            email_sent: isChecked,
+        })
+        .match({ order_uid });
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    return true;
+}
+
 export async function getAllMaterials() {
     const { data, error } = await supabase.rpc("get_all_materials");
 

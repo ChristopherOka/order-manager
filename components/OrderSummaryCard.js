@@ -1,47 +1,56 @@
-import { useState } from "react";
-import * as db from "../pages/api/database";
-import Checkbox from "./Checkbox";
-import Popover from "./Popover";
+import { useState } from 'react'
+import * as db from '../pages/api/database'
+import Checkbox from './Checkbox'
+import Popover from './Popover'
 
 export default function OrderSummaryCard(props) {
-    const [flipped, setFlipped] = useState(false);
+    const [flipped, setFlipped] = useState(false)
     const [verificationStatus, setVerificationStatus] = useState(
         props.order.is_verified
-    );
-    const [paymentStatus, setPaymentStatus] = useState(props.order.has_paid);
+    )
+    const [paymentStatus, setPaymentStatus] = useState(props.order.has_paid)
+    const [emailSentStatus, setEmailSentStatus] = useState(
+        props.order.email_sent
+    )
 
     const deliveryDates = [
-        "Sat Dec 07 2024",
-        "Thu Dec 12 2024",
-        "Thu Dec 19 2024",
-    ];
+        'Sat Dec 07 2024',
+        'Thu Dec 12 2024',
+        'Thu Dec 19 2024',
+    ]
 
     const isIrregularDeliveryDate = !deliveryDates.includes(
         new Date(props.order.delivery_date).toDateString()
-    );
+    )
 
     const flipCard = (flipState) => {
-        if (flipState === "toggle") {
-            flipped === "flipped"
-                ? setFlipped("unflipped")
-                : setFlipped("flipped");
+        if (flipState === 'toggle') {
+            flipped === 'flipped'
+                ? setFlipped('unflipped')
+                : setFlipped('flipped')
         } else if (flipState && flipped) {
-            setFlipped(flipState);
-            return;
+            setFlipped(flipState)
+            return
         }
-    };
+    }
 
     const toggleOrderVerification = async (e) => {
-        const isChecked = e.target.checked;
-        setVerificationStatus(isChecked);
-        await db.updateVerificationStatus(props.order.order_uid, isChecked);
-    };
+        const isChecked = e.target.checked
+        setVerificationStatus(isChecked)
+        await db.updateVerificationStatus(props.order.order_uid, isChecked)
+    }
 
     const toggleOrderPaymentStatus = async (e) => {
-        const isChecked = e.target.checked;
-        setPaymentStatus(isChecked);
-        await db.updatePaymentStatus(props.order.order_uid, isChecked);
-    };
+        const isChecked = e.target.checked
+        setPaymentStatus(isChecked)
+        await db.updatePaymentStatus(props.order.order_uid, isChecked)
+    }
+
+    const toggleEmailSentStatus = async (e) => {
+        const isChecked = e.target.checked
+        setEmailSentStatus(isChecked)
+        await db.updateEmailSentStatus(props.order.order_uid, isChecked)
+    }
 
     return (
         <div className="relative print:inline-block print:w-[33vw] [perspective:1500px]">
@@ -49,17 +58,17 @@ export default function OrderSummaryCard(props) {
                 <button
                     className="flip-override"
                     onClick={() => {
-                        setFlipped(false);
+                        setFlipped(false)
                     }}
                 ></button>
             </div>
             <div
                 className={`bg-default-100 px-4 py-3 rounded-md shadow-box w-full sm:w-96 h-64 sm:h-56 md:h-64 group ${
-                    flipped == "flipped"
-                        ? "animate-frontTileFlip print:animate-backTileFlip"
-                        : flipped == "unflipped"
-                        ? "animate-backTileFlip [animation-delay:0.25s]"
-                        : null
+                    flipped == 'flipped'
+                        ? 'animate-frontTileFlip print:animate-backTileFlip'
+                        : flipped == 'unflipped'
+                          ? 'animate-backTileFlip [animation-delay:0.25s]'
+                          : null
                 } print:border print:rounded-none print:block print:shadow-none print:w-full print:h-full print:border-b-0 `}
             >
                 <div className="flex justify-between gap-2">
@@ -71,8 +80,8 @@ export default function OrderSummaryCard(props) {
                             <Popover
                                 content={`${
                                     verificationStatus
-                                        ? "Order is Verified!"
-                                        : "Needs Verification"
+                                        ? 'Order is Verified!'
+                                        : 'Needs Verification'
                                 }`}
                             >
                                 {verificationStatus ? (
@@ -121,8 +130,8 @@ export default function OrderSummaryCard(props) {
                             <Popover
                                 content={`${
                                     paymentStatus
-                                        ? "Order Paid!"
-                                        : "Has Not Paid"
+                                        ? 'Order Paid!'
+                                        : 'Has Not Paid'
                                 } (${props.order.payment_type})`}
                             >
                                 {paymentStatus ? (
@@ -176,7 +185,7 @@ export default function OrderSummaryCard(props) {
                         </div>
                         <div
                             className={`${
-                                isIrregularDeliveryDate ? "" : "hidden"
+                                isIrregularDeliveryDate ? '' : 'hidden'
                             }`}
                         >
                             <Popover content={`Irregular Delivery Date`}>
@@ -207,8 +216,8 @@ export default function OrderSummaryCard(props) {
                         <div
                             className={`${
                                 props.order.additional_information
-                                    ? ""
-                                    : "hidden"
+                                    ? ''
+                                    : 'hidden'
                             }`}
                         >
                             <Popover content={`Has Additional Information!`}>
@@ -236,7 +245,7 @@ export default function OrderSummaryCard(props) {
                             </Popover>
                         </div>
                         <div>
-                            <button onClick={() => flipCard("toggle")}>
+                            <button onClick={() => flipCard('toggle')}>
                                 <svg
                                     width="28"
                                     height="28"
@@ -273,20 +282,20 @@ export default function OrderSummaryCard(props) {
                                         <Checkbox />
                                     </span>
                                 </div>
-                            );
+                            )
                         } else {
-                            return <div key={item}></div>;
+                            return <div key={item}></div>
                         }
                     })}
                 </div>
             </div>
             <div
                 className={`group absolute bg-default-100 px-4 py-3 rounded-md shadow-box w-full h-64 sm:h-56 md:h-64 sm:w-96 top-0 ${
-                    flipped == "flipped"
-                        ? "animate-backTileFlip animation-delay-400"
-                        : flipped == "unflipped"
-                        ? "animate-frontTileFlip"
-                        : "hidden print:relative print:block print:rounded-none print:border print:border-t-0 print:shadow-none print:w-full print:h-full print:py-0"
+                    flipped == 'flipped'
+                        ? 'animate-backTileFlip animation-delay-400'
+                        : flipped == 'unflipped'
+                          ? 'animate-frontTileFlip'
+                          : 'hidden print:relative print:block print:rounded-none print:border print:border-t-0 print:shadow-none print:w-full print:h-full print:py-0'
                 }`}
             >
                 <div className="flex justify-between gap-2 items-center print:hidden pb-2">
@@ -299,7 +308,7 @@ export default function OrderSummaryCard(props) {
                             <div
                                 id={`${props.order.order_uid}-email-sent-message`}
                             >
-                                {props.order.email_sent ? (
+                                {emailSentStatus ? (
                                     <p className="text-green-500">Sent</p>
                                 ) : (
                                     <p className="text-red-500">Not Sent</p>
@@ -312,7 +321,7 @@ export default function OrderSummaryCard(props) {
                                     props.openEmailModal(
                                         props.order.customer_name,
                                         props.order.order_uid
-                                    );
+                                    )
                                 }}
                             >
                                 <svg
@@ -331,7 +340,7 @@ export default function OrderSummaryCard(props) {
                         </div>
                         <button
                             className="flex"
-                            onClick={() => flipCard("toggle")}
+                            onClick={() => flipCard('toggle')}
                         >
                             <svg
                                 width="28"
@@ -363,6 +372,13 @@ export default function OrderSummaryCard(props) {
                             <Checkbox
                                 defaultChecked={props.order.has_paid}
                                 handleInputChange={toggleOrderPaymentStatus}
+                            />
+                        </div>
+                        <div className="flex text-default-900 text-lg gap-2 print:text-sm">
+                            <h3 className="font-bold">EMAIL SENT</h3>
+                            <Checkbox
+                                defaultChecked={props.order.email_sent}
+                                handleInputChange={toggleEmailSentStatus}
                             />
                         </div>
                         <div className="flex text-default-900 text-lg gap-2 print:text-sm">
@@ -426,12 +442,12 @@ export default function OrderSummaryCard(props) {
                                 Additional Information:
                             </h3>
                             <p className="leading-5">
-                                {props.order.additional_information || "None"}
+                                {props.order.additional_information || 'None'}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
 }
